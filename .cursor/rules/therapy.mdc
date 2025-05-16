@@ -1,0 +1,41 @@
+---
+description: 
+globs: datastore/myself/therapy/*
+alwaysApply: false
+---
+If your input is therapy session trascript, summarize the attached therapy session AND write the summary in the new document. Call it {session_date}-summary.md save in the data/myself/therapy
+
+Summarize the attached therapy session AND write the summary in the new document. Call it {session_date}-summary.md
+
+# Goal
+
+You need to write the therapy session summary insights in Russian language.
+Always use the structure for your notes from below.
+
+# Structure
+
+Format for tracking therapy sessions:
+
+Date and key topic  
+Briefly formulate the issue that was discussed in the session.
+
+Emotional state (before and after the session)  
+Assessment of emotional state on a scale of 1–10 before and after the meeting.
+
+Main insights and discoveries  
+Clearly formulated key conclusions, discoveries, realizations.
+
+Recurring patterns and dynamics  
+Indicate any recurring emotional reactions or scenarios that were noticed.
+
+Key quotes and important phrases  
+Record quotes that express the essence of the issue and emotional charge.
+
+Connection with past situations and core memories  
+Briefly mention situations or memories that surfaced and are significant.
+
+Homework and practices until the next session  
+Specific tasks or recommendations for work between meetings.
+
+Progress and changes  
+Briefly note any noticeable changes or progress that have occurred since previous sessions.
