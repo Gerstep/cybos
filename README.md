@@ -2,7 +2,7 @@
 
 CyberOS is a local-first, extensible knowledge and automation operating system built for Cursor. It enables users to build personalized workflows, task automations, and domain-specific copilots using a structured folder system of data, rules, and scripts.
 
-![CybOS Architecture](data/cybos/1.png)
+![CybOS Architecture](data/1.png)
 
 Local-first AI stack that turns Markdown, git and natural-language rules into a personal chief-of-staff:
 
