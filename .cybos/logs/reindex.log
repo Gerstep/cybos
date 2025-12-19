@@ -1,0 +1,185 @@
+
+==================================================
+Context Graph Indexer - 2026-01-19T09:29:28.393Z
+==================================================
+
+
+=== Extracting Entities ===
+
+No .index.json found, skipping legacy import
+From .index.json: 0 created, 0 updated, 0 aliases
+From files: 0 created, 0 updated
+Updated interaction counts
+
+=== Extracting Deals ===
+
+Found 7 deal folders
+  apple: Apple
+  delosx: Delosx
+  squarefi: Squarefi
+  the-grid: The Grid
+  test-company: Test Company
+  fabric-droid: Fabric Droid
+  anthropic: Anthropic
+
+=== Extracting Calls ===
+
+Found 46 call folders
+    → Skipped blocked name: Speaker
+  ~ 2026-01-13_cyber-leadership-transition-and-team-dynamics-with-stepan
+    → Skipped blocked name: Speaker
+  ~ 2026-01-01_puppy-management-introduction-with-stepan 12-22-53-380
+    → Skipped blocked name: Speaker
+  ~ 2026-01-09_untitled
+  ~ 2026-01-12_vc-weekly-team-sync-1
+    → Skipped blocked name: Speaker
+  ~ 2025-12-18_cyberfund-stepan-baobab-carles
+  ~ 2026-01-16_yariv-adan---30-minutes-stepan-g
+    → Skipped blocked name: Speaker
+  ~ 2026-01-01_puppy-management-introduction-with-stepan
+  ~ 2026-01-12_stepan-rico
+  ~ 2026-01-15_ex-machina-ai-learning-group
+  ~ 2025-12-18_stepan-x-sam
+    → Skipped blocked name: Speaker
+  ~ 2026-01-14_cyberfund-delphi-recurring-call-
+  ~ 2026-01-14_naptha-aicyberfund
+  ~ 2026-01-14_stepan-gleb
+  ~ 2026-01-14_stepan-serafima
+    → Skipped blocked name: Speaker
+  ~ 2026-01-09_decision-analysis-and-ai-context-management-strategies
+  ~ 2026-01-13_lev-stepan
+  ~ 2026-01-15_stepa-roma-kumar-stepan-gershuni---30min-meeting
+  ~ 2026-01-12_vs-weekly
+    → Skipped blocked name: Speaker
+  ~ 2026-01-14_stepan-cyberfund-grant-ggf
+  ~ 2025-12-17_stepan-nikita-
+    → Skipped blocked name: Speaker
+  ~ 2026-01-05_vc-weekly-team-sync-1
+    → Skipped blocked name: Speaker
+  ~ 2026-01-12_unknown-meeting
+  ~ 2026-01-16_ai-video-generation
+  ~ 2025-12-09_matt-white-stepan-gershuni---30min-meeting
+  ~ 2026-01-13_vc-weekly-sync-ic
+  ~ 2026-01-17_valentin-stepa
+    → Skipped blocked name: Speaker
+  ~ 2026-01-16_untitled
+    → Skipped blocked name: Speaker
+  ~ 2026-01-16_great-decisions-course-2026-kickoff-orientation
+  ~ 2026-01-06_anastasia-stepan-gershuni---30min-meeting
+    → Skipped blocked name: Speaker
+  ~ 2026-01-05_vs-weekly
+  ~ 2026-01-14_questflowcyberfund-bi-weekly
+  ~ 2026-01-14_legioncccyberfund-bi-weekly
+  ~ 2026-01-06_stepan-gershuni-and-sishir-varghese
+    → Skipped blocked name: Speaker
+  ~ 2026-01-08_cyber-company-transition-and-founder-conflict-resolution
+    → Skipped blocked name: Speaker
+  ~ 2026-01-12_dima-khanarin
+  ~ 2026-01-07_sergei-k-stepan-gershuni---stepan-cyberfund
+    → Skipped blocked name: Speaker
+  ~ 2026-01-10_ai-native-organizations-research-and-personal-workflow-design
+    → Skipped blocked name: Speaker
+  ~ 2026-01-08_sergey-o
+    → Skipped blocked name: Speaker
+  ~ 2025-10-15_unknown-meeting
+    → Skipped blocked name: Speaker
+  ~ 2026-01-13_arjun-cyber-leadership-transition-and-team-dynamics-with-stepan
+  ~ 2026-01-15_stepan-rico
+    → Skipped blocked name: Speaker
+  ~ 2026-01-10_untitled
+  ~ 2026-01-12_vanessa-grellet-stepan-gershuni---30min-meeting
+  ~ 2026-01-10_online-meeting-between-anton-lobintsev-and-stepan-gershuni
+    → Skipped blocked name: Speaker
+  ~ 2026-01-06_cyber-project-relationship-clarification-with-team-member
+  ~ 2026-01-15_vc-weekly-sync-ic
+
+=== Extracting Emails ===
+
+Found 10 email folders
+  ~ 2026-01-06_sishir-thegrid-ai-inference-exchange
+  ~ 2026-01-12_eden-hack4privacy-ideation-week
+  ~ 2026-01-07_dawson-allen-milestones
+  ~ 2026-01-09_matt-white-dagi-summit-recordings
+  ~ 2026-01-10_charles-gtm-cyber-fund-portcos
+  ~ 2026-01-06_michael-agility-robotics-update
+  ~ 2026-01-08_richard-naptha-december-investor-update
+  ~ 2026-01-07_rico-warmwind-os-ai-workforce
+  ~ 2026-01-05_ai-collective-meta-manus-acquisition
+  ~ 2026-01-06_john-icti-institutional-tokenization
+
+=== Extracting Telegram ===
+
+Found 29 telegram files
+  ~ kirill-gurbanov.md
+  ~ alexander-korchevskiy.md
+  ~ dima-khanarin.md
+  ~ kp.md
+  ~ g.md
+  ~ j-konstantin-stepan-cyber.md
+  ~ seva-belchenko.md
+  ~ unknown.md
+  ~ sishir.md
+  ~ oleg-buff.md
+  ~ devdock-dagi-accelerator.md
+  ~ sergey-rovsky.md
+  ~ ec.md
+  ~ valueria.md
+  ~ open-source-ai-summit-fireside-chat-jan-9th.md
+  ~ s16-digital-assets.md
+  ~ ivan-dyachenko.md
+  ~ sam-lehman.md
+  ~ yuriv9v.md
+  ~ rinat.md
+  ~ valentin-zavgorodnev-prostovc.md
+  ~ pasha.md
+  ~ phala-cyberfund.md
+  ~ egor.md
+  ~ alex-p.md
+  ~ arjun-slow-to-reply-everclear.md
+  ~ denis-pyankov.md
+  ~ sam-dare.md
+  ~ padel-quinta.md
+
+==================================================
+INDEXER RESULTS
+==================================================
+
+Duration: 0.5s
+
+Entities:
+  Created: 0
+  Updated: 0
+  Aliases: 0
+
+Deals:
+  Created: 0
+  Updated: 7
+
+Calls:
+  Created: 0
+  Updated: 46
+  Skipped: 0
+
+Emails:
+  Created: 0
+  Updated: 10
+  Skipped: 0
+
+Telegram:
+  Created: 0
+  Updated: 29
+  Skipped: 0
+
+No errors.
+
+Reindex completed successfully in 0.5 seconds.
+
+**Summary:**
+- **Entities:** 86 in database (no new ones found)
+- **Deals:** 7 updated
+- **Calls:** 46 updated
+- **Emails:** 10 updated  
+- **Telegram:** 29 conversations updated
+
+No errors. The index is now current. If you want LLM extraction (entity resolution, action items, promises, etc.), run `/cyber-reindex --extract` (~$0.01-0.05 cost).
+[2026-01-19 09:29:34] Reindex completed successfully in 8348s

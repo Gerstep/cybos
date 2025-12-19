@@ -1,0 +1,591 @@
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Explorer API error: 
+Slow query (438ms): 
+    SELECT
+      ei.id,
+      ei.type,
+      ei.content,
+      ei.owner_name,
+      ei.owner_entity
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
+46 |     }
+47 |   }
+48 |   let er;
+49 |   if (args.length > 0)
+50 |     er = args[0];
+51 |     throw er;
+                 ^
+error: Failed to start server. Is port 3847 in use?
+      at emitError (node:events:51:13)
+
+Bun v1.3.5 (macOS arm64)
