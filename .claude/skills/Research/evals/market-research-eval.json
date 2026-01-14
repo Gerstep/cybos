@@ -1,0 +1,53 @@
+{
+  "name": "Market Research Evaluation",
+  "skills": ["research"],
+  "query": "Research the AI infrastructure market to identify investment opportunities. Focus on market size, key players, and white spaces.",
+  "expected_behavior": [
+    "Loads the market research workflow from Research/workflows/market.md",
+    "Loads investment philosophy from context/investment-philosophy.md",
+    "Executes parallel MCP calls (parallel-task, perplexity for market sizing, exa for companies and funding)",
+    "Uses exa findSimilar to discover related companies",
+    "Spawns 3 parallel Task agents (market-researcher, tech-researcher, financial-researcher)",
+    "Market-researcher provides TAM/SAM/SOM, structure, players, dynamics",
+    "Tech-researcher analyzes enabling technologies and trends",
+    "Financial-researcher analyzes funding activity, valuations, white spaces",
+    "Synthesizer creates market report with investment perspective",
+    "Identifies under-invested opportunities (white spaces)",
+    "Lists promising companies for follow-up research",
+    "Saves to /research/ai-infrastructure/YYYY-MM-DD.md",
+    "Creates market context file",
+    "Logs action"
+  ],
+  "success_criteria": {
+    "must_have": [
+      "Market size data with sources (TAM)",
+      "Key players mapped (incumbents and startups)",
+      "Growth drivers and headwinds identified",
+      "Timing analysis (why now? catalysts?)",
+      "White spaces identified",
+      "Companies listed for follow-up",
+      "Investment lens applied (path to $1B+ companies?)"
+    ],
+    "quality_indicators": [
+      "Specific market size numbers with citations",
+      "Market structure clearly explained",
+      "Comparison to cyber•Fund focus areas",
+      "Assessment of defensibility potential in this market",
+      "Recent funding activity and trends noted",
+      "Regulatory considerations mentioned if relevant"
+    ],
+    "failure_indicators": [
+      "Vague market sizing ('large market')",
+      "No identification of white spaces",
+      "Missing timing analysis",
+      "No companies identified for follow-up",
+      "Fails to assess if market supports $1B+ outcomes"
+    ]
+  },
+  "test_variants": [
+    "Research a broad market (AI Infrastructure)",
+    "Research a niche segment (TEE-based privacy infrastructure)",
+    "Research a market outside focus areas (consumer social, entertainment)"
+  ],
+  "notes": "Tests comprehensive market analysis and ability to identify investment opportunities. Should surface specific companies and white spaces."
+}

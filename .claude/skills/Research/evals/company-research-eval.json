@@ -1,0 +1,47 @@
+{
+  "name": "Company Research Evaluation",
+  "skills": ["research"],
+  "query": "Research Anthropic as a potential investment opportunity. Focus on business model, team, market position, and funding.",
+  "expected_behavior": [
+    "Loads the company research workflow from Research/workflows/company.md",
+    "Loads investment philosophy from context/investment-philosophy.md",
+    "Executes parallel MCP calls (parallel-task, perplexity, exa) to gather company data",
+    "Spawns 4 parallel Task agents (company-researcher, market-researcher, financial-researcher, team-researcher)",
+    "Each agent returns structured findings with clear sections",
+    "Synthesizer agent consolidates all findings with investment lens applied",
+    "Output includes Executive Summary, Company Overview, Market Analysis, Team Assessment, Financial Analysis, Investment Lens section",
+    "Evaluates against cyber•Fund rubric (path to $1B+, moat, business model, founders, timing, Big Tech threat)",
+    "Saves report to /deals/anthropic/research/YYYY-MM-DD.md",
+    "Creates or updates /deals/anthropic/.cybos/context.md",
+    "Appends log entry to /.cybos/logs/YYYY-MM-DD.md with workflow, duration, agents, sources"
+  ],
+  "success_criteria": {
+    "must_have": [
+      "All 4 research agents completed successfully",
+      "Synthesis includes investment lens analysis",
+      "Output saved to correct location with proper file naming",
+      "Log entry created",
+      "Report includes all required sections"
+    ],
+    "quality_indicators": [
+      "Specific metrics and numbers cited (revenue, funding, users)",
+      "Sources clearly documented",
+      "Investment rubric systematically applied",
+      "Risks and concerns honestly flagged",
+      "Comparison to cyber•Fund thesis (AI infra focus)"
+    ],
+    "failure_indicators": [
+      "Generic analysis without specific data",
+      "Missing investment lens evaluation",
+      "No sources cited",
+      "MCP or agent failures not handled",
+      "Output saved to wrong location"
+    ]
+  },
+  "test_variants": [
+    "Research a well-known company (Anthropic, OpenAI)",
+    "Research a lesser-known startup",
+    "Research a company outside core focus areas (to test filtering)"
+  ],
+  "notes": "This eval tests the full company research pipeline. Baseline run should be conducted before any workflow changes to measure improvement."
+}

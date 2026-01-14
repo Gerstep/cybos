@@ -1,0 +1,81 @@
+# Environment variables (contains API keys)
+.env
+.env.local
+.env*.local
+.envrc
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# .cybos - keep structure but ignore files in logs/
+.cybos/logs/*
+
+# Agent scratchpad
+**/.cybos/scratchpad/
+
+# Deals - directory exists but no files inside visible
+deals/*
+deals/**/*
+
+# Dealflow - directory exists but no files inside visible
+dealflow/*
+dealflow/**/*
+
+# Projects - only directories visible, no files
+projects/**/*
+!projects/**/
+
+# Research - only directories visible, no files
+research/**/*
+!research/**/
+
+# Docs - only ARCHITECTURE.md visible
+docs/*
+docs/**/*
+!docs/ARCHITECTURE.md
+
+# Content - directories 1 level deep visible, files ignored
+content/**/*
+!content/*/
+!content/*/.gitkeep
+
+# Context - directories 1 level deep visible, files ignored
+context/**/*
+!context/*/
+!context/*/.gitkeep
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Bun
+.bun/
+bun.lockb
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+tmp/
+generated_imgs/
+
+# Git worktrees
+.worktrees/

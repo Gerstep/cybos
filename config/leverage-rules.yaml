@@ -1,0 +1,223 @@
+# Strategic Leverage Scoring Rules
+# These rules determine which items surface as high-impact opportunities in the morning brief.
+# Edit scores (1-10) and add custom rules as needed.
+
+version: "1.0"
+
+# Scoring thresholds
+thresholds:
+  surface_minimum: 7.0    # Only show items scoring >= this
+  max_items: 5            # Maximum leverage items to display
+
+# Rule definitions
+rules:
+  # ===== URGENCY-BASED RULES =====
+  # These fire based on time sensitivity
+
+  - id: message-waiting-24h
+    name: "Stale message"
+    description: "Message waiting >24h for response"
+    score: 8
+    category: urgency
+    triggers:
+      - message_age_hours: 24
+
+  - id: message-waiting-48h
+    name: "Critical stale message"
+    description: "Message waiting >48h - relationship risk"
+    score: 9
+    category: urgency
+    triggers:
+      - message_age_hours: 48
+
+  - id: meeting-prep-4h
+    name: "Meeting prep needed"
+    description: "Meeting in next 4 hours needs prep"
+    score: 9
+    category: urgency
+    triggers:
+      - meeting_within_hours: 4
+      - has_prep_context: true
+
+  - id: meeting-today-no-prep
+    name: "Meeting today"
+    description: "Meeting today without explicit prep"
+    score: 7
+    category: urgency
+    triggers:
+      - meeting_within_hours: 12
+
+  - id: blocking-others
+    name: "Blocking others"
+    description: "Your action is blocking someone else"
+    score: 9
+    category: urgency
+    keywords:
+      - "blocking"
+      - "waiting on you"
+      - "need your"
+      - "waiting for your"
+      - "blocked on"
+
+  # ===== LEVERAGE-BASED RULES =====
+  # These fire based on potential impact
+
+  - id: deal-related
+    name: "Deal pipeline"
+    description: "Related to active deal in /deals/"
+    score: 7
+    category: leverage
+    triggers:
+      - has_deal_context: true
+
+  - id: founder-message
+    name: "Founder outreach"
+    description: "Message from/to a founder"
+    score: 7
+    category: leverage
+    entity_types:
+      - founder
+    keywords:
+      - "founder"
+      - "CEO"
+      - "co-founder"
+
+  - id: intro-request
+    name: "Introduction opportunity"
+    description: "Someone asked for an intro"
+    score: 6
+    category: leverage
+    keywords:
+      - "intro"
+      - "introduce"
+      - "connect you with"
+      - "introduction"
+
+  - id: term-sheet
+    name: "Term sheet / legal"
+    description: "Investment document requiring review"
+    score: 8
+    category: leverage
+    keywords:
+      - "term sheet"
+      - "SAFE"
+      - "agreement"
+      - "sign"
+      - "DocuSign"
+
+  - id: investor-communication
+    name: "Investor relations"
+    description: "Communication from/about investors"
+    score: 8
+    category: leverage
+    keywords:
+      - "LP"
+      - "investor"
+      - "fund"
+      - "allocation"
+
+  # ===== GOAL-ALIGNMENT RULES =====
+  # Based on Active Priorities from who-am-i.md
+
+  - id: ai-infrastructure
+    name: "AI Infrastructure deal"
+    description: "Aligns with 'Find great deals (AI infrastructure)'"
+    score: 8
+    category: goal-alignment
+    keywords:
+      - "AI infrastructure"
+      - "AI infra"
+      - "LLM"
+      - "inference"
+      - "training"
+      - "GPU"
+      - "model"
+
+  - id: robotics-related
+    name: "Robotics opportunity"
+    description: "Aligns with 'Start robotics business'"
+    score: 8
+    category: goal-alignment
+    keywords:
+      - "robot"
+      - "robotics"
+      - "automation"
+      - "hardware"
+      - "embodied"
+
+  - id: content-creation
+    name: "Content opportunity"
+    description: "Aligns with 'Grow personal brand'"
+    score: 6
+    category: goal-alignment
+    keywords:
+      - "podcast"
+      - "interview"
+      - "content"
+      - "tweet"
+      - "essay"
+      - "speaking"
+
+  - id: fund-automation
+    name: "Fund automation"
+    description: "Aligns with 'Build AI automation for fund operations'"
+    score: 7
+    category: goal-alignment
+    keywords:
+      - "automation"
+      - "workflow"
+      - "cybos"
+      - "process"
+
+  - id: sf-move
+    name: "SF move related"
+    description: "Aligns with 'Move to SF'"
+    score: 6
+    category: goal-alignment
+    keywords:
+      - "San Francisco"
+      - "SF"
+      - "Bay Area"
+      - "visa"
+      - "relocation"
+
+  - id: hiring
+    name: "Team building"
+    description: "Aligns with 'Hire AI team for cyber Fund'"
+    score: 7
+    category: goal-alignment
+    keywords:
+      - "hire"
+      - "hiring"
+      - "candidate"
+      - "interview"
+      - "team"
+      - "role"
+
+  # ===== CUSTOM RULES =====
+  # Add your own rules here. Format:
+  #
+  # - id: custom-rule-name
+  #   name: "Display Name"
+  #   description: "When this rule should fire"
+  #   score: 5
+  #   category: custom
+  #   keywords:
+  #     - "keyword1"
+  #     - "keyword2"
+
+  - id: custom-placeholder-1
+    name: "Custom Rule 1"
+    description: "PLACEHOLDER - edit this rule"
+    score: 5
+    category: custom
+    enabled: false
+    keywords: []
+
+  - id: custom-placeholder-2
+    name: "Custom Rule 2"
+    description: "PLACEHOLDER - edit this rule"
+    score: 5
+    category: custom
+    enabled: false
+    keywords: []
