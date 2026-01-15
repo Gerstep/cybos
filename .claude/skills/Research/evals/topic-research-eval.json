@@ -1,0 +1,50 @@
+{
+  "name": "Topic Research Evaluation",
+  "skills": ["research"],
+  "query": "Research the post-labor economy concept for a potential essay. Focus on economic frameworks, current thinking, and connection to AI/automation.",
+  "expected_behavior": [
+    "Loads the topic research workflow from Research/workflows/topic.md (to be created)",
+    "Executes parallel MCP calls (parallel-task for deep research, perplexity for comprehensive coverage, exa for academic/thought leadership content)",
+    "Spawns appropriate agents for topic research (could be tech-researcher + market-researcher, or topic-specific agents)",
+    "Gathers diverse perspectives (academic, industry, philosophical)",
+    "Identifies key thinkers and their frameworks",
+    "Connects topic to cyber•Fund investment thesis",
+    "Flags companies or technologies related to this topic",
+    "Provides content-ready insights for essays or tweets",
+    "Saves to /research/topics/post-labor-economy/YYYY-MM-DD.md",
+    "Creates topic context file with key sources and thinkers",
+    "Logs action"
+  ],
+  "success_criteria": {
+    "must_have": [
+      "Multiple perspectives covered (economics, technology, philosophy)",
+      "Key thinkers and frameworks identified",
+      "Connection to investment thesis made",
+      "Content-ready insights provided",
+      "Sources clearly documented",
+      "Related companies or technologies flagged if applicable"
+    ],
+    "quality_indicators": [
+      "Academic rigor (papers, books, credible sources cited)",
+      "Synthesis across disciplines",
+      "Clear connection to cyber•Fund focus (AI, automation, programmable economy)",
+      "Actionable insights for content creation",
+      "Identification of contrarian or emerging viewpoints",
+      "Practical examples or case studies"
+    ],
+    "failure_indicators": [
+      "Surface-level Wikipedia-style summary",
+      "Single perspective or source",
+      "No connection to investment thesis",
+      "Missing key thinkers or frameworks",
+      "No content-ready insights"
+    ]
+  },
+  "test_variants": [
+    "Research a philosophical/economic topic (post-labor economy, mechanism design)",
+    "Research a person (Vitalik's thinking on coordination)",
+    "Research an emerging narrative (AI agents + crypto wallets)",
+    "Research a technical concept for content (embodied cognition in robotics)"
+  ],
+  "notes": "NEW workflow type. Tests ability to research ideas and topics for content creation. Should produce both investment insights AND content-ready material."
+}

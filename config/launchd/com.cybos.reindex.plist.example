@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Daily Reindex Job
+         Runs once at 7:00 AM to rebuild context graph database
+         Runs BEFORE morning brief (8am) so brief has fresh data -->
+
+    <key>Label</key>
+    <string>com.cybos.reindex</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__HOME__/.claude/local/claude</string>
+        <string>--print</string>
+        <string>--dangerously-skip-permissions</string>
+        <string>/cyber-reindex</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__CYBOS_ROOT__</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__HOME__/.bun/bin:__HOME__/.claude/local:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>__HOME__</string>
+    </dict>
+
+    <!-- Run at 7:00 AM every day (1 hour before brief) -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>7</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- Logging -->
+    <key>StandardOutPath</key>
+    <string>__CYBOS_ROOT__/.cybos/logs/reindex.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__CYBOS_ROOT__/.cybos/logs/reindex.err.log</string>
+
+    <!-- Don't run at load - only on schedule -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

@@ -1,0 +1,26 @@
+# PostgreSQL 16 with pgvector extension for Context Graph
+# Usage: docker compose up -d
+# Stop: docker compose down
+# Reset: docker compose down -v (removes data)
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: cybos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cybos
+      POSTGRES_PASSWORD: cybos_dev
+      POSTGRES_DB: cybos
+    ports:
+      - "5433:5432"  # Using 5433 to avoid conflict with local PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cybos -d cybos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

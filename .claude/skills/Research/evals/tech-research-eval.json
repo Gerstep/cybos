@@ -1,0 +1,51 @@
+{
+  "name": "Technology Research Evaluation",
+  "skills": ["research"],
+  "query": "Research Trusted Execution Environments (TEEs) as a technology investment opportunity. Focus on technical maturity, moat, and companies building in this space.",
+  "expected_behavior": [
+    "Loads the tech research workflow from Research/workflows/tech.md",
+    "Loads investment philosophy from context/investment-philosophy.md",
+    "Executes parallel MCP calls (parallel-task with deep research, perplexity deep research, exa for papers)",
+    "Spawns 3 parallel Task agents (tech-researcher, market-researcher, financial-researcher)",
+    "Tech-researcher provides technical depth: architecture, maturity, performance, moat",
+    "Market-researcher analyzes adoption trajectory and opportunity sizing",
+    "Financial-researcher identifies companies and funding activity",
+    "Synthesizer creates technology research report with investment implications",
+    "Evaluates Big Tech threat (6-week rule)",
+    "Assesses timing (why now?)",
+    "Saves to /research/trusted-execution-environments/YYYY-MM-DD.md",
+    "Creates /research/trusted-execution-environments/.cybos/context.md if needed",
+    "Logs action to daily log"
+  ],
+  "success_criteria": {
+    "must_have": [
+      "Technical depth with architecture explanation",
+      "Maturity assessment (research/alpha/beta/production)",
+      "Performance benchmarks or limitations noted",
+      "Big Tech threat honestly evaluated",
+      "Companies building with this tech identified",
+      "Timing analysis (why now?)",
+      "Investment lens applied"
+    ],
+    "quality_indicators": [
+      "References to research papers or technical documentation",
+      "Comparison to alternative technologies",
+      "Specific performance metrics (e.g., '1-second auctions' for TEE speed)",
+      "Connection to cyber•Fund focus areas (privacy, AI infra)",
+      "Clear assessment of wrapper risk vs. true innovation"
+    ],
+    "failure_indicators": [
+      "Surface-level technical description",
+      "No mention of competing approaches",
+      "Missing Big Tech threat analysis",
+      "No timing/catalyst discussion",
+      "Fails to identify relevant companies"
+    ]
+  },
+  "test_variants": [
+    "Research a mature technology (TEEs, transformers)",
+    "Research an emerging technology (world models, test-time compute)",
+    "Research a technology outside focus areas (to test thesis filtering)"
+  ],
+  "notes": "Tests technical research depth and ability to connect technology to investment opportunities. Should demonstrate strong technical understanding."
+}
