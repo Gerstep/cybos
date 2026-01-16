@@ -304,21 +304,18 @@ Cybos uses two repositories:
 **To publish updates to public repo:**
 
 ```bash
-./scripts/publish-cybos.sh
+./scripts/publish-cybos.sh -m "feat(scope): Your commit message"
+./scripts/publish-cybos.sh --dry-run  # Preview without pushing
 ```
 
-This script:
-1. Creates a fresh clone in `../cybos-public/`
-2. Uses `git filter-repo` to remove private files while preserving commit history
-3. Adds `.gitkeep` files for folder structure
-4. Force pushes to `cybos/main`
+This script uses a **whitelist approach** - only explicitly listed files are copied:
+1. Cleans `../cybos-public/` (preserves `.git`)
+2. Copies only whitelisted files/folders (code, docs, configs)
+3. Creates `.gitkeep` for empty folder structure
+4. Commits with your message and pushes to `cybos/main`
 
-**Requires:** `brew install git-filter-repo`
+**Whitelisted (public):** `.claude/`, `scripts/`, `config/`, `docs/ARCHITECTURE.md`, `CLAUDE.md`, `README.md`
 
-**Private paths filtered out:**
-- `deals/`, `dealflow/`, `projects/`, `research/`
-- `content/work/`, `content/briefs/`, `content/essays/`, etc.
-- `context/calls/`, `context/telegram/`, `context/emails/`, etc.
-- `.cybos/logs/`, `GTD.md`
+**Never copied (private):** `deals/`, `projects/`, `research/`, `content/`, `context/` (except `identity.md`), `.cybos/logs/`, `GTD.md`
 
 **Never manually push to cybos** - always use the publish script to ensure private data is filtered.

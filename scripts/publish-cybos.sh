@@ -5,7 +5,8 @@
 # SAFETY: Only explicitly listed files/folders are copied. Everything else stays private.
 #
 # Usage:
-#   ./scripts/publish-cybos.sh [--dry-run]
+#   ./scripts/publish-cybos.sh -m "commit message"
+#   ./scripts/publish-cybos.sh --dry-run
 #
 
 set -e
@@ -16,11 +17,27 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 PUBLIC_DIR="$(dirname "$PROJECT_DIR")/cybos-public"
 CYBOS_REMOTE="https://github.com/Gerstep/cybos.git"
 DRY_RUN=false
+COMMIT_MSG=""
 
-if [[ "$1" == "--dry-run" ]]; then
-  DRY_RUN=true
-  echo "=== DRY RUN MODE ==="
-fi
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --dry-run)
+      DRY_RUN=true
+      echo "=== DRY RUN MODE ==="
+      shift
+      ;;
+    -m|--message)
+      COMMIT_MSG="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Usage: ./scripts/publish-cybos.sh -m \"commit message\" [--dry-run]"
+      exit 1
+      ;;
+  esac
+done
 
 # WHITELIST: Only these paths will be copied (everything else is private)
 SAFE_FILES=(
@@ -134,7 +151,13 @@ git add -A
 if git diff --staged --quiet; then
   echo "No changes to publish"
 else
-  git commit -m "Update from private repo (whitelist publish)"
+  if [[ -z "$COMMIT_MSG" ]]; then
+    echo ""
+    echo "ERROR: Commit message required. Use -m \"your message\""
+    echo "Example: ./scripts/publish-cybos.sh -m \"feat(telegram): Add --user and --requests modes\""
+    exit 1
+  fi
+  git commit -m "$COMMIT_MSG"
   git push origin main
   echo ""
   echo "=== Published to: $CYBOS_REMOTE ==="
