@@ -49,14 +49,7 @@
       "env": {
         "NOTION_TOKEN": "${NOTION_TOKEN}"
       }
-    },
-
-    "fal": {
-      "command": "npx",
-      "args": ["-y", "fal-image-video-mcp"],
-      "env": {
-        "FAL_KEY": "${FAL_KEY}"
-      }
     }
+    
   }
 }

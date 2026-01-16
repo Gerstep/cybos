@@ -27,7 +27,6 @@ SAFE_FILES=(
   "CLAUDE.md"
   "README.md"
   "package.json"
-  "package-lock.json"
   "tsconfig.json"
   ".gitignore"
   ".env.example"
@@ -108,7 +107,7 @@ done
 
 # Create empty folder structure with .gitkeep
 echo "[5/5] Creating folder structure..."
-for dir in deals dealflow projects research \
+for dir in deals projects research \
   content/briefs content/essays content/ideas content/images content/posts content/tweets content/work \
   context/calls context/emails context/entities context/entities/orgs context/entities/people \
   context/telegram context/style context/img-styles context/unstuck .cybos/logs; do
@@ -118,9 +117,6 @@ done
 
 # Add template GTD.md
 echo "# Next" > "$PUBLIC_DIR/GTD.md"
-
-# Remove any .mcp.json that might have been copied
-rm -f "$PUBLIC_DIR/.mcp.json"
 
 # Show what will be published
 echo ""

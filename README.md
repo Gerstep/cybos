@@ -27,8 +27,10 @@ Available slash commands:
 - `/cyber-research-company "Company Name"` - Company DD research
 - `/cyber-research-tech "Technology"` - Technology deep-dive
 - `/cyber-research-market "Market"` - Market analysis
-- `/cyber-telegram` - Process 1 unread Telegram message (read, draft reply, move to TO ANSWER)
+- `/cyber-telegram` - Process 1 unread Telegram message (read, draft reply, save draft)
 - `/cyber-telegram --count 3` - Process 3 unread Telegram messages
+- `/cyber-telegram --user "@name"` - Process specific user (any read state)
+- `/cyber-telegram --requests` - Process unread message requests (non-contacts)
 - `/cyber-browse` - Scan Twitter for trending topics (saves to /content/ideas/)
 - `/cyber-tweet "Topic"` or `/cyber-tweet @content/ideas/file.md` - Draft tweet (with optional source)
 - `/cyber-essay "Topic"` or `/cyber-essay @content/ideas/file.md "expand"` - Write essay (with optional source)
@@ -428,7 +430,7 @@ cybos/
 │   │   ├── CORE/                  # System overview
 │   │   ├── Research/workflows/    # company, tech, market
 │   │   ├── Browse/workflows/      # twitter-feed
-│   │   ├── Telegram/workflows/    # answer-messages
+│   │   ├── Telegram/workflows/    # process-messages
 │   │   ├── Content/workflows/     # tweet, essay, image
 │   │   ├── DDMemo/workflows/      # generate
 │   │   └── GTD/                   # autonomous task execution

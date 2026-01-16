@@ -78,6 +78,7 @@ interface ScriptOptions {
   limit: number;
   summaryOnly: boolean;
   searchUser?: string; // Username or name to search for
+  includeRequests: boolean; // Include message requests folder
 }
 
 interface ScriptResult {
@@ -549,13 +550,19 @@ function isMuted(dialog: any): boolean {
 
 async function getUnreadDialogs(
   client: TelegramClient,
-  maxCount: number
+  maxCount: number,
+  includeRequests: boolean = false
 ): Promise<DialogInfo[]> {
-  log('📥 Fetching dialogs (excluding archived and muted)...');
+  if (includeRequests) {
+    log('📥 Fetching dialogs including message requests...');
+  } else {
+    log('📥 Fetching dialogs (excluding archived and muted)...');
+  }
 
   const dialogs = await client.getDialogs({ limit: 100, archived: false });
 
   const unreadDialogs: DialogInfo[] = [];
+  let requestCount = 0;
 
   for (const dialog of dialogs) {
     // Check both unreadCount (actual unread messages) and unreadMark (manually marked as unread)
@@ -576,11 +583,14 @@ async function getUnreadDialogs(
     let dialogType: 'private' | 'group' | 'channel' = 'private';
     let title = dialog.title || 'Unknown';
     let username: string | undefined;
+    let isRequest = false;
 
     if (entity instanceof Api.User) {
       dialogType = 'private';
       title = [entity.firstName, entity.lastName].filter(Boolean).join(' ') || entity.username || 'Unknown';
       username = entity.username;
+      // Check if this is a message request (non-contact)
+      isRequest = entity.contact === false || entity.contact === undefined;
     } else if (entity instanceof Api.Chat) {
       dialogType = 'group';
       title = entity.title || 'Unknown Group';
@@ -588,6 +598,20 @@ async function getUnreadDialogs(
       dialogType = entity.megagroup ? 'group' : 'channel';
       title = entity.title || 'Unknown Channel';
       username = entity.username;
+    }
+
+    // Filter by request status based on mode
+    if (includeRequests) {
+      // Only include message requests (non-contacts)
+      if (!isRequest) continue;
+      requestCount++;
+      log(`  📬 Message request: ${title}`);
+    } else {
+      // Default mode: skip message requests (non-contacts)
+      if (isRequest && dialogType === 'private') {
+        log(`  📬 Skipping message request: ${title}`);
+        continue;
+      }
     }
 
     // Log if included via unreadMark (helpful for debugging)
@@ -608,7 +632,11 @@ async function getUnreadDialogs(
 
   unreadDialogs.sort((a, b) => b.lastMessageDate.getTime() - a.lastMessageDate.getTime());
 
-  log(`📊 Found ${unreadDialogs.length} unread dialogs`);
+  if (includeRequests) {
+    log(`📊 Found ${unreadDialogs.length} message request(s)`);
+  } else {
+    log(`📊 Found ${unreadDialogs.length} unread dialogs`);
+  }
 
   return unreadDialogs.slice(0, maxCount);
 }
@@ -692,6 +720,45 @@ async function searchDialogByUser(
           username
         });
       }
+    }
+  }
+
+  // If not found in regular dialogs and search starts with @, try resolving username directly
+  // This handles message requests (non-contacts who have messaged you)
+  if (matchedDialogs.length === 0 && searchQuery.startsWith('@')) {
+    log(`  🔍 Not in dialogs, trying to resolve username directly...`);
+    try {
+      const username = searchQuery.replace('@', '');
+      const result = await client.invoke(
+        new Api.contacts.ResolveUsername({ username })
+      );
+
+      if (result.users && result.users.length > 0) {
+        const user = result.users[0] as Api.User;
+        const firstName = user.firstName || '';
+        const lastName = user.lastName || '';
+        const title = [firstName, lastName].filter(Boolean).join(' ') || user.username || 'Unknown';
+
+        log(`  ✅ Resolved: ${title} (@${user.username})`);
+
+        // Create a peer for this user
+        const inputPeer = new Api.InputPeerUser({
+          userId: user.id,
+          accessHash: user.accessHash || BigInt(0)
+        });
+
+        matchedDialogs.push({
+          id: user.id.toString(),
+          title,
+          type: 'private',
+          unreadCount: 0, // Unknown for resolved users
+          lastMessageDate: new Date(),
+          entity: inputPeer,
+          username: user.username
+        });
+      }
+    } catch (err: any) {
+      log(`  ⚠️ Could not resolve username ${searchQuery}: ${err.message}`);
     }
   }
 
@@ -880,17 +947,19 @@ async function processUnreadMessages(options: ScriptOptions): Promise<ScriptResu
       log('✅ Already authenticated');
     }
 
-    // Fetch dialogs - either search for specific user or get unread
+    // Fetch dialogs - either search for specific user, get requests, or get unread
     let dialogs: DialogInfo[];
     if (options.searchUser) {
       dialogs = await searchDialogByUser(client, options.searchUser);
     } else {
-      dialogs = await getUnreadDialogs(client, options.count);
+      dialogs = await getUnreadDialogs(client, options.count, options.includeRequests);
     }
 
     if (dialogs.length === 0) {
       if (options.searchUser) {
         log(`📭 No conversations found matching "${options.searchUser}"`);
+      } else if (options.includeRequests) {
+        log('📭 No message requests found');
       } else {
         log('📭 No unread messages found');
       }
@@ -960,7 +1029,13 @@ async function processUnreadMessages(options: ScriptOptions): Promise<ScriptResu
     ensureDir(WORK_DIR);
     const dateStr = formatDateShort();
     const year = formatYear();
-    result.workPath = join(WORK_DIR, `${dateStr}-telegram-replies-${year}.md`);
+    // Use username in filename for --user mode
+    if (options.searchUser) {
+      const userSlug = nameToSlug(options.searchUser.replace('@', ''));
+      result.workPath = join(WORK_DIR, `${dateStr}-telegram-${userSlug}-${year}.md`);
+    } else {
+      result.workPath = join(WORK_DIR, `${dateStr}-telegram-replies-${year}.md`);
+    }
     writeFileSync(result.workPath, generateWorkFile(result.processed), 'utf-8');
     log(`\n📝 Work file saved: ${result.workPath}`);
 
@@ -1078,7 +1153,8 @@ function parseArgs(args: string[]): ScriptOptions {
     dryRun: false,
     markUnread: true,
     limit: 20,
-    summaryOnly: false
+    summaryOnly: false,
+    includeRequests: false
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -1103,6 +1179,8 @@ function parseArgs(args: string[]): ScriptOptions {
       options.dryRun = true;
     } else if (arg === '--no-mark-unread') {
       options.markUnread = false;
+    } else if (arg === '--requests' || arg === '-r') {
+      options.includeRequests = true;
     } else if (arg === '--help' || arg === '-h') {
       console.log(`
 Telegram GramJS Script (Per-Person Conversation Files)
@@ -1113,7 +1191,8 @@ Usage:
 Options:
   --count N, -c N       Number of unread dialogs to process (default: 1)
   --all                 Process ALL unread dialogs (sets count to 999)
-  --user NAME, -u NAME  Search for specific user by username or name (ignores read/unread status)
+  --user NAME, -u NAME  Search for specific user by username or name (any read state)
+  --requests, -r        Include message requests folder (non-contacts who messaged you)
   --limit N, -l N       Messages per dialog (default: 20)
   --summary-only        Output JSON summary to stdout (for morning brief)
   --dry-run             Read only, don't update files or mark unread
@@ -1129,6 +1208,8 @@ Examples:
   bun scripts/telegram-gramjs.ts --user "@CAiOfficer"      # Find and read conversation with @CAiOfficer
   bun scripts/telegram-gramjs.ts --user "Sergey Anosov"    # Find by full name
   bun scripts/telegram-gramjs.ts --user "Anosov"           # Find by partial name
+  bun scripts/telegram-gramjs.ts --requests                # Process message requests (non-contacts)
+  bun scripts/telegram-gramjs.ts --requests --count 3      # Process 3 message requests
   bun scripts/telegram-gramjs.ts --all --summary-only      # JSON output for morning brief
 
 Morning Brief Mode:

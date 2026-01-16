@@ -97,7 +97,7 @@ Claude Code doesn't have a native "skill loader" — we create this behavior thr
 ├── Email/
 │   └── workflows/      # process-gmail.md (via /cyber-email command)
 ├── Telegram/
-│   └── workflows/      # answer-messages.md (process unread messages)
+│   └── workflows/      # process-messages.md (read, draft, save via GramJS)
 ├── Content/
 │   └── workflows/      # telegram-post.md (primary), tweet.md, essay.md, image.md, schedule.md
 ├── DDMemo/
@@ -244,20 +244,47 @@ Cybos processes Telegram messages via GramJS MTProto client (not browser automat
 
 - **Script-based**: `scripts/telegram-gramjs.ts` connects directly to Telegram API
 - **Per-person files**: Each contact has persistent conversation file (`context/telegram/<slug>.md`)
-- **Entity integration**: Looks up entities by telegram username via `lookups.telegram`
+- **Entity integration**: Looks up entities by telegram username via database
 - **Manual trigger**: `/cyber-telegram` command
 - **Authentication**: First run prompts for phone + code, session saved to `~/.cybos/telegram/`
 - **Read-only by default**: Never sends messages, only saves drafts
 - **Smart filtering**: Skips archived and muted chats automatically
 
+### Modes
+
+| Mode | Flag | Description |
+|------|------|-------------|
+| **Unread** (default) | `--count N` | Process N unread conversations |
+| **User** | `--user "name"` | Find specific person by username/name (any read state) |
+| **Requests** | `--requests` | Process message requests folder (non-contacts who messaged you) |
+
+```bash
+# Unread mode (default)
+/cyber-telegram                    # 1 unread dialog
+/cyber-telegram --count 3          # 3 unread dialogs
+
+# User mode (any read state)
+/cyber-telegram --user "@username" # By Telegram username
+/cyber-telegram --user "Name"      # By name
+
+# Requests mode (non-contacts)
+/cyber-telegram --requests         # Message requests folder
+
+# Modifiers
+/cyber-telegram --dry-run          # Read only, no drafts saved
+/cyber-telegram --no-mark-unread   # Don't preserve unread state
+```
+
 ### Workflow
 
-1. Script fetches unread dialogs (excluding archived/muted)
+1. Script fetches dialogs based on mode (unread, user search, or requests)
 2. Reads last 20 messages per dialog (both directions)
 3. Looks up entity by telegram username in PostgreSQL database
 4. Gets/creates per-person file: `context/telegram/<slug>.md`
 5. Deduplicates: only appends messages with ID > lastMessageId
-6. Creates work file in `content/work/` (for AI drafting)
+6. Creates work file:
+   - Unread/requests: `content/work/MMDD-telegram-replies-YY.md`
+   - User mode: `content/work/MMDD-telegram-<user-slug>-YY.md`
 7. Marks conversations as unread (preserves state)
 8. AI generates draft replies
 9. User approves, `telegram-save-drafts.ts` saves drafts to Telegram

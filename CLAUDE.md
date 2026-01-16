@@ -163,6 +163,8 @@ After completing ANY workflow (research, content, memo), append a log entry to `
 | `/cyber-research-topic "Topic"` | Topic exploration for content |
 | `/cyber-telegram` | Process 1 unread Telegram conversation (GramJS MTProto) |
 | `/cyber-telegram --count 3` | Process 3 unread conversations |
+| `/cyber-telegram --user "@name"` | Process specific user (any read state) |
+| `/cyber-telegram --requests` | Process unread message requests (non-contacts) |
 | `/cyber-telegram --dry-run` | Read only, don't save drafts to Telegram |
 | `/cyber-browse` | Scan Twitter for trending topics (default: twitter) |
 | `/cyber-tweet "Topic"` | Draft tweet |

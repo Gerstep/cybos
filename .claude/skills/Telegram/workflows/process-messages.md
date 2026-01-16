@@ -1,31 +1,73 @@
-# Answer Messages Workflow
+# Process Messages Workflow
 
-Process unread Telegram messages: read via GramJS, generate AI drafts, save drafts to Telegram.
+Process Telegram messages: read via GramJS, generate AI drafts, save drafts to Telegram.
 
 **CRITICAL: NEVER SEND MESSAGES. Only save drafts to Telegram.**
 
-## Inputs
+## Modes
 
-- **Count**: Number of dialogs to process (default: 1)
-- **Dry run**: If true, read only without saving drafts
+This workflow supports three modes:
+
+| Mode | Flag | Description |
+|------|------|-------------|
+| **Unread** (default) | `--count N` | Process N unread conversations |
+| **User** | `--user "name"` | Find specific person by username/name (any read state) |
+| **Requests** | `--requests` | Process message requests folder (non-contacts who messaged you) |
+
+## Command Syntax
+
+```bash
+# Default: Process unread messages
+/cyber-telegram                    # 1 unread dialog
+/cyber-telegram --count 3          # 3 unread dialogs
+
+# Message requests: Process from requests folder
+/cyber-telegram --requests           # Unread from message requests
+/cyber-telegram --requests --count 3 # 3 from message requests
+
+# User mode: Find specific person (any read state)
+/cyber-telegram --user "@username"   # By Telegram username
+/cyber-telegram --user "Name"        # By name (also checks message requests)
+
+# Modifiers (work with all modes)
+/cyber-telegram --dry-run            # Read only, no drafts saved
+/cyber-telegram --no-mark-unread     # Don't preserve unread state
+```
 
 ## Workflow Steps
 
 ### 1. RUN GRAMJS SCRIPT
 
-Execute the GramJS script to fetch unread messages:
+Execute the GramJS script based on mode:
 
+**Unread mode (default):**
 ```bash
 bun scripts/telegram-gramjs.ts --count N [--dry-run]
 ```
 
+**User mode:**
+```bash
+bun scripts/telegram-gramjs.ts --user "@username" [--dry-run]
+bun scripts/telegram-gramjs.ts --user "Name" [--dry-run]
+```
+
+**Requests mode:**
+```bash
+bun scripts/telegram-gramjs.ts --requests [--count N] [--dry-run]
+```
+
 **What the script does:**
 1. Authenticates with Telegram (first run prompts for phone + code)
-2. Fetches unread dialogs (excluding archived and muted)
+2. Fetches dialogs based on mode:
+   - Unread mode: Unread dialogs (excluding archived and muted)
+   - User mode: Specific user by username/name (checks message requests if not found)
+   - Requests mode: Message requests folder (non-contacts)
 3. Reads last 20 messages per dialog
 4. Loads entity context for known contacts
-5. Saves scratchpad to `context/telegram/YYYY-MM-DD-HH-MM-unread.md`
-6. Saves work file to `content/work/MMDD-telegram-replies-YY.md`
+5. Saves per-person history to `context/telegram/<person-slug>.md`
+6. Saves work file:
+   - Unread/requests: `content/work/MMDD-telegram-replies-YY.md`
+   - User mode: `content/work/MMDD-telegram-<user-slug>-YY.md`
 7. Marks dialogs as unread (preserves state)
 
 **If first run (no session):**
@@ -40,6 +82,8 @@ Load the generated work file:
 
 ```
 Read: content/work/MMDD-telegram-replies-YY.md
+# or for --user mode:
+Read: content/work/MMDD-telegram-<user-slug>-YY.md
 ```
 
 The work file contains:
@@ -60,6 +104,7 @@ For each conversation in the work file:
 - Ask clarifying questions if needed
 - Avoid generic responses
 - Consider entity context (previous calls, deals)
+- Don't use emojis
 
 **Draft format:**
 ```markdown
@@ -76,7 +121,7 @@ For each conversation in the work file:
 Show drafts to user:
 
 ```
-📝 Draft replies generated:
+Draft replies generated:
 
 1. **[Dialog Title]** (@username)
    > Last message: [preview]
@@ -116,7 +161,7 @@ If user requests changes:
 **Matching strategy (strict, no fuzzy matching):**
 1. Dialog ID match (most reliable, e.g., `-1002178089244`)
 2. Exact username match (e.g., `@username`)
-3. Exact title match only (e.g., "cyber•Fund")
+3. Exact title match only (e.g., "cyber*Fund")
 
 **Note:** Drafts are saved but not sent. User maintains full control over sending.
 
@@ -125,18 +170,18 @@ If user requests changes:
 Provide summary:
 
 ```
-✅ Processed N conversation(s):
+Processed N conversation(s):
 
 1. **[Dialog Title]** (@username)
    - Messages read: N
-   - Draft saved: ✓ / ✗
+   - Draft saved: Y / N
    - Status: Marked unread
 
-📄 Files:
-- Scratchpad: context/telegram/YYYY-MM-DD-HH-MM-unread.md
+Files:
+- History: context/telegram/<person-slug>.md
 - Work file: content/work/MMDD-telegram-replies-YY.md
 
-📋 Next steps:
+Next steps:
 - Open Telegram to review and send drafts
 - Drafts are in the message input field for each chat
 ```
@@ -146,8 +191,9 @@ Provide summary:
 Append to `/.cybos/logs/MMDD-YY.md`:
 
 ```markdown
-## HH:MM | telegram | process | unread messages
-- Workflow: answer-messages
+## HH:MM | telegram | process | messages
+- Workflow: process-messages
+- Mode: unread/user/requests
 - Dialogs: N
 - Drafts saved: N
 - Output: content/work/MMDD-telegram-replies-YY.md
@@ -160,7 +206,7 @@ Append to `/.cybos/logs/MMDD-YY.md`:
 
 Before marking workflow complete:
 
-1. **Read check**: All messages captured in scratchpad
+1. **Read check**: All messages captured in history file
 2. **Context check**: Entity context loaded where available
 3. **Draft check**: Replies are contextual, not generic
 4. **Language check**: Draft language matches conversation
@@ -177,22 +223,36 @@ Before marking workflow complete:
 - Script automatically waits and retries once
 - If still fails, report to user with wait time
 
-**If no unread messages:**
-- Report "No unread messages found"
+**If no messages found:**
+- Unread mode: Report "No unread messages found"
+- User mode: Report "User not found in dialogs or message requests"
+- Requests mode: Report "No message requests found"
 - Skip draft generation
 
 **If entity lookup fails:**
 - Continue without entity context
 - Draft based on message content only
 
-## Tips
+## Output Locations
 
-- Don't use emojis as much as possible!
-- Process 1-3 dialogs at a time to maintain quality
-- Review drafts carefully before approving
-- Use `--dry-run` to preview without saving
-- Entity context helps with professional replies
-- Message history in `context/telegram/` can be searched later
+| Output | Location |
+|--------|----------|
+| Per-person history | `context/telegram/<person-slug>.md` |
+| Work file (unread) | `content/work/MMDD-telegram-replies-YY.md` |
+| Work file (user) | `content/work/MMDD-telegram-<user-slug>-YY.md` |
+| Logs | `.cybos/logs/MMDD-YY.md` |
+
+## Prerequisites
+
+1. **Telegram API credentials** in `.env`:
+   ```
+   TELEGRAM_API_ID=...      # Get from https://my.telegram.org/apps
+   TELEGRAM_API_HASH=...    # Get from https://my.telegram.org/apps
+   ```
+
+2. **First run**: Script will prompt for phone number and verification code. Session is saved to `~/.cybos/telegram/` for future use.
+
+3. **Dependencies**: `bun add telegram` (GramJS package)
 
 ## Privacy & Safety
 
