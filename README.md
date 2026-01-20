@@ -85,13 +85,14 @@ CYBOS
 **Design principles:**
 - File-first: All state is markdown on disk, indexed in SQLite
 - Vault-based: User data in `~/CybosVault/`, separate from code
+- Private/Shared split: Personal data stays local, team data syncs via Git
 - Parallel agents: Multiple Task calls run simultaneously
 
 ## File Structure
 
 ```
 ~/CybosVault/                      # User data vault
-├── private/
+├── private/                       # Personal data (not synced)
 │   ├── context/                   # Identity, calls, telegram, emails
 │   ├── deals/                     # Deal folders with research + memos
 │   ├── research/                  # Topic/market research
@@ -101,6 +102,12 @@ CYBOS
 │   │   ├── briefs/                # Morning briefs
 │   │   └── work/                  # GTD task outputs
 │   └── .cybos/db/                 # SQLite database
+│
+├── shared/                        # Team-shared data (synced via Git)
+│   ├── deals/                     # Shared company research + DD
+│   ├── research/                  # Shared market/tech research
+│   ├── projects/                  # Multi-person projects
+│   └── context/calls/             # Team call transcripts
 
 cybos/                             # Code repository
 ├── .claude/
