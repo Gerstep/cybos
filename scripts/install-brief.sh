@@ -24,8 +24,19 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 LAUNCHD_DIR="$HOME/Library/LaunchAgents"
 CONFIG_LAUNCHD="$PROJECT_DIR/config/launchd"
 WEB_APP_DIR="$SCRIPT_DIR/web-brief"
-LOG_DIR="$PROJECT_DIR/.cybos/logs"
-BRIEFS_DIR="$PROJECT_DIR/content/briefs"
+
+# Source the log path helper to get VAULT_LOG_DIR
+source "$SCRIPT_DIR/get-log-path.sh"
+LOG_DIR="$VAULT_LOG_DIR"
+
+# Resolve vault paths for briefs
+CONFIG_FILE="$HOME/.cybos/config.json"
+if [[ -f "$CONFIG_FILE" ]]; then
+  VAULT_PATH=$(grep '"vault_path"' "$CONFIG_FILE" | sed 's/.*: *"\([^"]*\)".*/\1/' | sed "s|~|$HOME|")
+  BRIEFS_DIR="$VAULT_PATH/private/content/briefs"
+else
+  BRIEFS_DIR="$HOME/CybosVault/private/content/briefs"
+fi
 
 # Colors for output
 RED='\033[0;31m'
@@ -130,6 +141,7 @@ install_launchd() {
     log_info "Processing $agent with path substitution..."
     sed -e "s|__HOME__|$HOME|g" \
         -e "s|__CYBOS_ROOT__|$PROJECT_DIR|g" \
+        -e "s|__VAULT_LOGS__|$VAULT_LOG_DIR|g" \
         "$src" > "$dst"
 
     # Load agent

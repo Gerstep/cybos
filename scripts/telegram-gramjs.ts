@@ -23,6 +23,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import * as readline from 'readline';
+import { getLogsPath, getContextPath, getWorkPath } from './paths';
 
 // ============================================================================
 // Configuration
@@ -30,9 +31,9 @@ import * as readline from 'readline';
 
 const SESSION_DIR = join(process.env.HOME!, '.cybos', 'telegram');
 const SESSION_FILE = join(SESSION_DIR, 'session.txt');
-const CONTEXT_DIR = join(process.cwd(), 'context', 'telegram');
-const WORK_DIR = join(process.cwd(), 'content', 'work');
-const LOG_DIR = join(process.cwd(), '.cybos', 'logs');
+const CONTEXT_DIR = join(getContextPath(), 'telegram');
+const WORK_DIR = getWorkPath();
+const LOG_DIR = getLogsPath();
 const SCRIPTS_DIR = join(process.cwd(), 'scripts', 'db');
 
 // Load from .env

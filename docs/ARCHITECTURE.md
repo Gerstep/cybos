@@ -90,6 +90,14 @@ Starting with v2.1, Cybos uses a global configuration system that separates code
 
 ~/CybosVault/                      # User data vault (configurable path)
   private/                         # Local-only data
+    .cybos/
+      logs/                        # All logs (activity, daemon, script)
+      db/cybos.sqlite              # Context graph database
+    context/                       # Core context files
+    deals/                         # Deal folders
+    research/                      # Topic/market research
+    projects/                      # Multi-week initiatives
+    content/                       # Generated content
   shared/                          # Team-shared data (optional)
 
 cyberman/                          # Application directory
@@ -1781,10 +1789,7 @@ project-root/
 │   ├── hooks/
 │   │   └── load-context.ts     # SessionStart hook
 │   └── commands/               # Slash commands
-├── .cybos/
-│   └── logs/                   # Unified logging system
-│       └── MMDD-YY.md          # Daily activity log (all events)
-├── context/                    # Core context files
+├── context/                    # Core context files (symlinked from vault)
 │   ├── who-am-i.md
 │   ├── organization.md
 │   ├── investment-philosophy.md
@@ -1957,24 +1962,43 @@ Configuration in `.claude/settings.json`:
 
 ## Logging System
 
-**Unified logging location**: `/.cybos/logs/MMDD-YY.md`
+**Unified logging location**: `~/CybosVault/private/.cybos/logs/`
 
-All activity consolidated into single daily log file (workflow execution, agent status, MCP calls, errors).
+All logs are stored in the vault for portability and backup. Path resolved via `scripts/paths.ts:getLogsPath()`.
 
-**Benefits**:
-- Reduced overhead (1 file instead of 3)
-- Complete chronological view of all activity
-- Easier auditing and analysis
+### Log File Types
 
-**Entry Types**:
-1. Workflow start/complete
-2. MCP calls (with status, cost, fallbacks)
-3. Agent completion/failure
-4. Data quality issues
-5. Content creation
-6. Scheduling
+| Pattern | Source | Purpose |
+|---------|--------|---------|
+| `MMDD-YY.md` | Workflows, Claude | Daily activity logs (workflow completions, MCP calls) |
+| `morning-brief.log` | morning-brief.sh | Brief generation run logs |
+| `reindex.log` | reindex.sh | Database indexing run logs |
+| `brief-server.out.log` | LaunchD | Brief server stdout |
+| `brief-server.err.log` | LaunchD | Brief server stderr |
+| `morning-brief.out.log` | LaunchD | Morning brief daemon stdout |
+| `morning-brief.err.log` | LaunchD | Morning brief daemon stderr |
+| `reindex.out.log` | LaunchD | Reindex daemon stdout |
+| `reindex.err.log` | LaunchD | Reindex daemon stderr |
 
-**Workflow completion format:**
+### Path Resolution
+
+**Shell scripts** source `scripts/get-log-path.sh` which exports `VAULT_LOG_DIR`:
+```bash
+source "$SCRIPT_DIR/get-log-path.sh"
+LOG_FILE="$VAULT_LOG_DIR/my-script.log"
+```
+
+**TypeScript scripts** use `scripts/paths.ts`:
+```typescript
+import { getLogsPath } from './paths'
+const logDir = getLogsPath()  // ~/CybosVault/private/.cybos/logs
+```
+
+**LaunchD plists** use `__VAULT_LOGS__` placeholder (substituted by `install-brief.sh`).
+
+### Daily Activity Log Format (MMDD-YY.md)
+
+**Workflow completion:**
 ```markdown
 ## HH:MM | category | type | subject
 - Workflow: workflow-name
@@ -1988,7 +2012,7 @@ All activity consolidated into single daily log file (workflow execution, agent 
 ---
 ```
 
-**MCP call format:**
+**MCP call:**
 ```markdown
 ## HH:MM | mcp | [server-name] | [operation]
 - Query/URL: [request details]

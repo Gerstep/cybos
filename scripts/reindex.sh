@@ -16,11 +16,11 @@ set -e
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-LOG_DIR="$PROJECT_DIR/.cybos/logs"
-LOG_FILE="$LOG_DIR/reindex.log"
 
-# Ensure log directory exists
-mkdir -p "$LOG_DIR"
+# Source the log path helper to get VAULT_LOG_DIR
+source "$SCRIPT_DIR/get-log-path.sh"
+LOG_DIR="$VAULT_LOG_DIR"
+LOG_FILE="$LOG_DIR/reindex.log"
 
 # Logging function
 log() {

@@ -32,12 +32,12 @@
     <key>KeepAlive</key>
     <true/>
 
-    <!-- Logging -->
+    <!-- Logging (stored in vault) -->
     <key>StandardOutPath</key>
-    <string>__CYBOS_ROOT__/.cybos/logs/brief-server.out.log</string>
+    <string>__VAULT_LOGS__/brief-server.out.log</string>
 
     <key>StandardErrorPath</key>
-    <string>__CYBOS_ROOT__/.cybos/logs/brief-server.err.log</string>
+    <string>__VAULT_LOGS__/brief-server.err.log</string>
 
     <!-- Nice process priority (lower = less priority, avoid hogging CPU) -->
     <key>Nice</key>

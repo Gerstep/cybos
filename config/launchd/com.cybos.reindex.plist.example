@@ -34,12 +34,12 @@
         <integer>0</integer>
     </dict>
 
-    <!-- Logging -->
+    <!-- Logging (stored in vault) -->
     <key>StandardOutPath</key>
-    <string>__CYBOS_ROOT__/.cybos/logs/reindex.out.log</string>
+    <string>__VAULT_LOGS__/reindex.out.log</string>
 
     <key>StandardErrorPath</key>
-    <string>__CYBOS_ROOT__/.cybos/logs/reindex.err.log</string>
+    <string>__VAULT_LOGS__/reindex.err.log</string>
 
     <!-- Don't run at load - only on schedule -->
     <key>RunAtLoad</key>
