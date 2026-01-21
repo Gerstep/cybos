@@ -31,6 +31,7 @@ import { getLogsPath, getContextPath, getWorkPath } from './paths';
 
 const SESSION_DIR = join(process.env.HOME!, '.cybos', 'telegram');
 const SESSION_FILE = join(SESSION_DIR, 'session.txt');
+const DIALOG_CACHE_FILE = join(SESSION_DIR, 'dialog-cache.json');
 const CONTEXT_DIR = join(getContextPath(), 'telegram');
 const WORK_DIR = getWorkPath();
 const LOG_DIR = getLogsPath();
@@ -140,6 +141,80 @@ interface DbEntityContext {
   interactions: Array<{ date: string; type: string; summary?: string }>;
   pending_items: Array<{ type: string; content: string; due_date?: string }>;
 }
+
+// Dialog cache for fast lookups without fetching all dialogs
+interface CachedDialog {
+  id: string;
+  title: string;
+  type: 'private' | 'group' | 'channel';
+  username?: string;
+  accessHash?: string; // Required for channels/users API calls
+  lastUpdated: string;
+}
+
+interface DialogCache {
+  version: number;
+  dialogs: Record<string, CachedDialog>; // keyed by id
+}
+
+// ============================================================================
+// Dialog Cache Functions
+// ============================================================================
+
+function loadDialogCache(): DialogCache {
+  try {
+    if (existsSync(DIALOG_CACHE_FILE)) {
+      const data = readFileSync(DIALOG_CACHE_FILE, 'utf-8');
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    log('⚠️ Failed to load dialog cache, starting fresh');
+  }
+  return { version: 1, dialogs: {} };
+}
+
+function saveDialogCache(cache: DialogCache): void {
+  ensureDir(SESSION_DIR);
+  writeFileSync(DIALOG_CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8');
+}
+
+function cacheDialog(dialog: any, cache: DialogCache): void {
+  const entity = dialog.entity;
+  if (!entity || !dialog.id) return;
+
+  let accessHash: string | undefined;
+  let dialogType: 'private' | 'group' | 'channel' = 'group';
+  let username: string | undefined;
+  let title = dialog.title || 'Unknown';
+
+  if (entity instanceof Api.User) {
+    dialogType = 'private';
+    accessHash = entity.accessHash?.toString();
+    username = entity.username;
+    title = [entity.firstName, entity.lastName].filter(Boolean).join(' ') || entity.username || 'Unknown';
+  } else if (entity instanceof Api.Channel) {
+    dialogType = entity.megagroup ? 'group' : 'channel';
+    accessHash = entity.accessHash?.toString();
+    username = entity.username;
+    title = entity.title || 'Unknown';
+  } else if (entity instanceof Api.Chat) {
+    dialogType = 'group';
+    title = entity.title || 'Unknown';
+  }
+
+  cache.dialogs[dialog.id.toString()] = {
+    id: dialog.id.toString(),
+    title,
+    type: dialogType,
+    username,
+    accessHash,
+    lastUpdated: new Date().toISOString()
+  };
+}
+
+// Export cache file path for other scripts
+export const DIALOG_CACHE_PATH = DIALOG_CACHE_FILE;
+export { loadDialogCache, saveDialogCache, CachedDialog, DialogCache };
 
 // ============================================================================
 // Utility Functions
@@ -648,8 +723,25 @@ async function searchDialogByUser(
 ): Promise<DialogInfo[]> {
   log(`🔍 Searching for user: ${searchQuery}`);
 
-  // Fetch more dialogs to search through (including archived)
-  const dialogs = await client.getDialogs({ limit: 200 });
+  // Load and update dialog cache
+  const cache = loadDialogCache();
+
+  // Fetch all dialogs using GramJS iterator
+  log(`  📦 Fetching all dialogs...`);
+  const dialogs: any[] = [];
+  for await (const dialog of client.iterDialogs({ limit: undefined })) {
+    dialogs.push(dialog);
+    // Cache every dialog for future fast lookups
+    cacheDialog(dialog, cache);
+    if (dialogs.length % 100 === 0) {
+      log(`  📦 Fetched ${dialogs.length} dialogs...`);
+    }
+  }
+  log(`  📦 Total dialogs fetched: ${dialogs.length}`);
+
+  // Save updated cache
+  saveDialogCache(cache);
+  log(`  💾 Dialog cache updated (${Object.keys(cache.dialogs).length} entries)`);
 
   const searchLower = searchQuery.toLowerCase().replace('@', '');
   const matchedDialogs: DialogInfo[] = [];
