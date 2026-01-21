@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+
+    "perplexity": {
+      "command": "npx",
+      "args": ["-y", "@perplexity-ai/mcp-server"],
+      "env": {
+        "PERPLEXITY_API_KEY": "${PERPLEXITY_API_KEY}"
+      }
+    },
+
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.exa.ai/mcp?exaApiKey=${EXA_API_KEY}"]
+    },
+
+    "parallel-search": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://search-mcp.parallel.ai/mcp"],
+      "env": {
+        "MCP_HEADERS": "Authorization: Bearer ${PARALLEL_API_KEY}"
+      }
+    },
+
+    "parallel-task": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://task-mcp.parallel.ai/mcp"],
+      "env": {
+        "MCP_HEADERS": "Authorization: Bearer ${PARALLEL_API_KEY}"
+      }
+    },
+
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      }
+    },
+
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "NOTION_TOKEN": "${NOTION_TOKEN}"
+      }
+    },
+
+    "gmail": {
+      "command": "/Users/sg/gmail-mcp/.venv/bin/mcp",
+      "args": [
+        "run",
+        "/Users/sg/gmail-mcp/gmail_mcp/main.py:mcp"
+      ],
+      "env": {
+        "PYTHONPATH": "/Users/sg/gmail-mcp",
+        "CONFIG_FILE_PATH": "/Users/sg/gmail-mcp/config.yaml",
+        "TOKEN_ENCRYPTION_KEY": "${TOKEN_ENCRYPTION_KEY}"
+      }
+    }
+
+  }
+}

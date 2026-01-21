@@ -1,0 +1,43 @@
+# Cybos Private Vault .gitignore
+# Copy this to ~/CybosVault/private/.gitignore
+
+# Database (derived data, causes merge conflicts)
+.cybos/db/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Cache and temp files
+.cybos/cache/
+.cybos/temp/
+*.tmp
+*.temp
+
+# Editor/IDE files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# API credentials (should never be committed)
+.env
+.env.local
+.env.*.local
+credentials.json
+*.pem
+*.key
+
+# Large binary files (consider keeping in cloud storage)
+*.mp4
+*.mov
+*.zip
+*.tar.gz
+
+# Email sync state (re-generated)
+context/emails/.state.json
+
+# Node modules if any scripts are run locally
+node_modules/

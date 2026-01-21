@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Morning Brief Generator
+         Runs daily at 8:00 AM to generate brief and open browser
+         Uses --skip-gen on initial run, full gen in schedule -->
+
+    <key>Label</key>
+    <string>com.cybos.morning-brief</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__CYBOS_ROOT__/scripts/morning-brief.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__CYBOS_ROOT__</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__HOME__/.bun/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>__HOME__</string>
+    </dict>
+
+    <!-- Run at 8:00 AM every day -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- Logging (stored in vault) -->
+    <key>StandardOutPath</key>
+    <string>__VAULT_LOGS__/morning-brief.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__VAULT_LOGS__/morning-brief.err.log</string>
+
+    <!-- Don't run at load - only on schedule -->
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

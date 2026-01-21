@@ -1,0 +1,66 @@
+{
+  "env": {
+    "CYBOS_VERSION": "1.1",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "fileSuggestion": {
+    "type": "command",
+    "command": "/bin/bash scripts/file-suggestion.sh"
+  },
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "MultiEdit",
+      "Glob",
+      "Grep",
+      "Fetch(domain:*)",
+      "WebFetch(domain:*)",
+      "WebSearch",
+      "NotebookRead",
+      "NotebookEdit",
+      "TodoWrite",
+      "ExitPlanMode",
+      "Task",
+      "SlashCommand",
+      "mcp__perplexity__perplexity_search",
+      "mcp__perplexity__perplexity_research",
+      "mcp__exa__*",
+      "mcp__parallel-search__*",
+      "mcp__parallel-task__createDeepResearch",
+      "mcp__parallel-task__getResultMarkdown",
+      "mcp__nano-banana__generate_image",
+      "mcp__nano-banana__upload_file",
+      "mcp__typefully__typefully_get_me",
+      "mcp__typefully__typefully_list_social_sets",
+      "mcp__typefully__typefully_create_draft",
+      "mcp__typefully__typefully_create_media_upload",
+      "mcp__typefully__typefully_get_media_status",
+      "mcp__gmail__*"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun .claude/hooks/load-context.ts"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "ralph-wiggum@claude-code-plugins": false
+  },
+  "alwaysThinkingEnabled": true
+}

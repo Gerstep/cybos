@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Brief Server Daemon
+         Keeps the Hono server running on port 3847
+         Restarts automatically if it crashes -->
+
+    <key>Label</key>
+    <string>com.cybos.brief-server</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Path to bun - update if different on your system -->
+        <string>__HOME__/.bun/bin/bun</string>
+        <string>scripts/brief-server.ts</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__CYBOS_ROOT__</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__HOME__/.bun/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <!-- Run at load and keep alive -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Logging (stored in vault) -->
+    <key>StandardOutPath</key>
+    <string>__VAULT_LOGS__/brief-server.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__VAULT_LOGS__/brief-server.err.log</string>
+
+    <!-- Nice process priority (lower = less priority, avoid hogging CPU) -->
+    <key>Nice</key>
+    <integer>10</integer>
+
+    <!-- Throttle restarts - wait 10s between crashes -->
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>
