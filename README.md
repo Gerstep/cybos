@@ -51,6 +51,7 @@ For manual setup, see [docs/SETUP.md](docs/SETUP.md).
 | `/cyber-init-deal "Company"` | Initialize deal folder |
 | `/cyber-reindex` | Rebuild entity database |
 | `/cyber-log` | Show recent activity |
+| `/cyber-summarize therapy @file` | Summarize therapy session transcript |
 
 ### Projects
 | Command | Purpose |
@@ -65,7 +66,7 @@ For manual setup, see [docs/SETUP.md](docs/SETUP.md).
 CYBOS
 ├── SKILLS (workflows)
 │   ├── Research, Browse, Telegram
-│   ├── Content, DDMemo, GTD
+│   ├── Content, DDMemo, GTD, Summarize
 │
 ├── AGENTS (parallel via Task tool)
 │   ├── Researchers: company, market, financial, team, tech

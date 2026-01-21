@@ -18,6 +18,7 @@ Cybos is a Claude Code-powered personal AI assistant for an individual user and 
 | **Content** | Tweets, essays, images (following brand guidelines) |
 | **DD Memo** | Investment memo generation from templates |
 | **GTD** | Autonomous task execution from GTD.md with entity context |
+| **Summarize** | Summarize transcripts (therapy sessions, meetings) into structured notes |
 
 **Key Design Principles:**
 - File-first: All state is markdown on disk or is accessible via MCP tools and scripts (Gmail, Telegram, Granola, Asana, etc)
@@ -48,6 +49,7 @@ Cybos is a Claude Code-powered personal AI assistant for an individual user and 
 │ Content       │   │               │   │               │
 │ DDMemo        │   │               │   │               │
 │ GTD           │   │               │   │               │
+│ Summarize     │   │               │   │               │
 └───────┬───────┘   └───────┬───────┘   └───────┬───────┘
         │                   │                   │
         └───────────────────┼───────────────────┘
@@ -220,10 +222,12 @@ Claude Code doesn't have a native "skill loader" — we create this behavior thr
 │   └── workflows/      # telegram-post.md (primary), tweet.md, essay.md, image.md, schedule.md
 ├── DDMemo/
 │   └── workflows/      # generate.md
-└── GTD/
-    ├── SKILL.md        # Main entry point with classification + routing
-    ├── workflows/      # outreach.md, call-prep.md, podcast.md, research.md
-    └── learnings.md    # Action log for pattern analysis
+├── GTD/
+│   ├── SKILL.md        # Main entry point with classification + routing
+│   ├── workflows/      # outreach.md, call-prep.md, podcast.md, research.md
+│   └── learnings.md    # Action log for pattern analysis
+└── Summarize/
+    └── workflows/      # therapy.md (therapy session transcripts)
 ```
 
 ### Research Shared Content

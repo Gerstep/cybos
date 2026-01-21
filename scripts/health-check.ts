@@ -199,6 +199,69 @@ async function runChecks(): Promise<void> {
       'Run: bun scripts/brief-server.ts'
     );
   }
+
+  // 11. File suggestion script
+  const projectDir = join(import.meta.dir, '..');
+  const fileSuggestionScript = join(projectDir, 'scripts', 'file-suggestion.sh');
+  const fileSuggestionExists = existsSync(fileSuggestionScript);
+  check(
+    'File Suggestion Script',
+    fileSuggestionExists,
+    'scripts/file-suggestion.sh found',
+    'File suggestion script not found',
+    'Check scripts/file-suggestion.sh exists'
+  );
+
+  // 12. File suggestion hook test
+  if (fileSuggestionExists) {
+    try {
+      // Use echo to pipe JSON into the script
+      const proc = Bun.spawn(['bash', '-c', `echo '{"query":"context"}' | bash ${fileSuggestionScript}`], {
+        cwd: projectDir,
+        stdout: 'pipe',
+        stderr: 'pipe',
+        env: { ...process.env, CLAUDE_PROJECT_DIR: projectDir }
+      });
+
+      const output = await new Response(proc.stdout).text();
+      const lines = output.trim().split('\n').filter(l => l.length > 0);
+
+      // Check if we get results from both project and vault
+      const hasProjectFiles = lines.some(l => !l.startsWith('vault/'));
+      const hasVaultFiles = lines.some(l => l.startsWith('vault/'));
+
+      if (hasProjectFiles && hasVaultFiles) {
+        check(
+          'File Suggestion Hook',
+          true,
+          `Hook works: ${lines.length} results (project + vault)`,
+          '',
+        );
+      } else if (lines.length > 0) {
+        warn(
+          'File Suggestion Hook',
+          `Hook returns ${lines.length} results but ${!hasVaultFiles ? 'no vault files' : 'no project files'}`,
+          'Check vault symlink exists and ~/CybosVault has files'
+        );
+      } else {
+        check(
+          'File Suggestion Hook',
+          false,
+          '',
+          'Hook returns no results for test query "context"',
+          'Test manually: echo \'{"query":"context"}\' | bash scripts/file-suggestion.sh'
+        );
+      }
+    } catch (err) {
+      check(
+        'File Suggestion Hook',
+        false,
+        '',
+        `Hook test failed: ${err}`,
+        'Ensure jq is installed: brew install jq'
+      );
+    }
+  }
 }
 
 function printResults(jsonOutput: boolean): void {
