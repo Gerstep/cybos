@@ -1,8 +1,12 @@
 # Typefully MCP Integration - Final Design
 
 **Date**: 2026-01-04
-**Status**: Ready for Implementation
-**Approach**: MCP Wrapper (Option A)
+**Status**: COMPLETED (Updated 2026-01-21)
+**Approach**: Direct API v2 calls via curl (MCP tools unreliable)
+
+> **Note**: This plan was originally written for MCP tools. Implementation now uses
+> direct Typefully API v2 calls. See `.claude/skills/Content/workflows/schedule.md`
+> for current working implementation.
 
 ---
 

@@ -992,48 +992,38 @@ mcp__nano-banana__continue_editing
 ```
 
 **Typefully (Social Media Scheduling):**
+
+> **Preferred method:** Use direct API v2 calls via curl (see `.claude/skills/Content/workflows/schedule.md`)
+> The MCP tools below may be outdated. Direct curl to `https://api.typefully.com/v2/` is more reliable.
+
 ```
+# Direct API (preferred)
+Authorization: Bearer $TYPEFULLY_API_KEY
+
+GET  /v2/me                              # Current user
+GET  /v2/social-sets                     # List accounts
+POST /v2/social-sets/{id}/drafts         # Create draft
+POST /v2/social-sets/{id}/media          # Upload media
+GET  /v2/social-sets/{id}/media/{mid}    # Media status
+
+# Available social sets (as of Jan 2026):
+- 161806: @sgershuni (personal)
+- 153901: @cyberFund_ (fund)
+- 215751: @dAGIhouse
+
+# MCP tools (may be outdated, use curl instead)
 mcp__typefully__typefully_list_social_sets
-  - limit: number (optional, default: 10)
-  - offset: number (optional, default: 0)
-  - Returns: List of available social accounts
-
 mcp__typefully__typefully_get_social_set_details
-  - social_set_id: number
-  - Returns: Platform details for the account
+mcp__typefully__typefully_create_draft
+mcp__typefully__typefully_create_media_upload
+mcp__typefully__typefully_get_media_status
+```
 
-mcp__typefully__typefully_create_draft ✅ Validated
-  - social_set_id: number (from your Typefully account)
-  - requestBody: {
-      draft_title: string (optional),
-      platforms: {
-        x: { enabled: bool, posts: [{text, media_ids}] },
-        linkedin: { enabled: bool, posts: [{text, media_ids}] }
-      },
-      publish_at: "now" | "next-free-slot" | ISO-8601-timestamp,
-      share: bool (optional)
-    }
-  - Returns: { id, status, url }
-
-mcp__typefully__typefully_create_media_upload ✅ Validated
-  - social_set_id: number
-  - requestBody: { file_name: string }
-  - Returns: { media_id: UUID, upload_url: S3-presigned-URL }
-
-mcp__typefully__typefully_get_media_status ✅ Validated
-  - social_set_id: number
-  - media_id: UUID
-  - Returns: { status: "processing" | "ready", media_urls: {...} }
-
-Default account: <your-account-name> (ID: <social-set-id>, @<username>)
-Connected platforms: Twitter (@<twitter-handle>), LinkedIn (@<linkedin-handle>)
-
-Testing status: ✅ All core functionality validated
+Testing status: ✅ All core functionality validated via API v2
 - Multi-platform posting (Twitter + LinkedIn): Tested
 - Scheduled timing (ISO 8601): Tested
-- Image upload with S3: Tested (2MB PNG, ~1s upload + processing)
-- Content type extraction: Tested (tweets, posts)
-```
+- Image upload with S3: Tested
+- Draft-only mode: Tested
 
 **Gmail (Unified Email + Calendar MCP):**
 ```
