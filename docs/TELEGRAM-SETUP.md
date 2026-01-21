@@ -79,10 +79,10 @@ bun scripts/telegram-gramjs.ts --help
 
 | File | Location | Purpose |
 |------|----------|---------|
-| Message history | `context/telegram/YYYY-MM-DD-HH-MM-unread.md` | Historical record for future context extraction |
-| Work file | `content/work/MMDD-telegram-replies-YY.md` | AI draft generation template |
+| Per-person history | `~/CybosVault/private/context/telegram/<person-slug>.md` | Persistent conversation log per contact |
+| Work file | `~/CybosVault/private/content/work/MMDD-telegram-replies-YY.md` | AI draft generation template |
 | Session | `~/.cybos/telegram/session.txt` | Auth token (outside git) |
-| Logs | `.cybos/logs/MMDD-YY.md` | Activity log |
+| Logs | `~/CybosVault/private/.cybos/logs/MMDD-YY.md` | Activity log |
 
 ## What Gets Filtered
 

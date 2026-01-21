@@ -462,17 +462,17 @@ Cybos processes Telegram messages via GramJS MTProto client (not browser automat
 ### Output Structure
 
 ```
-/context/telegram/
-├── README.md                           # Documentation
-├── anton-lobintsev.md                  # Per-person conversation log
-├── egor.md                             # Per-person conversation log
-└── org-team.md                         # Group chats too
-
-/content/work/
-└── 0106-telegram-replies-26.md         # AI draft replies (GTD-style)
+~/CybosVault/private/
+├── context/telegram/
+│   ├── README.md                           # Documentation
+│   ├── anton-lobintsev.md                  # Per-person conversation log
+│   ├── egor.md                             # Per-person conversation log
+│   └── org-team.md                         # Group chats too
+└── content/work/
+    └── 0106-telegram-replies-26.md         # AI draft replies (GTD-style)
 
 ~/.cybos/telegram/
-└── session.txt                         # Auth session (outside git)
+└── session.txt                             # Auth session (outside git)
 ```
 
 ### Prerequisites

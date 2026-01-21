@@ -50,6 +50,6 @@ Process Telegram messages via GramJS MTProto client. Read messages, generate AI 
 
 | Output | Location |
 |--------|----------|
-| Per-person history | `context/telegram/<person-slug>.md` |
-| Work file | `content/work/MMDD-telegram-replies-YY.md` |
-| Logs | `.cybos/logs/MMDD-YY.md` |
+| Per-person history | `~/CybosVault/private/context/telegram/<person-slug>.md` |
+| Work file | `~/CybosVault/private/content/work/MMDD-telegram-replies-YY.md` |
+| Logs | `~/CybosVault/private/.cybos/logs/MMDD-YY.md` |

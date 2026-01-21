@@ -389,8 +389,8 @@ function createConversationFile(
     for (const msg of msgs) {
       const time = msg.date.toISOString().slice(11, 16);
       const sender = msg.isOutgoing ? 'Me' : msg.sender;
-      const text = msg.text.replace(/\n/g, ' ').slice(0, 500);
-      lines.push(`- [${time}] **${sender}**: ${text}${msg.text.length > 500 ? '...' : ''}`);
+      const text = msg.text.replace(/\n/g, ' ');
+      lines.push(`- [${time}] **${sender}**: ${text}`);
     }
     lines.push('');
   }
@@ -452,8 +452,8 @@ function appendToConversationFile(
       const formattedMsgs = msgs.map(msg => {
         const time = msg.date.toISOString().slice(11, 16);
         const sender = msg.isOutgoing ? 'Me' : msg.sender;
-        const text = msg.text.replace(/\n/g, ' ').slice(0, 500);
-        return `- [${time}] **${sender}**: ${text}${msg.text.length > 500 ? '...' : ''}`;
+        const text = msg.text.replace(/\n/g, ' ');
+        return `- [${time}] **${sender}**: ${text}`;
       });
       updatedLines.splice(insertAt, 0, ...formattedMsgs);
       insertIndex += formattedMsgs.length;
@@ -464,8 +464,8 @@ function appendToConversationFile(
       for (const msg of msgs) {
         const time = msg.date.toISOString().slice(11, 16);
         const sender = msg.isOutgoing ? 'Me' : msg.sender;
-        const text = msg.text.replace(/\n/g, ' ').slice(0, 500);
-        newContent.push(`- [${time}] **${sender}**: ${text}${msg.text.length > 500 ? '...' : ''}`);
+        const text = msg.text.replace(/\n/g, ' ');
+        newContent.push(`- [${time}] **${sender}**: ${text}`);
       }
       newContent.push('');
     }

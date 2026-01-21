@@ -20,7 +20,7 @@ Process Telegram messages via GramJS MTProto client. Supports unread messages, s
 | **Draft Replies** | AI generates contextual reply drafts |
 | **Save Drafts** | Save drafts to Telegram (no sending) |
 | **Mark Unread** | Re-mark conversations as unread after processing |
-| **History** | Save per-person history to `context/telegram/` |
+| **History** | Save per-person history to vault `context/telegram/` |
 
 ## Workflows
 
