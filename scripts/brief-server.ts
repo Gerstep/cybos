@@ -706,6 +706,7 @@ app.post('/api/setup/complete', async (c) => {
     const config: CybosConfig = {
       version: '2.1',
       vault_path: body.vaultPath,
+      app_path: getAppRoot(),
       private: {
         git_enabled: body.privateGit?.enabled || false,
         repo_url: body.privateGit?.repoUrl || null

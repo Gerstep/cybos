@@ -120,6 +120,7 @@ Location: `~/.cybos/config.json`
 {
   "version": "2.1",
   "vault_path": "~/CybosVault",
+  "app_path": "~/Work/cyberman",
   "private": {
     "git_enabled": false,
     "repo_url": null
@@ -142,7 +143,9 @@ Location: `~/.cybos/config.json`
 }
 ```
 
-**Note:** API keys remain in `.env` file for security (not in config JSON).
+**Notes:**
+- `app_path` points to where Cybos code is installed (set during setup). Skills use this to locate scripts.
+- API keys remain in `.env` file for security (not in config JSON).
 
 ### Configuration Scripts
 
