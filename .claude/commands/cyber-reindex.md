@@ -45,7 +45,7 @@ The indexer processes five sources into a unified SQLite database:
 ### 2. Deal Folders (`~/CybosVault/private/deals/*/`)
 
 - Each folder becomes a deal record
-- Parse `.cybos/context.md` for metadata
+- Parse `index.md` for metadata (YAML frontmatter + content)
 - Link to introducing entities
 
 ### 3. Calls (`~/CybosVault/private/context/calls/*/`)
