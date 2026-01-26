@@ -23,7 +23,7 @@ Transform research and analysis into structured investment memos following cyber
 ## Prerequisites
 
 - Company research must exist in `~/CybosVault/private/deals/<company>/research/`
-- Deal context in `~/CybosVault/private/deals/<company>/.cybos/context.md`
+- Deal context in `~/CybosVault/private/deals/<company>/index.md`
 
 ## Context Files
 

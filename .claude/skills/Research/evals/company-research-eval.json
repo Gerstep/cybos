@@ -12,7 +12,7 @@
     "Output includes Executive Summary, Company Overview, Market Analysis, Team Assessment, Financial Analysis, Investment Lens section",
     "Evaluates against cyber•Fund rubric (path to $1B+, moat, business model, founders, timing, Big Tech threat)",
     "Saves report to ~/CybosVault/private/deals/anthropic/research/YYYY-MM-DD.md",
-    "Creates or updates ~/CybosVault/private/deals/anthropic/.cybos/context.md",
+    "Creates or updates ~/CybosVault/private/deals/anthropic/index.md",
     "Appends log entry to ~/CybosVault/private/.cybos/logs/YYYY-MM-DD.md with workflow, duration, agents, sources"
   ],
   "success_criteria": {

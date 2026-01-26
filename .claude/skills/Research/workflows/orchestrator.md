@@ -244,7 +244,7 @@ Check that files exist:
 ### 5.2 Update Deal Context (Company Only)
 
 If research type is Company:
-- Check if `~/CybosVault/private/deals/<company>/.cybos/context.md` exists
+- Check if `~/CybosVault/private/deals/<company>/index.md` exists
 - If NOT exists: create from template with basic info from research
 - If exists: optionally update with new findings
 

@@ -6,7 +6,7 @@ Generate comprehensive investment memo from research for Investment Committee re
 
 Before running this workflow:
 - [ ] Company research exists in `~/CybosVault/private/deals/<company>/research/`
-- [ ] Deal context exists in `~/CybosVault/private/deals/<company>/.cybos/context.md`
+- [ ] Deal context exists in `~/CybosVault/private/deals/<company>/index.md`
 - [ ] Multiple research reports preferred (more data = better memo)
 
 ## Inputs
@@ -23,7 +23,7 @@ Load all available context:
 
 ```
 Read files:
-- ~/CybosVault/private/deals/<company>/.cybos/context.md
+- ~/CybosVault/private/deals/<company>/index.md
 - ~/CybosVault/private/deals/<company>/research/*.md (all research reports)
 - context/investment-philosophy.md
 - context/MEMO_template.md

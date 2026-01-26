@@ -36,14 +36,14 @@ Process unread Gmail messages by reading, drafting replies, saving attachments t
      - Conversation thread (last 3-5 emails)
      - Attachment list (pitch decks, PDFs, updates)
    - Check if sender domain matches company in `~/CybosVault/private/deals/<company>/`
-   - If match found: load `~/CybosVault/private/deals/<company>/.cybos/context.md` for relationship history
+   - If match found: load `~/CybosVault/private/deals/<company>/index.md` for relationship history
    - Query database for call history: `bun scripts/db/query.ts find-entity "<email>" --json`
 
 3. **DRAFT REPLY**: Compose contextual response
    - Analyze sender tone (formal/casual, technical/business)
    - Reference specific points from their message
    - For deal-related emails:
-     - Incorporate context from `~/CybosVault/private/deals/<company>/.cybos/context.md`
+     - Incorporate context from `~/CybosVault/private/deals/<company>/index.md`
      - Reference recent research from `~/CybosVault/private/deals/<company>/research/`
      - Check Granola call transcripts if available
    - Create draft using Gmail MCP `send_email` tool
@@ -93,18 +93,19 @@ When email sender matches a company:
 1. Extract company from sender domain (e.g., `john@acmecorp.ai` → "acmecorp")
 2. Fuzzy match against existing `~/CybosVault/private/deals/` folders
 3. If match found:
-   - Load `~/CybosVault/private/deals/<company>/.cybos/context.md`
+   - Load `~/CybosVault/private/deals/<company>/index.md`
    - Check for recent research in `~/CybosVault/private/deals/<company>/research/`
    - Use context in draft reply
 4. If no match and attachments present:
    - Prompt: "Create ~/CybosVault/private/deals/<company-slug>/ for this sender?"
-   - If yes: create folder structure and populate context.md
+   - If yes: create folder structure and populate index.md
 
 **New Deal Folder Structure:**
 ```
 ~/CybosVault/private/deals/<company-slug>/
+├── index.md                # Populated with sender info, email date (frontmatter + full context)
 ├── .cybos/
-│   └── context.md          # Populated with sender info, email date
+│   └── scratchpad/
 ├── materials/              # Pitch decks, memos
 ├── updates/                # Company update emails
 └── research/               # Empty, ready for DD
@@ -135,7 +136,7 @@ When email sender matches a company:
 
 **Context Enrichment:**
 When drafting replies, combine:
-1. `~/CybosVault/private/deals/<company>/.cybos/context.md` - investment stage, key contacts
+1. `~/CybosVault/private/deals/<company>/index.md` - investment stage, key contacts
 2. `~/CybosVault/private/deals/<company>/research/` - latest DD notes
 3. Gmail thread history - previous email conversations
 4. Database entity context: `bun scripts/db/query.ts entity <slug> --json` - includes call history
