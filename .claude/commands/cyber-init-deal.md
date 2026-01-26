@@ -6,8 +6,8 @@ Create the following structure:
 
 ```
 ~/CybosVault/private/deals/<company-slug>/
+├── index.md (DataView-queryable frontmatter + full deal context)
 ├── .cybos/
-│   ├── context.md (from template)
 │   └── scratchpad/
 ├── research/
 └── memo/
@@ -20,9 +20,18 @@ Create the following structure:
 
 2. Create directory structure
 
-3. Populate context.md with deal context template:
+3. Create index.md with YAML frontmatter AND full deal context (single file, visible in Obsidian):
 
 ```markdown
+---
+status: active
+stage: sourced
+created: YYYY-MM-DD
+lead: stepan
+tags:
+  - deal
+---
+
 # Deal: [Company Name]
 
 **Status**: Sourced

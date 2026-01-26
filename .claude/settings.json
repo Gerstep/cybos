@@ -57,6 +57,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun .claude/hooks/session-end.ts"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
