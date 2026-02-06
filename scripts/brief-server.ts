@@ -356,7 +356,7 @@ app.get('/api/health', (c) => {
  */
 app.get('/api/explorer', async (c) => {
   try {
-    const days = parseInt(c.req.query('days') || '14')
+    const days = parseInt(c.req.query('days') || '30')
     const data = await getExplorerDashboard({ days })
     return c.json(data)
   } catch (error) {

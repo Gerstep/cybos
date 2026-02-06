@@ -81,7 +81,7 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
     if (!data) return []
     if (filter === 'all') return data.deals
     return data.deals.filter(deal => {
-      const allItems = [...deal.items.metrics, ...deal.items.mentions, ...deal.items.decisions]
+      const allItems = [...deal.items.metrics, ...deal.items.commitments, ...deal.items.decisions]
       return filterItems(allItems).length > 0
     })
   }
@@ -188,7 +188,7 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
               </h1>
               <div className="flex items-center gap-2 text-gray-400 font-medium">
                 <Clock className="w-4 h-4" />
-                <span className="text-sm">Last {data?.timeRange.days || 14} days</span>
+                <span className="text-sm">Last {data?.timeRange.days || 30} days</span>
               </div>
             </div>
 
@@ -220,19 +220,35 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
           </div>
         </header>
 
-        {/* 1. ACTIVE DEALS PANEL */}
+        {/* 1. MY COMMITMENTS PANEL */}
+        <section>
+          <SectionHeader title="My Commitments" count={Math.min(myCommitments.length, 5)} icon={CheckCircle} />
+          {myCommitments.length === 0 ? (
+            <div className="p-8 text-center border border-dashed border-gray-200 rounded-2xl text-gray-400 text-sm">
+              No pending commitments found
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {myCommitments.map(item => (
+                <ItemCard key={item.id} item={item} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* 2. ACTIVE DEALS PANEL */}
         <section>
           <SectionHeader title="Active Deals" count={filteredDeals.length} icon={Briefcase} />
           {filteredDeals.length === 0 ? (
             <div className="p-8 text-center border border-dashed border-gray-200 rounded-2xl text-gray-400 text-sm">
-              No active deals in the last {data?.timeRange.days || 14} days
+              No active deals in the last {data?.timeRange.days || 30} days
             </div>
           ) : (
             <div className="space-y-4">
               {filteredDeals.map(deal => {
                 const isExpanded = expandedDeal === deal.slug
                 const metrics = filterItems(deal.items.metrics)
-                const mentions = filterItems(deal.items.mentions)
+                const commitments = filterItems(deal.items.commitments)
                 const decisions = filterItems(deal.items.decisions)
 
                 return (
@@ -254,7 +270,7 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
                       <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-3">
                         <span>{deal.items.metrics.length} Metrics</span>
                         <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                        <span>{deal.items.mentions.length} Mentions</span>
+                        <span>{deal.items.commitments.length} Commitments</span>
                         <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                         <span>{deal.items.decisions.length} Decisions</span>
                       </div>
@@ -284,20 +300,20 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
                           </div>
                         )}
 
+                        {commitments.length > 0 && (
+                          <div>
+                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Commitments ({commitments.length})</h4>
+                            <div className="space-y-2">
+                              {commitments.map(item => <ItemCard key={item.id} item={item} hideOwner />)}
+                            </div>
+                          </div>
+                        )}
+
                         {decisions.length > 0 && (
                           <div>
                             <h4 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Decisions ({decisions.length})</h4>
                             <div className="space-y-2">
                               {decisions.map(item => <ItemCard key={item.id} item={item} hideOwner />)}
-                            </div>
-                          </div>
-                        )}
-
-                        {mentions.length > 0 && (
-                          <div>
-                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Recent Context ({mentions.length})</h4>
-                            <div className="space-y-2">
-                              {mentions.map(item => <ItemCard key={item.id} item={item} hideOwner />)}
                             </div>
                           </div>
                         )}
@@ -316,7 +332,48 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
           )}
         </section>
 
-        {/* 2. RECENT PEOPLE PANEL */}
+        {/* 3. METRICS OVERVIEW PANEL */}
+        {metricsByCompany.length > 0 && (
+          <section>
+            <SectionHeader
+              title="Metrics Overview"
+              count={metricsByCompany.reduce((sum, c) => sum + c.metrics.length, 0)}
+              icon={BarChart}
+            />
+            <div className="space-y-4">
+              {metricsByCompany.map(group => {
+                const isCollapsed = collapsedCompanies.has(group.company)
+
+                return (
+                  <div key={group.company} className="border border-gray-200 rounded-xl overflow-hidden">
+                    <button
+                      onClick={() => toggleCompanyCollapse(group.company)}
+                      className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-gray-900">{group.company}</span>
+                        <span className="bg-white border border-gray-200 text-gray-500 text-[10px] font-bold px-1.5 rounded">
+                          {group.metrics.length}
+                        </span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
+                    </button>
+
+                    {!isCollapsed && (
+                      <div className="p-4 space-y-2 bg-white">
+                        {group.metrics.map(item => (
+                          <ItemCard key={item.id} item={item} compact />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* 4. RECENT PEOPLE PANEL */}
         <section>
           <SectionHeader title="Recent People" count={filteredEntities.length} icon={Users} />
           {filteredEntities.length === 0 ? (
@@ -418,65 +475,6 @@ export function ExplorerPage({ onNavigate }: ExplorerPageProps) {
             </div>
           )}
         </section>
-
-        {/* 3. MY COMMITMENTS PANEL */}
-        {(filter === 'all' || filter === 'promise' || filter === 'action_item') && (
-          <section>
-            <SectionHeader title="My Commitments" count={myCommitments.length} icon={CheckCircle} />
-            {myCommitments.length === 0 ? (
-              <div className="p-8 text-center border border-dashed border-gray-200 rounded-2xl text-gray-400 text-sm">
-                No pending commitments found
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {myCommitments.map(item => (
-                  <ItemCard key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-          </section>
-        )}
-
-        {/* 4. METRICS OVERVIEW PANEL */}
-        {metricsByCompany.length > 0 && (
-          <section>
-            <SectionHeader
-              title="Metrics Overview"
-              count={metricsByCompany.reduce((sum, c) => sum + c.metrics.length, 0)}
-              icon={BarChart}
-            />
-            <div className="space-y-4">
-              {metricsByCompany.map(group => {
-                const isCollapsed = collapsedCompanies.has(group.company)
-
-                return (
-                  <div key={group.company} className="border border-gray-200 rounded-xl overflow-hidden">
-                    <button
-                      onClick={() => toggleCompanyCollapse(group.company)}
-                      className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-gray-900">{group.company}</span>
-                        <span className="bg-white border border-gray-200 text-gray-500 text-[10px] font-bold px-1.5 rounded">
-                          {group.metrics.length}
-                        </span>
-                      </div>
-                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
-                    </button>
-
-                    {!isCollapsed && (
-                      <div className="p-4 space-y-2 bg-white">
-                        {group.metrics.map(item => (
-                          <ItemCard key={item.id} item={item} compact />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-        )}
 
       </div>
     </div>

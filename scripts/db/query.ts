@@ -376,7 +376,7 @@ export interface DealSummary {
   lastActivity: string
   items: {
     metrics: ExplorerItem[]
-    mentions: ExplorerItem[]
+    commitments: ExplorerItem[]
     decisions: ExplorerItem[]
   }
   introducedBy?: { name: string; slug: string }
@@ -428,7 +428,7 @@ export interface MetricsByCompany {
  * Get explorer dashboard data
  */
 export function getExplorerDashboard(options: { days?: number } = {}): ExplorerDashboard {
-  const { days = 14 } = options
+  const { days = 30 } = options
 
   const endDate = new Date()
   const startDate = new Date()
@@ -453,6 +453,7 @@ export function getExplorerDashboard(options: { days?: number } = {}): ExplorerD
       ei.confidence,
       ei.trust_level,
       ei.source_quote,
+      ei.status,
       i.id as interaction_id,
       i.type as interaction_type,
       i.timestamp as interaction_date,
@@ -501,13 +502,36 @@ export function getExplorerDashboard(options: { days?: number } = {}): ExplorerD
      LIMIT 30`
   )
 
+  // Pre-parse participants for each raw item (avoid repeated JSON.parse)
+  const itemParticipants = new Map<string, string[]>()
+  for (const item of rawItems) {
+    if (!itemParticipants.has(item.interaction_id)) {
+      try {
+        itemParticipants.set(item.interaction_id, JSON.parse(item.participants || '[]'))
+      } catch {
+        itemParticipants.set(item.interaction_id, [])
+      }
+    }
+  }
+
   // Build deals array
   const deals: DealSummary[] = companyEntities.map((company) => {
-    const companyItems = rawItems.filter(
-      (item: any) =>
-        item.target_entity === company.slug ||
-        item.owner_entity === company.slug
-    )
+    // Find items linked to this company via:
+    // 1. Direct entity link (target_entity or owner_entity)
+    // 2. Company slug in interaction participants
+    const companyItems = rawItems.filter((item: any) => {
+      if (item.target_entity === company.slug || item.owner_entity === company.slug) return true
+      const participants = itemParticipants.get(item.interaction_id) || []
+      return participants.includes(company.slug)
+    })
+
+    // Deduplicate item IDs (an item might match via multiple paths)
+    const seen = new Set<string>()
+    const uniqueItems = companyItems.filter((item: any) => {
+      if (seen.has(item.id)) return false
+      seen.add(item.id)
+      return true
+    })
 
     return {
       slug: company.slug,
@@ -516,20 +540,20 @@ export function getExplorerDashboard(options: { days?: number } = {}): ExplorerD
       hasFolder: true, // We could check this but simplified for now
       lastActivity: company.last_activity?.split('T')[0] || 'Unknown',
       items: {
-        metrics: companyItems
+        metrics: uniqueItems
           .filter((i: any) => i.type === 'metric')
           .map(toExplorerItem),
-        mentions: companyItems
-          .filter((i: any) => i.type === 'deal_mention')
+        commitments: uniqueItems
+          .filter((i: any) => i.type === 'promise' || i.type === 'action_item')
           .map(toExplorerItem),
-        decisions: companyItems
+        decisions: uniqueItems
           .filter((i: any) => i.type === 'decision')
           .map(toExplorerItem)
       }
     }
   }).filter(d =>
     d.items.metrics.length > 0 ||
-    d.items.mentions.length > 0 ||
+    d.items.commitments.length > 0 ||
     d.items.decisions.length > 0
   )
 
@@ -590,7 +614,7 @@ export function getExplorerDashboard(options: { days?: number } = {}): ExplorerD
       item.status === 'pending'
     )
     .map(toExplorerItem)
-    .slice(0, 20)
+    .slice(0, 5)
 
   // Metrics grouped by company
   const metricsMap = new Map<string, ExplorerItem[]>()
