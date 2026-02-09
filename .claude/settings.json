@@ -1,7 +1,8 @@
 {
   "env": {
     "CYBOS_VERSION": "1.1",
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "fileSuggestion": {
     "type": "command",
@@ -54,6 +55,17 @@
           {
             "type": "command",
             "command": "bun .claude/hooks/load-context.ts"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun .claude/hooks/session-end.ts"
           }
         ]
       }

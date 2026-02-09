@@ -17,7 +17,7 @@ Execute the DD memo workflow:
 
 1. **GATHER**: Load all research and context
    - All research reports from ~/CybosVault/private/deals/<company>/research/
-   - Deal context from ~/CybosVault/private/deals/<company>/.cybos/context.md
+   - Deal context from ~/CybosVault/private/deals/<company>/index.md
    - Investment philosophy and memo template
 
 2. **ANALYZE**: Use memo-analyst agent (Opus model) for strategic analysis

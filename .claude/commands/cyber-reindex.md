@@ -45,7 +45,7 @@ The indexer processes five sources into a unified SQLite database:
 ### 2. Deal Folders (`~/CybosVault/private/deals/*/`)
 
 - Each folder becomes a deal record
-- Parse `.cybos/context.md` for metadata
+- Parse `index.md` for metadata (YAML frontmatter + content)
 - Link to introducing entities
 
 ### 3. Calls (`~/CybosVault/private/context/calls/*/`)
@@ -99,18 +99,21 @@ Extraction also:
 
 ## Execution
 
-The command runs:
+**IMPORTANT:** Scripts live in the app directory, not the vault. Get the path from config.
 
+**Step 1: Get app path from config**
 ```bash
-# Check database status
-bun scripts/db/migrate.ts --status
-
-# Run the indexer
-bun scripts/db/index.ts [--extract]
-
-# Or for migration
-bun scripts/db/migrate.ts [--verify] [--cleanup]
+# Read app_path from ~/.cybos/config.json
+cat ~/.cybos/config.json | grep app_path
+# Returns: "app_path": "~/Work/cyberman",
 ```
+
+**Step 2: Run from that directory**
+```bash
+cd <APP_PATH> && bun scripts/db/index.ts [--extract]
+```
+
+The `app_path` is set during setup and stored in `~/.cybos/config.json`.
 
 ## Output
 
@@ -163,23 +166,14 @@ LLM Extraction:
 
 ## Query Interface
 
-After indexing, query the database:
+After indexing, query the database (run from app directory via `app_path` in config):
 
 ```bash
-# Entity lookup
-bun scripts/db/query.ts entity john-smith
-
-# Find by email/telegram/name
-bun scripts/db/query.ts find-entity john@example.com
-
-# Full-text search
-bun scripts/db/query.ts search "AI infrastructure"
-
-# Pending items
-bun scripts/db/query.ts pending --owner me
-
-# Who introduced a deal?
-bun scripts/db/query.ts who-shared acme-corp
+cd <APP_PATH> && bun scripts/db/query.ts entity john-smith
+cd <APP_PATH> && bun scripts/db/query.ts find-entity john@example.com
+cd <APP_PATH> && bun scripts/db/query.ts search "AI infrastructure"
+cd <APP_PATH> && bun scripts/db/query.ts pending --owner me
+cd <APP_PATH> && bun scripts/db/query.ts who-shared acme-corp
 ```
 
 ## Hook Integration

@@ -3,7 +3,7 @@
  *
  * Imports deals from /deals/ folders as company entities.
  * In v2.1, deals are simplified to company entities - no separate deals table.
- * Parses .cybos/context.md for metadata when present.
+ * Parses index.md for metadata when present (YAML frontmatter + content).
  */
 
 import { readFileSync, existsSync, readdirSync, statSync } from "fs";
@@ -113,7 +113,7 @@ export function extractDeals(): DealExtractResult {
   for (const slug of dealFolders) {
     try {
       const dealPath = join(dealsDir, slug);
-      const contextPath = join(dealPath, ".cybos", "context.md");
+      const contextPath = join(dealPath, "index.md");
 
       // Parse metadata from context.md if exists
       const metadata = parseContextFile(contextPath);

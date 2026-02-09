@@ -404,8 +404,10 @@ function storeExtractedItems(
         }
         ownerEntity = UserIdentity.slug;
       } else {
-        const key = `person:${item.owner.toLowerCase()}`;
-        const resolved = resolvedEntities.get(key);
+        // Try person first, then company
+        const personKey = `person:${item.owner.toLowerCase()}`;
+        const companyKey = `company:${item.owner.toLowerCase()}`;
+        const resolved = resolvedEntities.get(personKey) || resolvedEntities.get(companyKey);
         if (resolved && resolved.slug !== "_blocked_") {
           ownerEntity = resolved.slug;
         }
@@ -423,8 +425,10 @@ function storeExtractedItems(
         }
         targetEntity = UserIdentity.slug;
       } else {
-        const key = `person:${item.target.toLowerCase()}`;
-        const resolved = resolvedEntities.get(key);
+        // Try person first, then company
+        const personKey = `person:${item.target.toLowerCase()}`;
+        const companyKey = `company:${item.target.toLowerCase()}`;
+        const resolved = resolvedEntities.get(personKey) || resolvedEntities.get(companyKey);
         if (resolved && resolved.slug !== "_blocked_") {
           targetEntity = resolved.slug;
         }
@@ -513,7 +517,7 @@ function updateInteractionParticipants(
   const names: string[] = [];
 
   for (const [key, entity] of resolvedEntities) {
-    if (key.startsWith("person:") && entity.slug !== "_blocked_") {
+    if ((key.startsWith("person:") || key.startsWith("company:")) && entity.slug !== "_blocked_") {
       slugs.push(entity.slug);
       names.push(entity.name);
     }

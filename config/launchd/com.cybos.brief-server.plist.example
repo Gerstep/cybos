@@ -22,7 +22,7 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
-        <string>__HOME__/.bun/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <string>__HOME__/.bun/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
     </dict>
 
     <!-- Run at load and keep alive -->

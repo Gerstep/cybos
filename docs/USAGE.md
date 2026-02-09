@@ -294,7 +294,7 @@ Capture rough thoughts in `/content/ideas/` and expand later:
 Check `/cyber-log` regularly to track activity.
 
 ### 5. Update Deal Context
-When new information emerges, update `/deals/<company>/.cybos/context.md`.
+When new information emerges, update `/deals/<company>/index.md`.
 
 ---
 

@@ -1,5 +1,7 @@
 Research a topic (idea, narrative, or person) for content creation or investment thesis.
 
+**MANDATORY**: Always use the orchestrator. Never launch research agents directly via Task tool without creating a workspace first and passing the path to every agent.
+
 Load workflow:
 @.claude/skills/Research/workflows/orchestrator.md
 

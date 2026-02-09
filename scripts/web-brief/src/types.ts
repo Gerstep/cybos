@@ -145,7 +145,7 @@ export interface DealSummary {
   lastActivity: string
   items: {
     metrics: ExplorerItem[]
-    mentions: ExplorerItem[]
+    commitments: ExplorerItem[]
     decisions: ExplorerItem[]
   }
   introducedBy?: { name: string; slug: string }

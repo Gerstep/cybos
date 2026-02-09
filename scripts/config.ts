@@ -22,6 +22,7 @@ import { homedir } from 'os'
 export interface CybosConfig {
   version: string
   vault_path: string
+  app_path: string
   private: {
     git_enabled: boolean
     repo_url: string | null
@@ -65,6 +66,7 @@ export function getConfigPath(): string {
 const DEFAULT_CONFIG: CybosConfig = {
   version: CURRENT_VERSION,
   vault_path: resolve(homedir(), 'CybosVault'),
+  app_path: '',  // Set during setup to actual app location
   private: {
     git_enabled: false,
     repo_url: null
@@ -185,6 +187,9 @@ export function validateConfig(config: CybosConfig): ConfigValidationResult {
   if (config.user.aliases.length === 0) {
     warnings.push('user.aliases is empty - entity matching may be less accurate')
   }
+  if (!config.app_path) {
+    warnings.push('app_path is not set - skills may not find scripts correctly')
+  }
 
   // Git config validation
   if (config.private.git_enabled && !config.private.repo_url) {
@@ -209,7 +214,11 @@ export function validateConfig(config: CybosConfig): ConfigValidationResult {
 export function migrateConfig(config: CybosConfig): CybosConfig {
   let migrated = { ...config }
 
-  // No migrations needed yet for 2.1 (it's the first version with this system)
+  // Migration: add app_path if missing (for configs created before app_path was added)
+  if (!migrated.app_path) {
+    migrated.app_path = getAppRoot()
+  }
+
   // Future migrations will be added here:
   //
   // if (compareVersions(config.version, '2.2') < 0) {

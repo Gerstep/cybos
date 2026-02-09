@@ -99,11 +99,65 @@ const App: React.FC = () => {
     const pageParam = params.get('page');
     return pageParam === 'explorer' ? 'explorer' : 'brief';
   });
-  const [day, setDay] = useState<'today' | 'yesterday'>(() => {
+  const [day, setDay] = useState<string>(() => {
     const params = new URLSearchParams(window.location.search);
     const dayParam = params.get('day');
-    return dayParam === 'yesterday' ? 'yesterday' : 'today';
+    if (dayParam) return dayParam;
+    return 'today';
   });
+
+  // Helper to convert date to MMDD-YY format
+  const dateToKey = (date: Date): string => {
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${mm}${dd}-${yy}`;
+  };
+
+  // Helper to parse day string to Date
+  const dayToDate = (d: string): Date => {
+    if (d === 'today') return new Date();
+    if (d === 'yesterday') {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+      return date;
+    }
+    // Parse MMDD-YY format
+    const match = d.match(/^(\d{2})(\d{2})-(\d{2})$/);
+    if (match) {
+      const [_, month, day, year] = match;
+      return new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(day));
+    }
+    return new Date();
+  };
+
+  // Check if a day is today
+  const isToday = (d: string): boolean => {
+    const date = dayToDate(d);
+    const today = new Date();
+    return date.toDateString() === today.toDateString();
+  };
+
+  // Navigate to previous/next day
+  const navigateDay = (direction: 'prev' | 'next') => {
+    const currentDate = dayToDate(day);
+    if (direction === 'prev') {
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else {
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    const today = new Date();
+    // Don't go into the future
+    if (currentDate > today) return;
+
+    // Use 'today' for today's date, otherwise use MMDD-YY
+    if (currentDate.toDateString() === today.toDateString()) {
+      setDay('today');
+    } else {
+      setDay(dateToKey(currentDate));
+    }
+  };
 
   // Handle navigation between Brief and Explorer
   const handleNavigate = (newPage: string) => {
@@ -140,10 +194,7 @@ const App: React.FC = () => {
 
   // Format current date for header
   const formatHeaderDate = () => {
-    const date = day === 'yesterday'
-      ? new Date(Date.now() - 86400000)
-      : new Date();
-
+    const date = dayToDate(day);
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
       day: 'numeric',
@@ -260,24 +311,31 @@ const App: React.FC = () => {
 
             <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
               <button
-                onClick={() => setDay('yesterday')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${day === 'yesterday'
-                    ? 'bg-white text-black shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                onClick={() => navigateDay('prev')}
+                className="flex items-center justify-center w-8 h-8 rounded-md text-gray-500 hover:text-gray-900 hover:bg-white transition-colors"
+                title="Previous day"
               >
-                <ChevronLeft className="w-3 h-3" />
-                Yesterday
+                <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setDay('today')}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${day === 'today'
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${isToday(day)
                     ? 'bg-white text-black shadow-sm'
                     : 'text-gray-500 hover:text-gray-700'
                   }`}
               >
                 Today
-                <ChevronRight className="w-3 h-3" />
+              </button>
+              <button
+                onClick={() => navigateDay('next')}
+                disabled={isToday(day)}
+                className={`flex items-center justify-center w-8 h-8 rounded-md transition-colors ${isToday(day)
+                    ? 'text-gray-300 cursor-not-allowed'
+                    : 'text-gray-500 hover:text-gray-900 hover:bg-white'
+                  }`}
+                title="Next day"
+              >
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>

@@ -2,6 +2,20 @@
 
 Universal research workflow for all research types (company, technology, market, topic).
 
+---
+
+## CRITICAL RULES (read before every research session)
+
+1. **SINGLE WORKSPACE DIRECTORY**: All research output for a session MUST go into ONE workspace directory. Create it in Phase 1.3, pass the absolute path to every agent. No exceptions.
+
+2. **NEVER BYPASS THIS ORCHESTRATOR**: Even for ad-hoc or freeform research requests (e.g., "read this call and research the topic"), you MUST follow this workflow. Create the workspace FIRST, then launch agents with the workspace path.
+
+3. **AGENTS MUST NOT CREATE DIRECTORIES**: Sub-agents receive a workspace path and write ONLY to that path. They must NEVER create their own research directories. If an agent prompt does not include an explicit workspace path, the orchestrator is being used incorrectly.
+
+4. **FOLLOW-UP WORK USES SAME DIRECTORY**: If a research session triggers additional research (deeper dives, follow-ups, new angles), all outputs go into the SAME workspace's `raw/` directory. Never create a second workspace for the same research topic.
+
+---
+
 ## Overview
 
 This orchestrator:
@@ -14,6 +28,7 @@ This orchestrator:
 7. Outputs consolidated report
 
 **Key principle**: Agents do ALL data gathering. Main session orchestrates, agents execute.
+**Key principle**: ONE workspace directory per research session. All agents write there.
 
 ---
 
@@ -97,6 +112,8 @@ Prompt: "Research [target] focusing on [agent's domain].
 **Workspace**: [workspace-path]
 **Output to**: [workspace-path]/raw/agent-[agent-name].md
 
+⚠️ CRITICAL: Write ALL output to the workspace path above. Do NOT create any new directories outside this workspace. Do NOT create your own research folder structure. Your ONLY output file is [workspace-path]/raw/agent-[agent-name].md.
+
 **Research target**: [company name | tech topic | market sector | content topic]
 
 **Specific questions** (if any):
@@ -107,10 +124,11 @@ You have access to all MCP tools. Make your own calls to gather comprehensive da
 ```
 
 **Key points:**
-- Each agent receives workspace path
+- Each agent receives the ABSOLUTE workspace path
 - Each agent makes its own MCP calls (autonomous)
-- Each agent writes to `/raw/agent-[name].md`
+- Each agent writes ONLY to `/raw/agent-[name].md` inside the workspace
 - Agents run in parallel (no coordination)
+- Agents MUST NOT create directories outside the workspace
 
 ### 2.2 Wait for Completion
 
@@ -226,7 +244,7 @@ Check that files exist:
 ### 5.2 Update Deal Context (Company Only)
 
 If research type is Company:
-- Check if `~/CybosVault/private/deals/<company>/.cybos/context.md` exists
+- Check if `~/CybosVault/private/deals/<company>/index.md` exists
 - If NOT exists: create from template with basic info from research
 - If exists: optionally update with new findings
 

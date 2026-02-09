@@ -356,7 +356,7 @@ app.get('/api/health', (c) => {
  */
 app.get('/api/explorer', async (c) => {
   try {
-    const days = parseInt(c.req.query('days') || '14')
+    const days = parseInt(c.req.query('days') || '30')
     const data = await getExplorerDashboard({ days })
     return c.json(data)
   } catch (error) {
@@ -706,6 +706,7 @@ app.post('/api/setup/complete', async (c) => {
     const config: CybosConfig = {
       version: '2.1',
       vault_path: body.vaultPath,
+      app_path: getAppRoot(),
       private: {
         git_enabled: body.privateGit?.enabled || false,
         repo_url: body.privateGit?.repoUrl || null

@@ -133,6 +133,22 @@ async function checkDatabaseFreshness(): Promise<{ exists: boolean; ageHours: nu
   }
 }
 
+/**
+ * Get the sessions path instruction (different for vault vs legacy)
+ */
+function getSessionsPathInstruction(): string {
+  if (isLegacyMode()) {
+    return '/.cybos/context/sessions/';
+  }
+  try {
+    const contextPath = getContextPath();
+    const sessionsPath = join(contextPath, 'sessions');
+    return sessionsPath.replace(process.env.HOME || '~', '~') + '/';
+  } catch {
+    return '~/CybosVault/private/context/sessions/';
+  }
+}
+
 // ===== MAIN HOOK =====
 
 // Read stdin for hook payload (required by Claude Code hooks)
@@ -140,6 +156,16 @@ let input = '';
 process.stdin.on('data', (chunk) => { input += chunk; });
 
 process.stdin.on('end', async () => {
+  // Parse payload to extract session_id
+  let sessionId = 'unknown';
+  try {
+    const payload = JSON.parse(input);
+    if (payload.session_id) {
+      sessionId = payload.session_id;
+    }
+  } catch {
+    // Ignore parse errors, use default session ID
+  }
   // Check if setup is complete
   const config = loadConfig();
   const setupComplete = isSetupComplete(config);
@@ -195,6 +221,7 @@ process.stdin.on('end', async () => {
   const dealsPathInstruction = getDealsPathInstruction();
   const projectsPathInstruction = getProjectsPathInstruction();
   const logPathInstruction = getLogPathInstruction();
+  const sessionsPathInstruction = getSessionsPathInstruction();
 
   // System context for Claude
   const context = `
@@ -208,7 +235,7 @@ ${readFile('context/what-is-cyber.md')}
 ## Deal Context Auto-Loading
 When the user mentions a company that might be a deal:
 1. Check if ${dealsPathInstruction} exists (try kebab-case conversion)
-2. If exists, read ${dealsPathInstruction}.cybos/context.md
+2. If exists, read ${dealsPathInstruction}index.md
 3. Also check for latest research in ${dealsPathInstruction}research/
 4. Incorporate this context into your response
 
@@ -230,6 +257,11 @@ Use format:
 - Output: path
 - Agents: (if used)
 - Sources: (if used)
+
+## Session Persistence
+Your session ID: \`${sessionId}\`
+After meaningful sessions (research, code changes, content creation), save to: ${sessionsPathInstruction}MMDD-<slug>-YY.md
+Include YAML frontmatter (session_id, date, command, deals[], projects[], outputs[]), summary, and [Resume](cc://resume/${sessionId}) link.
 
 ---
 ${granolaStatus}

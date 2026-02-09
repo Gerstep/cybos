@@ -120,6 +120,7 @@ Location: `~/.cybos/config.json`
 {
   "version": "2.1",
   "vault_path": "~/CybosVault",
+  "app_path": "~/Work/cyberman",
   "private": {
     "git_enabled": false,
     "repo_url": null
@@ -142,7 +143,9 @@ Location: `~/.cybos/config.json`
 }
 ```
 
-**Note:** API keys remain in `.env` file for security (not in config JSON).
+**Notes:**
+- `app_path` points to where Cybos code is installed (set during setup). Skills use this to locate scripts.
+- API keys remain in `.env` file for security (not in config JSON).
 
 ### Configuration Scripts
 
@@ -1098,7 +1101,7 @@ Advanced users can override with:
 
 Integration with /deals/:
 - Auto-detects company from sender domain
-- Loads context from /deals/<company>/.cybos/context.md
+- Loads context from /deals/<company>/index.md
 - Saves attachments to /deals/<company>/materials/
 
 Testing status: ✅ Fully operational
@@ -1361,7 +1364,7 @@ Main session pipeline with automatic style inference:
 ```
 1. GATHER
    └─ Load: /deals/<company>/research/* (all research)
-   └─ Load: /deals/<company>/.cybos/context.md
+   └─ Load: /deals/<company>/index.md
    └─ Load: @context/investment-philosophy.md
    └─ Load: @context/MEMO_template.md
 
@@ -1822,8 +1825,9 @@ project-root/
 │       └── orgs/               # Manual entity files (optional)
 ├── deals/                      # Deal folders
 │   └── <company-slug>/
+│       ├── index.md            # DataView frontmatter + full deal context
 │       ├── .cybos/
-│       │   └── context.md
+│       │   └── scratchpad/
 │       ├── research/
 │       │   ├── MMDD-<slug>-YY.md      # Main synthesis
 │       │   └── raw/                    # Raw agent/MCP data

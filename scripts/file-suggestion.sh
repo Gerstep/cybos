@@ -4,7 +4,9 @@
 # Searches both file names AND directory names (returns files within matching dirs)
 
 query=$(cat | jq -r '.query')
-CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
+# Derive project dir from script location (scripts/ is one level below project root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CLAUDE_PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(dirname "$SCRIPT_DIR")}"
 
 # Search working directory first, then vault
 (
