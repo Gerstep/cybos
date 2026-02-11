@@ -51,6 +51,14 @@
       }
     },
 
+    "nano-banana": {
+      "command": "npx",
+      "args": ["-y", "nano-banana-mcp"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+
     "gmail": {
       "command": "/Users/sg/gmail-mcp/.venv/bin/mcp",
       "args": [

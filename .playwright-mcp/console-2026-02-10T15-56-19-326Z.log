@@ -1,0 +1,2 @@
+[    1272ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://api.cdp.coinbase.com/platform/v2/embedded-wallet-api/projects/ee3df5c0-ca59-47e8-a8be-86f00e88d743/auth/refresh:0
+[    1644ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://api.cdp.coinbase.com/platform/v2/embedded-wallet-api/projects/ee3df5c0-ca59-47e8-a8be-86f00e88d743/auth/logout:0

@@ -51,7 +51,7 @@ async function saveDraftByUsername() {
 
     console.log(`🔍 Searching for: ${searchQuery}`);
 
-    const dialogs = await client.getDialogs({ limit: 200 });
+    const dialogs = await client.getDialogs({ limit: 500 });
     const searchLower = searchQuery.toLowerCase().replace('@', '');
 
     let targetDialog = null;
