@@ -21,15 +21,15 @@ The script auto-loads from these locations.
 ## Arguments
 
 - `--status` - Show current database status only
-- `--extract` - Also run LLM extraction (costs ~$0.01/interaction)
+- `--no-extract` - Skip LLM extraction (only index files)
 - `--extract-only` - Only run LLM extraction, skip file indexing
 
 ## Examples
 
 ```bash
-/cyber-reindex              # Full index (no LLM extraction)
+/cyber-reindex              # Full index + LLM extraction (default)
 /cyber-reindex --status     # Show database status
-/cyber-reindex --extract    # Index + LLM extraction
+/cyber-reindex --no-extract # Index only, skip LLM extraction
 ```
 
 ## Sources
@@ -79,9 +79,9 @@ The indexer populates these tables:
 | `files` | File registry for sync tracking |
 | `batch_runs` | Indexer run logs |
 
-## LLM Extraction (Optional)
+## LLM Extraction (Default)
 
-With `--extract`, Claude Haiku extracts structured items:
+Claude Haiku extracts structured items from interactions:
 
 | Type | Description |
 |------|-------------|
@@ -110,7 +110,8 @@ cat ~/.cybos/config.json | grep app_path
 
 **Step 2: Run from that directory**
 ```bash
-cd <APP_PATH> && bun scripts/db/index.ts [--extract]
+cd <APP_PATH> && bun scripts/db/index.ts --extract    # Default: index + extract
+cd <APP_PATH> && bun scripts/db/index.ts              # Without extract (use --no-extract arg to skip)
 ```
 
 The `app_path` is set during setup and stored in `~/.cybos/config.json`.

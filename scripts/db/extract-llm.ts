@@ -389,13 +389,21 @@ function storeExtractedItems(
 ): number {
   let count = 0;
 
+  // Coerce LLM output fields to strings (LLM may return objects/arrays)
+  const str = (v: any): string | null => {
+    if (v == null) return null;
+    if (typeof v === 'string') return v;
+    if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+    return JSON.stringify(v);
+  };
+
   // Ensure user entity exists before storing items that might reference it
   let userEntityEnsured = false;
 
   for (const item of items) {
     // Resolve owner to entity slug if possible
     let ownerEntity: string | null = null;
-    if (item.owner) {
+    if (item.owner && typeof item.owner === 'string') {
       // Check if owner is user identity
       if (isUserIdentity(item.owner)) {
         if (!userEntityEnsured) {
@@ -416,7 +424,7 @@ function storeExtractedItems(
 
     // Resolve target to entity slug if possible
     let targetEntity: string | null = null;
-    if (item.target) {
+    if (item.target && typeof item.target === 'string') {
       // Check if target is user identity
       if (isUserIdentity(item.target)) {
         if (!userEntityEnsured) {
@@ -486,15 +494,15 @@ function storeExtractedItems(
         itemId,
         interactionId,
         itemType,
-        item.content,
-        item.owner || null,
+        str(item.content),
+        str(item.owner),
         ownerEntity,
-        item.target || null,
+        str(item.target),
         targetEntity,
         filePath,
-        item.evidence_quote || null,
+        str(item.evidence_quote),
         trustLevel,
-        item.due_date || null,
+        str(item.due_date),
         status,
         item.confidence,
       ]
@@ -624,6 +632,7 @@ async function extractFromInteraction(
       continue;
     }
 
+    if (!entity.name) continue;
     const key = `${entity.type}:${entity.name.toLowerCase()}`;
     if (!resolvedEntities.has(key)) {
       const resolved = resolveEntity(
