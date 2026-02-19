@@ -2,11 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ru: 12px;
+  --ink: #233534;
+  --muted: #5B6B69;
+  --rule: #E7ECEB;
+  --dot-green: #1F9A52;
+  --dot-red: #FF4B3E;
+  --dot-gold: #B9922E;
+  --dot-blue: #9FB1BC;
+  --dot-beige: #E7E0D9;
+  --surface: #F8F9F9;
+  --bg: #FFFFFF;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Aurelius report styles */
+.report-page {
+  color: var(--ink);
+}
+.report-page .serif { font-family: Newsreader, Georgia, serif; }
+.report-page .ink { color: var(--ink); }
+.report-page .muted { color: var(--muted); }
+.report-page .rule-b { border-bottom: 1px solid var(--rule); }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

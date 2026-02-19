@@ -237,9 +237,46 @@ Claude Code doesn't have a native "skill loader" — we create this behavior thr
 │   ├── SKILL.md        # Main entry point with classification + routing
 │   ├── workflows/      # outreach.md, call-prep.md, podcast.md, research.md
 │   └── learnings.md    # Action log for pattern analysis
-└── Summarize/
-    └── workflows/      # therapy.md (therapy session transcripts)
+├── Summarize/
+│   └── workflows/      # therapy.md (therapy session transcripts)
+├── Self-improve/
+│   └── SKILL.md        # Always-active napkin for tracking mistakes/patterns
+└── baoyu-infographic/
+    ├── SKILL.md        # 20 layouts × 17 styles infographic generator
+    └── references/     # Layout definitions, style definitions, templates
 ```
+
+### Self-Improve Skill (Napkin)
+
+**Always active.** Maintains `.claude/napkin.md` for tracking mistakes, corrections, and patterns.
+
+**Session behavior:**
+1. Read napkin at session start (before doing anything)
+2. Apply learnings silently (don't announce)
+3. Update continuously as you work (not just at end)
+
+**Log when:**
+- You hit an error and figure out why
+- User corrects you
+- You catch your own mistake
+- An approach fails or succeeds unexpectedly
+
+**Napkin structure:**
+```markdown
+# Napkin
+
+## Corrections
+| Date | Source | What Went Wrong | What To Do Instead |
+
+## User Preferences
+## Patterns That Work
+## Patterns That Don't Work
+## Domain Notes
+```
+
+**Maintenance:** Consolidate every 5-10 sessions when >150 lines. Keep under 200 lines of high-signal content.
+
+---
 
 ### Research Shared Content
 
@@ -1359,6 +1396,35 @@ Main session pipeline with automatic style inference:
 - Guide: `context/img-styles/info-concept-guide.md`
 - Evals: `.claude/skills/Content/evals/info-style/` (3 evals, all passing)
 
+### Baoyu Infographic Skill
+
+Professional infographic generator with **20 layouts × 17 styles**. Analyzes content, recommends layout×style combinations, generates publication-ready infographics via nano-banana MCP.
+
+```
+1. SETUP: Load EXTEND.md preferences (project-level or ~/.baoyu-skills/)
+2. ANALYZE: Content → analysis.md (topic, data type, complexity, audience)
+3. STRUCTURE: Transform into structured-content.md (verbatim data, visual elements)
+4. RECOMMEND: 3-5 layout×style combinations based on content analysis
+5. CONFIRM: Single AskUserQuestion for combination + aspect + language
+6. PROMPT: Combine layout def + style def + base template + structured content
+7. GENERATE: via mcp__nano-banana__generate_image
+8. OUTPUT: Save to vault with summary
+```
+
+**Output**:
+```
+~/CybosVault/private/content/infographics/{topic-slug}/
+├── source-{slug}.{ext}
+├── analysis.md
+├── structured-content.md
+├── prompts/infographic.md
+└── infographic.png
+```
+Final image also copied to: `~/CybosVault/private/content/images/MMDD-{slug}-YY.png`
+
+**Command**: `/baoyu-infographic path/to/content.md --layout hierarchical-layers --style technical-schematic`
+**Skill**: `.claude/skills/baoyu-infographic/SKILL.md`
+
 ### DD Memo Workflow
 
 ```
@@ -1773,6 +1839,7 @@ project-root/
 ├── .mcp.json                       # MCP server configuration (uses ${VAR} for env vars)
 ├── .claude/
 │   ├── settings.json           # Hook wiring, permissions
+│   ├── napkin.md               # Self-improvement log (mistakes, patterns, preferences)
 │   ├── skills/                 # Organized workflows (convention)
 │   │   ├── Research/
 │   │   │   ├── workflows/
@@ -1784,10 +1851,12 @@ project-root/
 │   │   │   └── workflows/
 │   │   ├── DDMemo/
 │   │   │   └── workflows/
-│   │   └── GTD/
-│   │       ├── SKILL.md
-│   │       ├── workflows/
-│   │       └── learnings.md
+│   │   ├── GTD/
+│   │   │   ├── SKILL.md
+│   │   │   ├── workflows/
+│   │   │   └── learnings.md
+│   │   └── Self-improve/
+│   │       └── SKILL.md        # Always-active napkin for mistakes/patterns
 │   ├── agents/                 # Agent profiles for Task tool
 │   ├── hooks/
 │   │   └── load-context.ts     # SessionStart hook
