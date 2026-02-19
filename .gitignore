@@ -41,6 +41,13 @@ Thumbs.db
 .cache/
 tmp/
 generated_imgs/
+output/
+
+# Playwright MCP logs/screenshots
+.playwright-mcp/
+
+# Duplicate agent configs
+.agents/
 
 # Git worktrees
 .worktrees/

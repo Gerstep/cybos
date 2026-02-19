@@ -20,6 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 PORT=3847
 SERVER_SCRIPT="$SCRIPT_DIR/brief-server.ts"
+BRIEF_TIMEOUT=1800  # 30 minutes max for brief generation
 
 # Source the log path helper to get VAULT_LOG_DIR
 source "$SCRIPT_DIR/get-log-path.sh"
@@ -79,17 +80,37 @@ generate_brief() {
     return 1
   fi
 
-  # Run the brief command
+  # Run the brief command with timeout to prevent hangs (no coreutils timeout on macOS)
   # Using --print to just output the result, --dangerously-skip-permissions for automation
   local start_time=$(date +%s)
 
-  if claude --print --dangerously-skip-permissions "/cyber-brief" >> "$LOG_FILE" 2>&1; then
-    local end_time=$(date +%s)
-    local duration=$((end_time - start_time))
+  claude --print --dangerously-skip-permissions "/cyber-brief" >> "$LOG_FILE" 2>&1 &
+  local claude_pid=$!
+
+  # Wait with timeout
+  local elapsed=0
+  while kill -0 "$claude_pid" 2>/dev/null; do
+    sleep 10
+    elapsed=$(( $(date +%s) - start_time ))
+    if [ $elapsed -ge $BRIEF_TIMEOUT ]; then
+      log "ERROR: Brief generation timed out after ${BRIEF_TIMEOUT}s, killing PID $claude_pid"
+      kill "$claude_pid" 2>/dev/null
+      wait "$claude_pid" 2>/dev/null
+      return 1
+    fi
+  done
+
+  wait "$claude_pid"
+  local exit_code=$?
+
+  local end_time=$(date +%s)
+  local duration=$((end_time - start_time))
+
+  if [ $exit_code -eq 0 ]; then
     log "Brief generated successfully in ${duration}s"
     return 0
   else
-    log "ERROR: Failed to generate brief"
+    log "ERROR: Failed to generate brief (exit code $exit_code, ${duration}s)"
     return 1
   fi
 }

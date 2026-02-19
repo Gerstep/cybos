@@ -35,7 +35,7 @@ Process Telegram messages via GramJS MTProto client. Supports unread messages, s
 |--------|---------|
 | `scripts/telegram-gramjs.ts` | GramJS MTProto client - fetch messages, populate cache |
 | `scripts/telegram-save-drafts.ts` | Save AI drafts to Telegram from work file |
-| `scripts/save-telegram-draft.ts` | Quick helper to save one draft by username |
+| `scripts/save-telegram-draft.ts` | Quick draft save by @username (instant) or name (dialog search) |
 | `scripts/telegram-create-group.ts` | Create groups and add members for intros |
 
 ## Quick Reference
@@ -69,6 +69,10 @@ Dialog cache (`~/.cybos/telegram/dialog-cache.json`) stores all dialog IDs with 
 - Populated automatically during searches
 - Used by `telegram-save-drafts.ts` to avoid fetching all dialogs
 - ~1 second draft save vs ~90 seconds without cache
+
+## Username Resolution
+
+`save-telegram-draft.ts` uses fast `contacts.ResolveUsername` API for @handles — resolves any Telegram user/channel instantly without scanning dialogs. Falls back to searching recent dialogs (top 200) for name-based lookups.
 
 ## Safety
 

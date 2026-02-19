@@ -80,6 +80,7 @@ function levenshteinSimilarity(a: string, b: string): number {
  * Check if a name is the user's identity
  */
 export function isUserIdentity(name: string): boolean {
+  if (!name || typeof name !== 'string') return false
   const normalized = name.toLowerCase().trim()
   return USER_IDENTITY.names.some(n => n.toLowerCase() === normalized)
 }
@@ -88,6 +89,7 @@ export function isUserIdentity(name: string): boolean {
  * Check if a name should be blocked from entity creation
  */
 export function isBlockedName(name: string): boolean {
+  if (!name || typeof name !== 'string') return true
   const normalized = name.toLowerCase().trim()
   return BLOCKED_ENTITY_NAMES.has(normalized) || isUserIdentity(name)
 }
@@ -212,7 +214,7 @@ function findByFuzzyName(name: string, entityType?: string): { slug: string; nam
 
   // Score all candidates with Levenshtein
   const scored = candidates
-    .map(c => ({ ...c, score: levenshteinSimilarity(c.name.toLowerCase(), name.toLowerCase()) }))
+    .map(c => ({ ...c, score: levenshteinSimilarity((c.name || '').toLowerCase(), (name || '').toLowerCase()) }))
     .filter(c => c.score >= 0.7) // Only accept high-similarity matches
     .sort((a, b) => b.score - a.score)
 
@@ -574,6 +576,7 @@ export function resolveEntities(
   const results = new Map<string, ResolvedEntity>()
 
   for (const entity of entities) {
+    if (!entity.name) continue
     const key = `${entity.type}:${entity.name.toLowerCase()}`
     if (!results.has(key)) {
       const resolved = resolveEntity(entity, interactionDate)

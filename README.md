@@ -67,6 +67,7 @@ CYBOS
 ├── SKILLS (workflows)
 │   ├── Research, Browse, Telegram
 │   ├── Content, DDMemo, GTD, Summarize
+│   └── Self-improve (always-active napkin)
 │
 ├── AGENTS (parallel via Task tool)
 │   ├── Researchers: company, market, financial, team, tech
@@ -88,6 +89,7 @@ CYBOS
 - Vault-based: User data in `~/CybosVault/`, separate from code
 - Private/Shared split: Personal data stays local, team data syncs via Git
 - Parallel agents: Multiple Task calls run simultaneously
+- Self-improving: Learns from mistakes via `.claude/napkin.md`
 
 ## File Structure
 
@@ -112,6 +114,7 @@ CYBOS
 
 cybos/                             # Code repository
 ├── .claude/
+│   ├── napkin.md                  # Self-improvement log
 │   ├── skills/                    # Workflows
 │   ├── agents/                    # Agent profiles
 │   ├── hooks/                     # SessionStart

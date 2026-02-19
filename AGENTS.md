@@ -2,18 +2,11 @@
 
 Cybos (Cybernetic Operating System) is a personal AI assistant for Stepan and a venture capital operations aid for cyber•Fund team. Handles research (company DD, tech deep-dives, market analysis), Telegram message management, content (tweets, essays, images), and DD memo generation.
 
-## Personalization (Required)
-
-Update these before using Cybos for your own setup:
-
-- `context/who-am-i.md` - your identity
-- `context/organization.md` - your organization context
-- `.env` user identity settings: `CYBOS_USER_NAME`, `CYBOS_USER_OWNER_NAME`, `CYBOS_USER_SLUG`, `CYBOS_USER_ALIASES`
-
-## Load the following info at all times when working on user tasks
+## Load the following info at all times when working on user tasks (located at private vault root)
 
 `context/organization.md` - organization context for professional work
 `context/who-am-i.md` - information about myself
+`CURRENT_CONTEXT.md` - use this for all communications to understand my CURRENT priorities, focus and angle
 
 ---
 
@@ -25,6 +18,7 @@ Update these before using Cybos for your own setup:
 4. **Slash commands**: All interaction via `/cyber-*` commands
 5. **Logging**: Single-file logging after every workflow
 6. **Context auto-loading**: Deal context loads automatically when mentioned
+7. **Self-improvement**: Continuously learn from mistakes via `.claude/napkin.md` (see Self-improve skill)
 
 ## Agent System
 
@@ -69,6 +63,7 @@ Skills are loaded via:
 - **Research**: Universal orchestrator workflow (handles all research types)
 - **Content**: Tweet, essay, and image generation workflows
 - **DDMemo**: Investment memo generation workflow
+- **Self-improve**: Always-active napkin for tracking mistakes and patterns (`.claude/skills/Self-improve/SKILL.md`)
 
 ---
 
@@ -150,6 +145,18 @@ After completing ANY workflow (research, content, memo), append a log entry to `
 
 ---
 ```
+
+### Self-Improvement (Napkin)
+
+**Always active.** Read `.claude/napkin.md` at session start, update continuously as you work.
+
+Log to napkin when:
+- You hit an error and figure out why
+- User corrects you
+- You catch your own mistake
+- An approach fails or succeeds unexpectedly
+
+See `.claude/skills/Self-improve/SKILL.md` for full specification.
 
 ---
 
