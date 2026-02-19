@@ -148,7 +148,7 @@ Append to logs:
 
 **Draft save failed:**
 - Group was likely still created
-- Use `save-telegram-draft.ts` to save draft separately:
+- Use `save-telegram-draft.ts` to save draft separately (resolves @usernames instantly via API, falls back to dialog search for names):
   ```bash
   bun scripts/save-telegram-draft.ts "Group Name" "Draft message"
   ```

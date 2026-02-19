@@ -20,9 +20,11 @@ import { fetchBrief } from './api';
 import { ExplorerPage } from './pages/ExplorerPage';
 import { UnstuckPage } from './pages/UnstuckPage';
 import { SetupWizard } from './pages/SetupWizard';
+import { AgentReportPage } from './pages/AgentReportPage';
+import { OnChainAgentPage } from './pages/OnChainAgentPage';
 import type { BriefData } from './types';
 
-type PageType = 'brief' | 'explorer' | 'unstuck' | 'setup';
+type PageType = 'brief' | 'explorer' | 'unstuck' | 'setup' | 'report' | 'onchain-agents';
 
 // ===== COMPONENTS =====
 
@@ -88,6 +90,12 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<PageType>(() => {
     // Check pathname for specific routes
+    if (window.location.pathname === '/onchain-agents') {
+      return 'onchain-agents';
+    }
+    if (window.location.pathname === '/report') {
+      return 'report';
+    }
     if (window.location.pathname === '/unstuck') {
       return 'unstuck';
     }
@@ -264,6 +272,16 @@ const App: React.FC = () => {
     return <LoadingState />;
   }
 
+  // Render On-Chain Agent Economy report
+  if (page === 'onchain-agents') {
+    return <OnChainAgentPage />;
+  }
+
+  // Render Agent Report if selected
+  if (page === 'report') {
+    return <AgentReportPage />;
+  }
+
   // Render Setup Wizard if selected
   if (page === 'setup') {
     return <SetupWizard />;
@@ -307,6 +325,12 @@ const App: React.FC = () => {
               >
                 Explorer
               </button>
+              <a
+                href="/report"
+                className="px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Report
+              </a>
             </div>
 
             <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">

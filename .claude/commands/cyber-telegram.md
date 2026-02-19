@@ -44,7 +44,7 @@ Process Telegram messages via GramJS MTProto client. Read messages, generate AI 
 |--------|---------|
 | Fetch messages | `bun scripts/telegram-gramjs.ts [flags]` |
 | Save drafts | `bun scripts/telegram-save-drafts.ts <work-file>` |
-| Quick draft | `bun scripts/save-telegram-draft.ts @user "message"` |
+| Quick draft | `bun scripts/save-telegram-draft.ts @username "message"` (instant via API) |
 
 ## Output
 

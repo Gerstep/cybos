@@ -7,9 +7,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        serif: ['Newsreader', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
         mono: ['SF Mono', 'Monaco', 'Inconsolata', 'monospace'],
-      }
+      },
+      colors: {
+        ink: 'var(--ink)',
+        muted: 'var(--muted)',
+        rule: 'var(--rule)',
+        surface: 'var(--surface)',
+        'dot-green': 'var(--dot-green)',
+        'dot-red': 'var(--dot-red)',
+        'dot-gold': 'var(--dot-gold)',
+        'dot-blue': 'var(--dot-blue)',
+      },
     },
   },
   plugins: [],
