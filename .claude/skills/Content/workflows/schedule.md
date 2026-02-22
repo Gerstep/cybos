@@ -122,6 +122,10 @@ Map to `publish_at` parameter:
 
 ### 6. IMAGE HANDLING (if --image provided)
 
+> **Known limitation**: `POST /v2/social-sets/{id}/media` returns 404 on current plan.
+> Skip steps 2-6, create the draft without media_ids, save the image to
+> `~/CybosVault/private/content/images/` and tell the user to drag it into the Typefully editor.
+
 1. Read API key from .env
 2. Create media upload:
 ```bash

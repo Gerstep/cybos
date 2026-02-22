@@ -24,7 +24,6 @@ WORKFLOW (essay.md, tweet.md, telegram-post.md)
 
 | File | Purpose |
 |------|---------|
-| `context/style/voice-identity.md` | **SHARED**: Persona, tone, anti-patterns |
 | `context/style/writing-style-en.md` | **ENGLISH**: Essay structure, tweet format, style rules |
 | `context/style/writing-style-ru.md` | **RUSSIAN**: Telegram format, Russian-specific rules |
 
