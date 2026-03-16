@@ -19,6 +19,71 @@ import { join } from 'path';
 
 const INDEX_MAX_AGE_HOURS = 24;
 
+// ===== SESSIONS INDEX AUTO-REBUILD =====
+
+/**
+ * Get current CC version from the Claude binary.
+ * Returns null if it can't be determined.
+ */
+function getCCVersion(): string | null {
+  try {
+    const { execSync } = require('child_process');
+    const out = execSync('claude --version 2>/dev/null', { encoding: 'utf-8', timeout: 3000 }).trim();
+    // e.g. "1.0.0 (claude-code/2.1.52)"
+    const match = out.match(/claude-code\/(\S+)\)/);
+    return match ? match[1] : out.split(/\s+/)[0] || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Check if CC version has changed since last rebuild.
+ * Returns { changed: boolean, current: string | null }
+ */
+function checkVersionChange(appRoot: string): { changed: boolean; current: string | null } {
+  const versionFile = join(appRoot, '.claude', '.cc-version');
+  const current = getCCVersion();
+  if (!current) return { changed: false, current: null };
+
+  try {
+    const { readFileSync } = require('fs');
+    const stored = readFileSync(versionFile, 'utf-8').trim();
+    return { changed: stored !== current, current };
+  } catch {
+    // No version file yet — first run
+    return { changed: true, current };
+  }
+}
+
+/**
+ * Rebuild sessions-index.json and save current CC version.
+ * Silent: doesn't throw, returns status message.
+ */
+async function rebuildSessionsIndexIfNeeded(appRoot: string): Promise<string> {
+  const { changed, current } = checkVersionChange(appRoot);
+  if (!changed) return '';
+
+  try {
+    const { execSync } = require('child_process');
+    execSync('bun scripts/rebuild-sessions-index.ts', {
+      cwd: appRoot,
+      encoding: 'utf-8',
+      timeout: 15000,
+    });
+
+    // Save new version
+    const versionFile = join(appRoot, '.claude', '.cc-version');
+    const { writeFileSync, mkdirSync } = require('fs');
+    mkdirSync(join(appRoot, '.claude'), { recursive: true });
+    writeFileSync(versionFile, current!);
+
+    return `🔄 CC updated to v${current} — sessions index rebuilt`;
+  } catch (err: any) {
+    return `⚠️ Sessions index rebuild failed: ${err.message?.slice(0, 80)}`;
+  }
+}
+
 // ===== PATH RESOLUTION =====
 
 /**
@@ -166,6 +231,10 @@ process.stdin.on('end', async () => {
   } catch {
     // Ignore parse errors, use default session ID
   }
+  // Auto-rebuild sessions index when CC version changes
+  const appRoot = getAppRoot();
+  const rebuildMessage = await rebuildSessionsIndexIfNeeded(appRoot);
+
   // Check if setup is complete
   const config = loadConfig();
   const setupComplete = isSetupComplete(config);
@@ -268,7 +337,7 @@ ${granolaStatus}
 </system-reminder>`;
 
   // Combine messages for user display
-  const messages = [setupMessage, granolaMessage, indexMessage].filter(Boolean);
+  const messages = [rebuildMessage, setupMessage, granolaMessage, indexMessage].filter(Boolean);
   const systemMessage = messages.length > 0 ? messages.join(' | ') : 'Ready!';
 
   // Use JSON output for user-visible messages

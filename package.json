@@ -5,6 +5,11 @@
     "@hono/node-server": "^1.19.7",
     "hono": "^4.11.3",
     "pg": "^8.16.3",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-icons": "^5.6.0",
+    "sharp": "^0.34.5",
     "telegram": "^2.26.22",
     "tsx": "^4.21.0"
   },

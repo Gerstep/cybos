@@ -46,6 +46,15 @@ output/
 # Playwright MCP logs/screenshots
 .playwright-mcp/
 
+# Conductor
+conductor/
+
+# Playwright
+playwright/
+
+# Claude design files
+.claude-design/
+
 # Duplicate agent configs
 .agents/
 

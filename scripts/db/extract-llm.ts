@@ -76,12 +76,12 @@ import {
   buildTelegramExtractionPrompt,
 } from "./prompts/telegram-extraction";
 
-const MODEL = "claude-3-5-haiku-20241022";
+const MODEL = "claude-haiku-4-5-20251001";
 const MAX_TOKENS = 4096;
 
-// Cost tracking (Claude 3.5 Haiku pricing)
-const INPUT_COST_PER_1K = 0.001; // $1/MTok
-const OUTPUT_COST_PER_1K = 0.005; // $5/MTok
+// Cost tracking (Claude Haiku 4.5 pricing)
+const INPUT_COST_PER_1K = 0.0008; // $0.80/MTok
+const OUTPUT_COST_PER_1K = 0.004; // $4/MTok
 
 let anthropic: Anthropic | null = null;
 

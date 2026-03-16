@@ -59,6 +59,11 @@
       }
     },
 
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://127.0.0.1:3845/mcp"]
+    },
+
     "gmail": {
       "command": "/Users/sg/gmail-mcp/.venv/bin/mcp",
       "args": [

@@ -22,9 +22,10 @@ import { UnstuckPage } from './pages/UnstuckPage';
 import { SetupWizard } from './pages/SetupWizard';
 import { AgentReportPage } from './pages/AgentReportPage';
 import { OnChainAgentPage } from './pages/OnChainAgentPage';
+import { SystemMapPage } from './pages/SystemMapPage';
 import type { BriefData } from './types';
 
-type PageType = 'brief' | 'explorer' | 'unstuck' | 'setup' | 'report' | 'onchain-agents';
+type PageType = 'brief' | 'explorer' | 'unstuck' | 'setup' | 'report' | 'onchain-agents' | 'system-map';
 
 // ===== COMPONENTS =====
 
@@ -90,6 +91,9 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<PageType>(() => {
     // Check pathname for specific routes
+    if (window.location.pathname === '/system-map') {
+      return 'system-map';
+    }
     if (window.location.pathname === '/onchain-agents') {
       return 'onchain-agents';
     }
@@ -272,6 +276,11 @@ const App: React.FC = () => {
     return <LoadingState />;
   }
 
+  // Render System Map
+  if (page === 'system-map') {
+    return <SystemMapPage onNavigate={handleNavigate} />;
+  }
+
   // Render On-Chain Agent Economy report
   if (page === 'onchain-agents') {
     return <OnChainAgentPage />;
@@ -330,6 +339,12 @@ const App: React.FC = () => {
                 className="px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Report
+              </a>
+              <a
+                href="/system-map"
+                className="px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Map
               </a>
             </div>
 

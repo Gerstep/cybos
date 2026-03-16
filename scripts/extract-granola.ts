@@ -2,8 +2,12 @@
 /**
  * Granola Call Extraction Script
  *
- * Extracts meeting transcripts and AI notes from Granola cache
- * to vault's context/calls/ directory with searchable index.
+ * Extracts meeting transcripts and AI notes from Granola's API
+ * (with cache-v4.json fallback) to vault's context/calls/ directory.
+ *
+ * Data sources (in priority order):
+ *   1. Granola REST API (api.granola.ai) — always has latest data
+ *   2. Local cache-v4.json — legacy fallback, no longer updated by Granola ~March 2026
  *
  * Output: ~/CybosVault/private/context/calls/ (or legacy: ./context/calls/)
  */
@@ -13,8 +17,10 @@ import { join } from 'path';
 import { getCallsPath, getPathWithLegacyFallback, getAppRoot } from './paths';
 
 // Configuration
-const DEFAULT_CACHE_PATH = join(process.env.HOME!, 'Library/Application Support/Granola/cache-v3.json');
+const DEFAULT_CACHE_PATH = join(process.env.HOME!, 'Library/Application Support/Granola/cache-v4.json');
 const CACHE_PATH = process.env.GRANOLA_CACHE_OVERRIDE || DEFAULT_CACHE_PATH;
+const GRANOLA_APP_SUPPORT = join(process.env.HOME!, 'Library/Application Support/Granola');
+const GRANOLA_API_BASE = 'https://api.granola.ai/v1';
 
 // Use vault path with legacy fallback
 const OUTPUT_BASE = getPathWithLegacyFallback(getCallsPath, 'context/calls');
@@ -46,6 +52,8 @@ interface Document {
   id?: string;
   title?: string;
   created_at?: string;
+  type?: string;
+  valid_meeting?: boolean | null;
   notes?: TipTapNode;
   notes_markdown?: string;
   notes_plain?: string;
@@ -91,6 +99,137 @@ interface IndexEntry {
   path: string;
 }
 
+// ===== Granola API Client =====
+
+/**
+ * Read the WorkOS access token from Granola's local auth storage
+ */
+function getGranolaApiToken(): string | null {
+  const supabasePath = join(GRANOLA_APP_SUPPORT, 'supabase.json');
+  if (!existsSync(supabasePath)) return null;
+
+  try {
+    const data = JSON.parse(readFileSync(supabasePath, 'utf-8'));
+    const workos = data.workos_tokens ? JSON.parse(data.workos_tokens) : null;
+    return workos?.access_token || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Make an authenticated POST request to the Granola API
+ */
+async function granolaApiFetch(endpoint: string, body: Record<string, any>, token: string): Promise<any> {
+  const res = await fetch(`${GRANOLA_API_BASE}/${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Granola API ${endpoint}: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+/**
+ * Fetch documents from Granola API and convert to the same State format
+ * used by the cache-based extraction path.
+ */
+async function loadGranolaFromApi(silent: boolean, limit: number = 200): Promise<State | null> {
+  const token = getGranolaApiToken();
+  if (!token) {
+    if (!silent) console.log('⚠️  No Granola API token found, falling back to cache');
+    return null;
+  }
+
+  if (!silent) console.log('🌐 Fetching documents from Granola API...');
+
+  try {
+    const docs: any[] = await granolaApiFetch('get-documents', { limit }, token);
+    if (!silent) console.log(`   Found ${docs.length} documents via API`);
+
+    // Convert API response to State format
+    const documents: Record<string, Document> = {};
+    const transcripts: Record<string, TranscriptSegment[]> = {};
+    const documentPanels: Record<string, Record<string, Panel>> = {};
+
+    for (const doc of docs) {
+      const docId = doc.id;
+      if (!docId) continue;
+
+      // Map API document to our Document type
+      documents[docId] = {
+        id: docId,
+        title: doc.title,
+        created_at: doc.created_at,
+        notes: doc.notes,
+        notes_markdown: doc.notes_markdown,
+        notes_plain: doc.notes_plain,
+        type: 'meeting',
+        valid_meeting: true,
+        people: {
+          creator: doc.google_calendar_event?.creator
+            ? { name: doc.google_calendar_event.creator.email }
+            : undefined,
+          attendees: doc.google_calendar_event?.attendees?.map((a: any) => ({
+            email: a.email,
+            details: a.details,
+          })) || [],
+        },
+      };
+    }
+
+    // Fetch transcripts and panels for documents that don't already exist on disk
+    // (we'll check in the main extraction loop, but pre-fetch metadata here)
+
+    return { documents, transcripts, documentPanels };
+  } catch (err: any) {
+    if (!silent) console.error(`⚠️  Granola API error: ${err.message}, falling back to cache`);
+    return null;
+  }
+}
+
+/**
+ * Fetch transcript for a single document from the API
+ */
+async function fetchTranscriptFromApi(docId: string, token: string): Promise<TranscriptSegment[]> {
+  try {
+    const segments = await granolaApiFetch('get-document-transcript', { document_id: docId }, token);
+    return Array.isArray(segments) ? segments : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Fetch document metadata (attendees) from the API
+ */
+async function fetchDocumentMetadata(docId: string, token: string): Promise<any> {
+  try {
+    return await granolaApiFetch('get-document-metadata', { document_id: docId }, token);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch panels for a single document from the API
+ */
+async function fetchPanelsFromApi(docId: string, token: string): Promise<Panel[]> {
+  try {
+    const panels = await granolaApiFetch('get-document-panels', { document_id: docId }, token);
+    return Array.isArray(panels) ? panels : [];
+  } catch {
+    return [];
+  }
+}
+
 /**
  * Load and parse Granola cache file, handling double-encoding
  */
@@ -106,10 +245,13 @@ function loadGranolaData(path: string, silent: boolean = false): State | null {
     const raw = readFileSync(path, 'utf-8');
     const data = JSON.parse(raw);
 
-    // Handle double-encoded JSON string in 'cache' key
+    // Handle double-encoded JSON string in 'cache' key (v3)
     if (data.cache && typeof data.cache === 'string') {
       const innerData = JSON.parse(data.cache);
       return innerData.state || innerData;
+    // Handle object 'cache' key with nested 'state' (v4)
+    } else if (data.cache && typeof data.cache === 'object' && data.cache.state) {
+      return data.cache.state;
     } else if (data.state) {
       return data.state;
     } else {
@@ -452,6 +594,7 @@ export async function extractGranolaCalls(options?: {
   outputPath?: string;
   silent?: boolean;
   forceReindex?: number; // Number of recent calls to force re-extract
+  useApi?: boolean; // Force API mode (default: auto-detect)
 }): Promise<ExtractionResult> {
   const cachePath = options?.cachePath || CACHE_PATH;
   const outputBase = options?.outputPath || OUTPUT_BASE;
@@ -464,9 +607,22 @@ export async function extractGranolaCalls(options?: {
     totalCalls: 0
   };
 
-  const state = loadGranolaData(cachePath, silent);
+  // Try API first (preferred), fall back to cache
+  const apiToken = getGranolaApiToken();
+  let state: State | null = null;
+  let usingApi = false;
+
+  if (options?.useApi !== false && apiToken) {
+    state = await loadGranolaFromApi(silent);
+    if (state) usingApi = true;
+  }
+
   if (!state) {
-    result.errors.push('Failed to load Granola cache');
+    state = loadGranolaData(cachePath, silent);
+  }
+
+  if (!state) {
+    result.errors.push('Failed to load Granola data (API and cache both failed)');
     return result;
   }
 
@@ -475,7 +631,8 @@ export async function extractGranolaCalls(options?: {
   const panels = state.documentPanels || {};
 
   if (!silent) {
-    console.log(`🔍 Found ${Object.keys(documents).length} documents and ${Object.keys(transcripts).length} transcript entries.`);
+    const source = usingApi ? 'API' : 'cache';
+    console.log(`🔍 Found ${Object.keys(documents).length} documents via ${source}`);
   }
 
   // Create output base
@@ -496,40 +653,17 @@ export async function extractGranolaCalls(options?: {
 
   const newIndexEntries: IndexEntry[] = [];
 
-  // Iterate through transcripts to find valid ones
-  for (const [tId, tData] of Object.entries(transcripts)) {
-    if (!Array.isArray(tData) || tData.length === 0) {
+  for (const [docId, doc] of Object.entries(documents)) {
+    // Only process meeting-type documents that are valid meetings or have transcripts
+    const hasTranscriptInCache = Array.isArray(transcripts[docId]) && transcripts[docId].length > 0;
+    const isValidMeeting = doc.type === 'meeting' && doc.valid_meeting !== false;
+
+    if (!hasTranscriptInCache && !isValidMeeting) {
       continue;
     }
 
-    // Find associated document
-    let doc = documents[tId];
-    if (!doc) {
-      // Try finding via document_id in first segment
-      if (typeof tData[0] === 'object') {
-        const internalDocId = tData[0].document_id;
-        if (internalDocId) {
-          doc = documents[internalDocId];
-        }
-      }
-    }
-
-    // Basic metadata
-    let title: string;
-    let createdAt: string;
-    let docId: string;
-
-    if (doc) {
-      title = doc.title || 'Untitled';
-      createdAt = doc.created_at || new Date().toISOString();
-      docId = doc.id || tId;
-    } else {
-      title = 'Unknown Meeting';
-      // Try timestamp from transcript
-      const ts = tData[0]?.start_timestamp;
-      createdAt = ts || new Date().toISOString();
-      docId = tId;
-    }
+    const title = doc.title || 'Untitled';
+    const createdAt = doc.created_at || new Date().toISOString();
 
     const dateStr = formatDate(createdAt);
     const safeTitle = safeFilename(title);
@@ -538,7 +672,6 @@ export async function extractGranolaCalls(options?: {
 
     // Check if already exists (incremental)
     if (existsSync(callDir)) {
-      if (!silent) console.log(`⏭️  Skipping existing: ${dirName}`);
       continue;
     }
 
@@ -546,15 +679,51 @@ export async function extractGranolaCalls(options?: {
     mkdirSync(callDir, { recursive: true });
 
     try {
+      // When using API, fetch per-document details (transcript, metadata, panels)
+      let docAttendees = doc.people?.attendees || [];
+      let docCreator = doc.people?.creator;
+      let transcriptSegments: TranscriptSegment[] = transcripts[docId] || [];
+      let docPanels: Record<string, Panel> = panels[docId] || {};
+
+      if (usingApi && apiToken) {
+        // Fetch rich metadata with attendee details
+        const apiMeta = await fetchDocumentMetadata(docId, apiToken);
+        if (apiMeta) {
+          if (apiMeta.attendees) docAttendees = apiMeta.attendees;
+          if (apiMeta.creator) docCreator = apiMeta.creator;
+        }
+
+        // Fetch transcript from API
+        transcriptSegments = await fetchTranscriptFromApi(docId, apiToken);
+
+        // Fetch panels from API
+        const apiPanels = await fetchPanelsFromApi(docId, apiToken);
+        if (apiPanels.length > 0) {
+          docPanels = {};
+          for (const p of apiPanels) {
+            const pid = p.id || String(Math.random());
+            docPanels[pid] = p;
+          }
+        }
+      }
+
+      // Build doc with enriched data for helpers
+      const enrichedDoc: Document = {
+        ...doc,
+        people: {
+          creator: docCreator,
+          attendees: docAttendees,
+        },
+      };
+
       // 1. Metadata
-      const speakers = inferSpeakers(doc!);
-      const people = doc?.people || {};
+      const speakers = inferSpeakers(enrichedDoc);
 
       const metadata = {
         id: docId,
         title: title,
         date: createdAt,
-        attendees: people.attendees || [],
+        attendees: docAttendees,
         inferred_speakers: {
           self: speakers.self,
           other: speakers.other
@@ -568,30 +737,35 @@ export async function extractGranolaCalls(options?: {
       );
 
       // 2. Transcript
-      const transcriptText = extractTranscriptText(tData, speakers.self, speakers.other);
-      if (transcriptText) {
-        writeFileSync(
-          join(callDir, 'transcript.txt'),
-          transcriptText,
-          'utf-8'
-        );
-      }
-
-      // 3. Notes (AI + Manual)
-      if (doc) {
-        const notesText = extractNotes(doc, panels);
-        if (notesText) {
+      if (transcriptSegments.length > 0) {
+        const transcriptText = extractTranscriptText(transcriptSegments, speakers.self, speakers.other);
+        if (transcriptText) {
           writeFileSync(
-            join(callDir, 'notes.md'),
-            notesText,
+            join(callDir, 'transcript.txt'),
+            transcriptText,
             'utf-8'
           );
         }
       }
 
+      // 3. Notes (AI + Manual)
+      // Build temporary panels map for extractNotes
+      const panelsForExtract: Record<string, Record<string, Panel>> = {};
+      if (Object.keys(docPanels).length > 0) {
+        panelsForExtract[docId] = docPanels;
+      }
+      const notesText = extractNotes(enrichedDoc, panelsForExtract);
+      if (notesText) {
+        writeFileSync(
+          join(callDir, 'notes.md'),
+          notesText,
+          'utf-8'
+        );
+      }
+
       // Add to index
-      const attendeesList = (people.attendees || [])
-        .map(att => {
+      const attendeesList = docAttendees
+        .map((att: any) => {
           const name = att.details?.person?.name?.fullName;
           const email = att.email;
           if (name && email) return `${name} (${email})`;

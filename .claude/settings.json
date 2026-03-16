@@ -1,12 +1,12 @@
 {
+  "fileSuggestion": {
+    "type": "command",
+    "command": "/bin/bash scripts/file-suggestion.sh"
+  },
   "env": {
     "CYBOS_VERSION": "1.1",
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "fileSuggestion": {
-    "type": "command",
-    "command": "/bin/bash scripts/file-suggestion.sh"
   },
   "permissions": {
     "allow": [
@@ -72,7 +72,8 @@
     ]
   },
   "enabledPlugins": {
-    "ralph-wiggum@claude-code-plugins": false
+    "ralph-wiggum@claude-code-plugins": false,
+    "figma@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true
 }
