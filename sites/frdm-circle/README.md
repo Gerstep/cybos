@@ -23,26 +23,20 @@ static fallback ring instead of the garden.
 
 ### On Vercel
 
+Live: **[frdm-circle.vercel.app](https://frdm-circle.vercel.app)**
+
 `vercel.json` at the repository root configures the whole deploy, so there is
-nothing to set in the Vercel dashboard:
+nothing to set in the Vercel dashboard. The build copies `index.html`, `assets/`
+and `licenses/` into `dist/` and publishes that. No install step, no framework,
+no bundler — and the acceptance harness is deliberately not published. Fonts and
+images get a one-year immutable cache; scripts and styles revalidate hourly,
+since they are not content-hashed.
 
-1. [vercel.com/new](https://vercel.com/new) → import this repository
-2. Deploy
-
-The build copies `index.html`, `assets/` and `licenses/` into `dist/` and
-publishes that. No install step, no framework, no bundler — and the acceptance
-harness is deliberately not published. Fonts and images get a one-year
-immutable cache; scripts and styles revalidate hourly, since they are not
-content-hashed.
-
-Vercel deploys production from the repository's production branch, `main` by
-default, so the page needs to be on that branch for the production URL to
-serve it.
-
-From a machine with the CLI authenticated, the same config deploys directly:
+Vercel Git production follows `main`. Until this lands there, deploy the working
+tree directly so production does not wait on a merge:
 
 ```bash
-npx vercel deploy --prod
+npx vercel deploy --prod --yes
 ```
 
 ## The idea

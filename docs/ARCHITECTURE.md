@@ -2013,9 +2013,11 @@ the CI environment rasterises in software.
 
 `vercel.json` at the repository root configures the FRDM Circle deploy: no
 install step, no framework, a build that copies the page into `dist/`, and cache
-headers. Importing the repository at [vercel.com/new](https://vercel.com/new)
-needs no dashboard settings. Vercel serves production from the repository's
-production branch.
+headers. Production is [frdm-circle.vercel.app](https://frdm-circle.vercel.app).
+Vercel Git production follows `main`; until the page is on that branch, deploy
+the working tree with `npx vercel deploy --prod --yes`. A Vercel ignore-build
+command skips Git deploys that lack `sites/frdm-circle`, so a push to `main`
+cannot overwrite the live page with an empty tree.
 
 Method and audit trail: `sites/frdm-circle/README.md` and
 `sites/frdm-circle/verify/ORIGINALITY.md`.
