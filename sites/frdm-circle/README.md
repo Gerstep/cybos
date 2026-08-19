@@ -6,10 +6,37 @@ gathering 10,000 founding members before the fund is registered.
 
 No build step. Serve the folder and it runs.
 
+## Seeing it
+
+### Locally
+
 ```bash
-python3 -m http.server 8080 --bind 127.0.0.1
-# http://127.0.0.1:8080
+git clone --depth 1 -b cursor/frdm-circle-landing-189e \
+  https://github.com/Gerstep/cybos.git ~/frdm-circle
+cd ~/frdm-circle/sites/frdm-circle && ./serve.sh
 ```
+
+`serve.sh` starts a static server and opens the page once the port is actually
+answering. It **has** to be served over HTTP: the scene is an ES module, and a
+`file://` origin is opaque, so the browser refuses the import and you get the
+static fallback ring instead of the garden.
+
+### Online
+
+`.github/workflows/pages.yml` publishes this folder to GitHub Pages at
+`https://<owner>.github.io/<repo>/`. It needs one setting once, because
+`GITHUB_TOKEN` is not permitted to create a Pages site:
+
+1. **Settings → Pages → Source → GitHub Actions**
+2. Merge to the default branch, or re-run the workflow.
+
+Deploying from a non-default branch may additionally require adding that branch
+to the `github-pages` environment's allowed branches, since GitHub restricts
+that environment to the default branch by default.
+
+The workflow stages only the page itself (not the acceptance harness) and fails
+the build if the markup or the scene module references an asset that was not
+staged, so a renamed file cannot ship a broken page.
 
 ## The idea
 
