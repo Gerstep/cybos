@@ -2,9 +2,10 @@ name: Deploy landing page
 
 # Publishes sites/frdm-circle/ to GitHub Pages.
 #
-# The first run enables Pages itself, so there is nothing to set by hand.
-# After that this runs on every push that touches the page, and the site is
-# served at https://<owner>.github.io/<repo>/
+# One-time setup, because GITHUB_TOKEN is not permitted to create a Pages
+# site: Settings -> Pages -> Source -> "GitHub Actions". Then re-run this
+# workflow. Every push that touches the page republishes it, at
+# https://<owner>.github.io/<repo>/
 #
 # The page uses only relative asset paths, so it works unchanged under the
 # /<repo>/ prefix that project Pages adds.
@@ -60,9 +61,10 @@ jobs:
           [ "$missing" -eq 0 ] && echo "All referenced assets present."
           exit "$missing"
 
-      # enablement creates the Pages site on first run using this workflow's
-      # own pages:write token, so no repository setting has to be flipped by
-      # hand before the first deploy.
+      # enablement asks the action to create the Pages site if it is missing.
+      # GITHUB_TOKEN is refused that call on this repository, so the site has
+      # to be enabled once by hand; the flag is kept so that no second commit
+      # is needed if that ever changes.
       - uses: actions/configure-pages@v5
         with:
           enablement: true
