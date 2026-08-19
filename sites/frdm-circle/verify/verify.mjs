@@ -28,12 +28,12 @@ fs.mkdirSync(SHOTS, { recursive: true });
 
 const VIEWPORTS = [
   { name: 'desktop-1920', width: 1920, height: 1080, touch: false },
-  { name: 'desktop-1440', width: 1440, height: 900, touch: false },
+  { name: 'desktop-1440', width: 1440, height: 900, touch: false, stitch: true },
   { name: 'laptop-1280', width: 1280, height: 800, touch: false },
   { name: 'small-laptop-1024', width: 1024, height: 768, touch: false },
   { name: 'tablet-834', width: 834, height: 1112, touch: true },
   { name: 'phone-430', width: 430, height: 932, touch: true },
-  { name: 'phone-390', width: 390, height: 844, touch: true },
+  { name: 'phone-390', width: 390, height: 844, touch: true, stitch: true },
   { name: 'phone-360', width: 360, height: 740, touch: true },
   { name: 'phone-320', width: 320, height: 568, touch: true }
 ];
@@ -58,13 +58,15 @@ function write(name, data) {
 
 /* Nothing in this suite is allowed to reach the client's live inbox. */
 async function stubNetwork(page, log) {
-  await page.route('**/formspree.io/**', (route) => {
-    log.formspree.push(route.request().url());
-    route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
-  });
+  /* Order matters: Playwright consults the most recently registered handler
+     first, so the catch-all goes on before the stub that must beat it. */
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => {
     log.external.push(route.request().url());
     route.abort();
+  });
+  await page.route('**/formspree.io/**', (route) => {
+    log.formspree.push(route.request().url());
+    route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
 }
 
@@ -338,7 +340,16 @@ async function main() {
     await page.evaluate(() => window.scrollTo(0, 0));
     await settle(page, 400);
     await page.screenshot({ path: path.join(SHOTS, `${vp.name}-hero.png`), timeout: 20000 });
-    await captureStitched(page, path.join(SHOTS, `${vp.name}-full.png`), vp);
+    if (vp.stitch) await captureStitched(page, path.join(SHOTS, `${vp.name}-full.png`), vp);
+    else {
+      // A mid-page and a lower-page frame is enough to review a viewport we
+      // are not stitching in full.
+      for (const [tag, sel] of [['idea', '#idea'], ['loop', '#loop'], ['how', '#how'], ['join', '#join']]) {
+        await page.evaluate((x) => document.querySelector(x).scrollIntoView({ block: 'start', behavior: 'instant' }), sel);
+        await settle(page, 550);
+        await page.screenshot({ path: path.join(SHOTS, `${vp.name}-${tag}.png`), timeout: 20000 });
+      }
+    }
 
     perViewport[vp.name] = { overflow, targets, axe, console: log.console, pageErrors: log.pageErrors, failed: log.failed };
     await ctx.close();
@@ -378,9 +389,28 @@ async function main() {
     await page.goto(URL, { waitUntil: 'load' });
     await settle(page, 1600);
 
-    const ink = await page.evaluate(probeCanvasInk);
-    const inkOk = !ink.error && ink.ratio > 0.01;
-    gate('G12', 'Hero canvas actually renders the ring', inkOk ? 'pass' : 'fail', ink, write('canvas-ink.json', ink));
+    const withRing = path.join(SHOTS, 'ink-with-ring.png');
+    await page.screenshot({ path: withRing, clip: { x: 720, y: 120, width: 640, height: 620 }, timeout: 20000 });
+    const off = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const offPage = await off.newPage();
+    await stubNetwork(offPage, attachLogs(offPage));
+    await offPage.goto(URL + '?quality=off', { waitUntil: 'load' });
+    await settle(offPage, 1200);
+    const withoutRing = path.join(SHOTS, 'ink-without-ring.png');
+    await offPage.screenshot({ path: withoutRing, clip: { x: 720, y: 120, width: 640, height: 620 }, timeout: 20000 });
+    await off.close();
+
+    let ssim = null;
+    try {
+      const { stderr } = await execFile('ffmpeg', ['-i', withRing, '-i', withoutRing,
+        '-lavfi', 'ssim', '-f', 'null', '-']);
+      const m = /All:([0-9.]+)/.exec(stderr);
+      ssim = m ? parseFloat(m[1]) : null;
+    } catch (e) { ssim = null; }
+    const inkOk = ssim !== null && ssim < 0.985;
+    gate('G12', 'The ring actually paints pixels the page would not otherwise have',
+      inkOk ? 'pass' : 'fail', { ssimVsSceneOff: ssim },
+      write('canvas-ink.json', { ssimVsSceneOff: ssim, note: 'lower means the ring contributes more; 1.0 would mean it drew nothing' }));
 
     const samples = [];
     const marks = [
@@ -528,8 +558,13 @@ async function main() {
     await page.goto(URL, { waitUntil: 'load' });
     await settle(page, 700);
     const text = await page.locator('body').innerText();
-    await captureStitched(page, path.join(SHOTS, 'no-js-full.png'), { width: 1440, height: 900 });
-    const has = (s) => text.includes(s);
+    /* No script means no canvas and no scroll effects, so the native
+       full-page capture is both safe and the only option available. */
+    await page.screenshot({ path: path.join(SHOTS, 'no-js-full.png'), fullPage: true, timeout: 40000 });
+    /* Chromium's innerText applies text-transform, so uppercase styling
+       would otherwise read as missing content. */
+    const flat = text.toLowerCase();
+    const has = (s) => flat.includes(s.toLowerCase());
     const checks = {
       headline: has('A circle of women.'),
       counter: has('Goal 10,000'),
@@ -555,10 +590,14 @@ async function main() {
     await stubNetwork(page, log);
     await page.addInitScript(() => {
       const real = HTMLCanvasElement.prototype.getContext;
-      HTMLCanvasElement.prototype.getContext = function (type) {
-        if (typeof type === 'string' && type.indexOf('webgl') === 0) return null;
-        return real.apply(this, arguments);
-      };
+      Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+        configurable: true,
+        writable: true,
+        value: function (type) {
+          if (typeof type === 'string' && type.indexOf('webgl') === 0) return null;
+          return real.apply(this, arguments);
+        }
+      });
     });
     await page.goto(URL, { waitUntil: 'load' });
     await settle(page, 1400);

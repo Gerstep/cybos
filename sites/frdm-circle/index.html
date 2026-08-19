@@ -338,7 +338,7 @@ a:hover{color:var(--rose-soft)}
   position:relative;z-index:1;
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   flex:none;
-  height:42px;
+  height:44px;
   padding:0 14px;
   border:1px solid transparent;
   border-radius:11px;
@@ -368,7 +368,7 @@ a:hover{color:var(--rose-soft)}
 }
 .dock-item.is-active .icon{opacity:1}
 .dock-mark{
-  width:42px;padding:0;
+  width:44px;padding:0;
   overflow:hidden;
   background:rgba(246,236,230,.06);
 }
@@ -423,7 +423,16 @@ a:hover{color:var(--rose-soft)}
   content:'';
   position:absolute;inset:0;z-index:0;
   pointer-events:none;
-  background:linear-gradient(180deg,rgba(36,23,34,.74) 0%,rgba(36,23,34,.82) 100%);
+  /* Graduated, not flat: the veil is thin where the ring's arc is and the
+     copy is only a lockup, and thickens under the body text. */
+  background:linear-gradient(180deg,
+    rgba(36,23,34,.5) 0%,
+    rgba(36,23,34,.72) 22%,
+    rgba(36,23,34,.88) 46%,
+    rgba(36,23,34,.92) 100%);
+}
+.loop::before{
+  background:linear-gradient(180deg,rgba(36,23,34,.82) 0%,rgba(36,23,34,.62) 46%,rgba(36,23,34,.5) 100%);
 }
 .hero > .wrap,.loop > .wrap{position:relative;z-index:1}
 @media (min-width:900px){
@@ -664,14 +673,39 @@ a:hover{color:var(--rose-soft)}
 /* Labels are absolutely placed from the projected ring. Until the scene
    reports positions they sit in a legible static rosette, which is also
    exactly what a no-WebGL visitor keeps. */
+/* The node itself is a dimensionless anchor pinned to a point on the rim.
+   The dot is centred on it and the label hangs outboard, so no label ever
+   sits on top of the seats it is describing. */
 .node{
   position:absolute;
   left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  text-align:center;
-  width:max-content;
+  width:0;height:0;
   transition:opacity .4s var(--ease);
+}
+.node-dot{
+  position:absolute;left:0;top:0;
+  transform:translate(-50%,-50%);
+}
+.node-txt{
+  position:absolute;
+  display:flex;flex-direction:column;gap:1px;
+  width:max-content;max-width:9rem;
+}
+.node[data-node="give"] .node-txt{
+  bottom:30px;left:0;transform:translateX(-50%);
+  align-items:center;text-align:center;
+}
+.node[data-node="empower"] .node-txt{
+  top:30px;left:0;transform:translateX(-50%);
+  align-items:center;text-align:center;
+}
+.node[data-node="ask"] .node-txt{
+  right:30px;top:0;transform:translateY(-50%);
+  align-items:flex-end;text-align:right;
+}
+.node[data-node="vote"] .node-txt{
+  left:30px;top:0;transform:translateY(-50%);
+  align-items:flex-start;text-align:left;
 }
 .node-dot{
   display:grid;place-items:center;
@@ -688,7 +722,9 @@ a:hover{color:var(--rose-soft)}
   font-size:1.12rem;font-weight:400;
   letter-spacing:.01em;
 }
-.node span{
+/* Scoped to the direct child: .node-txt is itself a span, and a looser
+   selector uppercased the whole label. */
+.node-txt > span{
   font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--cream-faint);
 }
@@ -1133,7 +1169,7 @@ footer{
 @media (min-width:800px){
   .foot{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
 }
-.foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;min-height:44px}
 .foot-brand img{width:30px;height:auto;display:block;opacity:.9}
 .foot-brand span{
   font-family:var(--serif);
@@ -1147,13 +1183,13 @@ footer{
 }
 .foot small strong{color:var(--cream-dim);font-weight:400}
 .foot-links{
-  display:flex;flex-wrap:wrap;gap:8px 22px;
+  display:flex;flex-wrap:wrap;gap:0 22px;
   align-content:start;
 }
 .foot-links a{
   font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--cream-faint);
-  min-height:32px;
+  min-height:44px;
   display:inline-flex;align-items:center;
 }
 .foot-links a:hover{color:var(--rose)}
@@ -1181,12 +1217,10 @@ footer{
 /* ═══════════════════════════════════════════════════════════════════════
    NARROW SCREENS
    ═══════════════════════════════════════════════════════════════════════ */
-@media (max-width:760px){
-  .dock-wrap{top:auto;bottom:14px;padding-inline:10px}
-  .dock{
-    gap:2px;padding:4px;border-radius:15px;
-    box-shadow:inset 0 1px 0 rgba(246,236,230,.1),0 10px 30px -8px rgba(12,6,10,.75);
-  }
+/* Seven labelled pills need about a thousand pixels. Below that the dock
+   becomes glyphs with accessible names, which is also the only way to keep
+   44px targets on a phone. */
+@media (max-width:1039px){
   .dock-item{
     width:44px;height:44px;padding:0;
     border-radius:11px;
@@ -1198,17 +1232,34 @@ footer{
     clip:rect(0,0,0,0);white-space:nowrap;border:0;
   }
   .dock-item .icon{font-size:19px}
+}
+/* The dock stays at the top of the screen on every size. Docking it to the
+   bottom on phones put a fixed bar over the hero's own call to action, and
+   no amount of padding fixes a bar that floats above the fold. */
+@media (max-width:760px){
+  .dock-wrap{top:12px;padding-inline:10px}
+  .dock{
+    gap:2px;padding:4px;border-radius:15px;
+    box-shadow:inset 0 1px 0 rgba(246,236,230,.1),0 12px 30px -10px rgba(12,6,10,.75);
+  }
   .dock-mark{display:none}
-  .hero{padding-block:76px 84px}
+  .hero{padding-block:82px 54px}
   .loop-stage{min-height:min(112vw,430px)}
   .node-dot{width:40px;height:40px}
-  .node b{font-size:1rem}
-  .node span{font-size:.64rem}
+  .node-txt{max-width:7rem}
+  .node[data-node="give"] .node-txt{bottom:26px}
+  .node[data-node="empower"] .node-txt{top:26px}
+  .node[data-node="ask"] .node-txt{right:26px}
+  .node[data-node="vote"] .node-txt{left:26px}
+  .node b{font-size:.98rem}
+  .node-txt > span{font-size:.64rem}
   .loop-centre{font-size:1.05rem;max-width:9ch}
   .faq .answer-inner{padding-left:0}
 }
+@media (max-width:560px){
+  .node-txt > span{display:none}
+}
 @media (max-width:400px){
-  .node span{display:none}
   .loop-centre{font-size:.95rem}
 }
 </style>
@@ -1389,19 +1440,19 @@ footer{
 
       <div class="node node-give" data-node="give" aria-hidden="true">
         <span class="node-dot"><svg class="icon"><use href="#i-hand-money"></use></svg></span>
-        <b>Give</b><span>$10 / month</span>
+        <span class="node-txt"><b>Give</b><span>$10 / month</span></span>
       </div>
       <div class="node node-vote" data-node="vote" aria-hidden="true">
         <span class="node-dot"><svg class="icon"><use href="#i-chat-square-check"></use></svg></span>
-        <b>Vote</b><span>Decide together</span>
+        <span class="node-txt"><b>Vote</b><span>Decide together</span></span>
       </div>
       <div class="node node-empower" data-node="empower" aria-hidden="true">
         <span class="node-dot"><svg class="icon"><use href="#i-hand-stars"></use></svg></span>
-        <b>Empower</b><span>Funds reach her</span>
+        <span class="node-txt"><b>Empower</b><span>Funds reach her</span></span>
       </div>
       <div class="node node-ask" data-node="ask" aria-hidden="true">
         <span class="node-dot"><svg class="icon"><use href="#i-user-rounded"></use></svg></span>
-        <b>Ask</b><span>You can ask too</span>
+        <span class="node-txt"><b>Ask</b><span>You can ask too</span></span>
       </div>
     </div>
 

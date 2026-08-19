@@ -87,19 +87,29 @@ import * as THREE from './three.module.min.js';
   var TAU = Math.PI * 2;
 
   /* ── renderer ────────────────────────────────────────────────────────── */
-  var renderer;
+  /* The context is created here rather than left to three, so that a browser
+     without WebGL 2 takes the static ring instead of three's deprecated
+     WebGL 1 path — which would otherwise warn on every load. */
+  var gl = null;
   try {
-    renderer = new T.WebGLRenderer({
-      canvas: canvas,
-      antialias: false,
+    gl = canvas.getContext('webgl2', {
       alpha: true,
+      antialias: false,
+      depth: false,
       powerPreference: 'high-performance'
     });
   } catch (err) {
+    gl = null;
+  }
+  if (!gl) {
     document.documentElement.classList.add('no-webgl');
     return;
   }
-  if (!renderer.getContext()) {
+
+  var renderer;
+  try {
+    renderer = new T.WebGLRenderer({ canvas: canvas, context: gl, alpha: true, antialias: false });
+  } catch (err) {
     document.documentElement.classList.add('no-webgl');
     return;
   }
@@ -546,33 +556,43 @@ import * as THREE from './three.module.min.js';
   var slowRun = 0;
   var governorFrames = 0;
 
+  function resetGovernor() {
+    ema = 0;
+    slowRun = 0;
+    governorFrames = 0;
+  }
+
   function governor(dt) {
     if (tierLocked) return;
     governorFrames++;
-    /* Frame one carries shader compilation and the first upload, so it is
-       never evidence of anything. Frame two onwards is fair game — and a
-       machine taking a third of a second per frame gets no deliberation,
-       because waiting eighteen frames to help it would take ten seconds. */
-    if (governorFrames < 2) return;
+    /* The first frames after a start carry shader compilation, the first
+       buffer upload and whatever scrolling woke the observer, so they are
+       never evidence about the GPU. */
+    if (governorFrames < 4) return;
 
-    if (dt > 0.35) {
-      slowRun = 18;
+    /* A frame over half a second is a main-thread stall — a layout, a decode,
+       a collection — not a rasteriser that cannot keep up. Demoting on one of
+       those would let any transient hiccup permanently downgrade the page, so
+       it counts for very little on its own. */
+    if (dt > 0.55) {
+      slowRun += 1;
+    } else if (dt > 0.09) {
+      slowRun += 4;
+      ema = ema ? ema * 0.85 + dt * 0.15 : dt;
     } else {
       ema = ema ? ema * 0.85 + dt * 0.15 : dt;
-      if (dt > 0.1) slowRun += 6;
-      else if (ema > 0.028) slowRun++;
+      if (ema > 0.03) slowRun += 1;
       else slowRun = Math.max(0, slowRun - 2);
     }
 
-    if (slowRun >= 18) {
-      slowRun = 0;
-      ema = 0;
+    if (slowRun >= 24) {
       if (tier < TIERS.length - 1) {
+        resetGovernor();
         applyTier(tier + 1);
-      } else {
-        /* Even the cheapest tier cannot hold a frame. Stand down entirely
-           and let the static ring take over — a stuttering hero is worse
-           than a still one. */
+      } else if (slowRun >= 90) {
+        /* Sustained failure at the cheapest tier over hundreds of frames.
+           A hero that stutters is worse than one that holds still, so the
+           static ring takes over — but it takes this much to earn it. */
         stop();
         document.documentElement.classList.add('no-webgl');
         canvas.style.display = 'none';
@@ -744,6 +764,7 @@ import * as THREE from './three.module.min.js';
     running = true;
     canvas.dataset.animationActive = 'true';
     lastT = 0;
+    resetGovernor();
     /* Coming back into view, adopt the new framing outright rather than
        swinging to it from wherever the last section left the camera. */
     offsetPrimed = false;
@@ -772,7 +793,10 @@ import * as THREE from './three.module.min.js';
   function loopDistance(fov) {
     if (!stageRect) return FRAME_LOOP.dist;
     var H = window.innerHeight;
-    var target = Math.min(stageRect.height, stageRect.width) * 0.9;
+    /* Narrow screens leave the ring more room, because the four labels sit
+       outside the rim and there is no margin to spend. */
+    var fit = window.innerWidth < 760 ? 0.72 : 0.88;
+    var target = Math.min(stageRect.height, stageRect.width) * fit;
     if (target < 40) return FRAME_LOOP.dist;
     var ringH = 2 * RING_R * 0.97;
     var d = (ringH * H) / (2 * Math.tan((fov * Math.PI / 180) / 2) * target);
@@ -795,12 +819,23 @@ import * as THREE from './three.module.min.js';
       }
     }
     stageRect = null;
-    /* Pushed well right of the measure so the headline never has to
-       compete with the brightest part of the rim. */
-    wantX = W >= 900 ? W * 0.78 : W * 0.5;
-    wantY = W >= 900 ? H * 0.46 : H * 0.42;
-    framing.dist = FRAME_HERO.dist * (W >= 900 ? 1 : 1.18);
-    framing.tilt = FRAME_HERO.tilt;
+    var wide = W >= 900;
+    if (wide) {
+      /* Pushed well right of the measure so the headline never has to
+         compete with the brightest part of the rim. */
+      wantX = W * 0.78;
+      wantY = H * 0.46;
+      framing.dist = FRAME_HERO.dist;
+      framing.tilt = TILT_HERO;
+    } else {
+      /* A phone has no column to spare, so the ring becomes a horizon: it
+         rides high and shallow, and only its near arc crosses the hero —
+         behind the lockup, above the argument. */
+      wantX = W * 0.5;
+      wantY = H * 0.13;
+      framing.dist = FRAME_HERO.dist * 1.02;
+      framing.tilt = -0.42;
+    }
     framing.fov = FRAME_HERO.fov;
     return framing;
   }
@@ -898,7 +933,9 @@ import * as THREE from './three.module.min.js';
       var sy = (-projV.y * 0.5 + 0.5) * H - stageRect.top;
       var dx = sx - cx, dy = sy - cy;
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var push = Math.min(30, len * 0.13);
+      /* Only enough to lift the dot off the densest part of the band; the
+         label already hangs outboard of the dot in CSS. */
+      var push = Math.min(window.innerWidth < 760 ? 5 : 10, len * 0.05);
       sx += (dx / len) * push;
       sy += (dy / len) * push;
       el.style.transform = 'translate3d(' + sx.toFixed(1) + 'px,' + sy.toFixed(1) + 'px,0) translate(-50%,-50%)';

@@ -307,7 +307,8 @@ var CONFIG = {
     var target = doc.querySelector(id);
     if (!target) return;
     ev.preventDefault();
-    var offset = narrow.matches ? -20 : -96;
+    /* Clear the fixed dock, which sits at the top on every size. */
+    var offset = narrow.matches ? -78 : -96;
     if (lenis) lenis.scrollTo(target, { offset: offset, duration: 1.1 });
     else {
       var y = target.getBoundingClientRect().top + window.pageYOffset + offset;
