@@ -21,22 +21,29 @@ answering. It **has** to be served over HTTP: the scene is an ES module, and a
 `file://` origin is opaque, so the browser refuses the import and you get the
 static fallback ring instead of the garden.
 
-### Online
+### On Vercel
 
-`.github/workflows/pages.yml` publishes this folder to GitHub Pages at
-`https://<owner>.github.io/<repo>/`. It needs one setting once, because
-`GITHUB_TOKEN` is not permitted to create a Pages site:
+`vercel.json` at the repository root configures the whole deploy, so there is
+nothing to set in the Vercel dashboard:
 
-1. **Settings → Pages → Source → GitHub Actions**
-2. Merge to the default branch, or re-run the workflow.
+1. [vercel.com/new](https://vercel.com/new) → import this repository
+2. Deploy
 
-Deploying from a non-default branch may additionally require adding that branch
-to the `github-pages` environment's allowed branches, since GitHub restricts
-that environment to the default branch by default.
+The build copies `index.html`, `assets/` and `licenses/` into `dist/` and
+publishes that. No install step, no framework, no bundler — and the acceptance
+harness is deliberately not published. Fonts and images get a one-year
+immutable cache; scripts and styles revalidate hourly, since they are not
+content-hashed.
 
-The workflow stages only the page itself (not the acceptance harness) and fails
-the build if the markup or the scene module references an asset that was not
-staged, so a renamed file cannot ship a broken page.
+Vercel deploys production from the repository's production branch, `main` by
+default, so the page needs to be on that branch for the production URL to
+serve it.
+
+From a machine with the CLI authenticated, the same config deploys directly:
+
+```bash
+npx vercel deploy --prod
+```
 
 ## The idea
 

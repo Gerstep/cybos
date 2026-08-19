@@ -135,6 +135,8 @@ it runs.
   Circle. A procedural Three.js ring garden in daylight where the hero *is* the
   membership counter: ten thousand stems planted, none flowered, because the
   real count is zero. Ships with a nineteen-gate Playwright acceptance harness.
+  Deployed from `vercel.json` at the repository root — import the repo at
+  [vercel.com/new](https://vercel.com/new), no dashboard settings needed.
 
 ## Documentation
 

@@ -2009,6 +2009,14 @@ FAQ, form validation and submission with live endpoints stubbed, and the three
 degraded paths. Frame rate is reported as blocked rather than passed, because
 the CI environment rasterises in software.
 
+### Deploying a site
+
+`vercel.json` at the repository root configures the FRDM Circle deploy: no
+install step, no framework, a build that copies the page into `dist/`, and cache
+headers. Importing the repository at [vercel.com/new](https://vercel.com/new)
+needs no dashboard settings. Vercel serves production from the repository's
+production branch.
+
 Method and audit trail: `sites/frdm-circle/README.md` and
 `sites/frdm-circle/verify/ORIGINALITY.md`.
 
