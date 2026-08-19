@@ -245,8 +245,8 @@ import * as THREE from './three.module.min.js';
       '}',
       'void main(){',
       '  float r = length(vW.xz);',
-      '  float grain = n2(vW.xz * 1.7) * 0.5 + n2(vW.xz * 6.1) * 0.3;',
-      '  vec3 col = uPlain * (0.9 + grain * 0.2);',
+      '  float grain = n2(vW.xz * 0.22) * 0.6 + n2(vW.xz * 1.7) * 0.26 + n2(vW.xz * 6.1) * 0.14;',
+      '  vec3 col = uPlain * (0.78 + grain * 0.44);',
       /* Turned earth under the planting band, so the stems look sown rather
          than laid on top of a floor. */
       '  float band = 1.0 - smoothstep(0.0, uBand * 0.62, abs(r - uRing));',
@@ -282,7 +282,7 @@ import * as THREE from './three.module.min.js';
       uTime: uTime, uSunDir: uSunDir, uSunCol: uSunCol, uHaze: uHaze,
       uSkyTop: { value: v3(SKY_TOP) },
       uSkyLow: { value: v3(SKY_LOW) },
-      uDeep: { value: new T.Vector3(0.204, 0.353, 0.322) },
+      uDeep: { value: new T.Vector3(0.157, 0.318, 0.286) },
       uPointer: uPointer
     },
     vertexShader: [
@@ -325,7 +325,7 @@ import * as THREE from './three.module.min.js';
       '  float h = clamp(R.y * 1.4 + 0.2, 0.0, 1.0);',
       '  vec3 skyRefl = mix(uSkyLow, uSkyTop, pow(h, 0.8));',
       '  skyRefl += uSunCol * pow(max(dot(R, uSunDir), 0.0), 14.0) * 0.24;',
-      '  vec3 col = mix(uDeep, skyRefl, clamp(f * 0.8 + 0.52, 0.0, 1.0));',
+      '  vec3 col = mix(uDeep, skyRefl, clamp(f * 0.95 + 0.26, 0.0, 1.0));',
       /* Sun glint, tight enough to read as water rather than metal. */
       '  vec3 H = normalize(uSunDir + V);',
       '  col += uSunCol * pow(max(dot(N, H), 0.0), 220.0) * 1.5;',
@@ -757,7 +757,7 @@ import * as THREE from './three.module.min.js';
   function loopDistance(fov) {
     if (!stageRect) return VIEW_LOOP.dist;
     var H = window.innerHeight;
-    var fit = window.innerWidth < 760 ? 0.94 : 1.0;
+    var fit = window.innerWidth < 760 ? 0.7 : 0.72;
     var target = Math.min(stageRect.height, stageRect.width) * fit;
     if (target < 40) return VIEW_LOOP.dist;
     /* The ring's apparent height when tilted away by the elevation. */
@@ -782,9 +782,9 @@ import * as THREE from './three.module.min.js';
     stageRect = null;
     var wide = W >= 900;
     wantX = wide ? W * 0.66 : W * 0.5;
-    wantY = wide ? H * 0.66 : H * 0.7;
-    want.dist = VIEW_HERO.dist * (wide ? 1 : 1.16);
-    want.elev = VIEW_HERO.elev * (wide ? 1 : 1.5);
+    wantY = wide ? H * 0.66 : H * 0.3;
+    want.dist = VIEW_HERO.dist * (wide ? 1 : 1.24);
+    want.elev = VIEW_HERO.elev * (wide ? 1 : 1.7);
     want.azim = VIEW_HERO.azim;
     want.fov = VIEW_HERO.fov;
     want.look = VIEW_HERO.look;

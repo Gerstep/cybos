@@ -69,15 +69,15 @@
   --earth:#6d5a40;
 
   --ink:#1b2a1e;
-  --ink-soft:rgba(27,42,30,.76);
-  --ink-faint:rgba(27,42,30,.54);
+  --ink-soft:rgba(27,42,30,.82);
+  --ink-faint:rgba(27,42,30,.7);
 
   --leaf-900:#16301f;
   --leaf:#2c6b3d;
   --leaf-bright:#4f9c48;
   --sun:#e0921f;
   --sun-soft:#f6d68a;
-  --terra:#bd5a34;
+  --terra:#b0512d;
   --sky:#83b6c4;
 
   --line:rgba(27,42,30,.17);
@@ -230,6 +230,8 @@ h1,h2,h3,h4{
 }
 
 a{color:var(--leaf);text-decoration:none;transition:color .2s var(--ease)}
+/* Inside running text, colour alone is not enough to mark a link. */
+p a,small a,li a,.form-note a{text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:from-font}
 a:hover{color:var(--leaf-bright)}
 
 :focus-visible{
@@ -442,10 +444,11 @@ a:hover{color:var(--leaf-bright)}
   position:absolute;inset:0;z-index:0;
   pointer-events:none;
   background:linear-gradient(180deg,
-    rgba(250,245,233,.24) 0%,
-    rgba(250,245,233,.66) 26%,
-    rgba(250,245,233,.9) 50%,
-    rgba(250,245,233,.95) 100%);
+    rgba(250,245,233,.1) 0%,
+    rgba(250,245,233,.3) 20%,
+    rgba(250,245,233,.78) 42%,
+    rgba(250,245,233,.93) 62%,
+    rgba(250,245,233,.96) 100%);
 }
 .hero > .wrap,.loop > .wrap{position:relative;z-index:1}
 @media (min-width:900px){
@@ -667,7 +670,7 @@ a:hover{color:var(--leaf-bright)}
   line-height:1;
   font-variant-numeric:tabular-nums;
   font-variation-settings:'opsz' 60;
-  color:rgba(44,107,61,.55);
+  color:rgba(44,107,61,.9);
   min-width:2.2ch;
 }
 .idea-item h3{margin-bottom:9px;display:flex;align-items:center;gap:12px}
@@ -732,13 +735,10 @@ a:hover{color:var(--leaf-bright)}
   top:32px;left:0;transform:translateX(-50%);
   align-items:center;text-align:center;
 }
-.node[data-node="ask"] .node-txt{
-  right:32px;top:0;transform:translateY(-50%);
-  align-items:flex-end;text-align:right;
-}
+.node[data-node="ask"] .node-txt,
 .node[data-node="vote"] .node-txt{
-  left:32px;top:0;transform:translateY(-50%);
-  align-items:flex-start;text-align:left;
+  top:32px;left:0;transform:translateX(-50%);
+  align-items:center;text-align:center;
 }
 .node b{
   font-family:var(--display);
@@ -1030,7 +1030,7 @@ form{display:grid;gap:20px}
 .field{display:grid;gap:8px}
 
 label{
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-faint);
   font-weight:500;
 }
@@ -1108,7 +1108,7 @@ input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--terr
 fieldset{border:0;padding:0;min-width:0}
 .legend{
   display:block;
-  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-faint);
   font-weight:500;
   padding:0;
@@ -1230,10 +1230,10 @@ footer{
   align-content:start;
 }
 .foot-links a{
-  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
   font-weight:500;
-  color:rgba(247,244,230,.62);
-  min-height:44px;
+  color:rgba(247,244,230,.72);
+  min-height:44px;min-width:44px;
   display:inline-flex;align-items:center;
 }
 .foot-links a:hover{color:var(--sun-soft)}
@@ -1293,8 +1293,8 @@ footer :focus-visible{outline-color:var(--sun-soft)}
   .node-txt{max-width:7rem}
   .node[data-node="give"] .node-txt{bottom:27px}
   .node[data-node="empower"] .node-txt{top:27px}
-  .node[data-node="ask"] .node-txt{right:27px}
-  .node[data-node="vote"] .node-txt{left:27px}
+  .node[data-node="ask"] .node-txt,
+  .node[data-node="vote"] .node-txt{top:27px}
   .node b{font-size:1rem}
   .node-txt > span{font-size:.62rem}
   .loop-centre{font-size:1.08rem;max-width:9ch}

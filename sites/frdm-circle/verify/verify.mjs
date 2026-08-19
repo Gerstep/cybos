@@ -22,6 +22,12 @@ const SHOTS = path.join(EVIDENCE, 'screens');
 
 const argUrl = process.argv.indexOf('--url');
 const URL = argUrl > -1 ? process.argv[argUrl + 1] : 'http://127.0.0.1:8080';
+/* Headless Chromium here rasterises in software (SwiftShader), which cannot
+   hold ten thousand instanced stems. Pinning the tier keeps the scene on for
+   the duration of a capture instead of letting the governor correctly switch
+   it off mid-gate. Frame rate is therefore reported as blocked, not passed. */
+const PINNED = URL + (URL.includes('?') ? '&' : '?') + 'quality=low';
+const PINNED_HIGH = URL + (URL.includes('?') ? '&' : '?') + 'quality=high';
 
 fs.rmSync(EVIDENCE, { recursive: true, force: true });
 fs.mkdirSync(SHOTS, { recursive: true });
@@ -290,7 +296,7 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    const resp = await page.goto(URL, { waitUntil: 'load', timeout: 30000 });
+    const resp = await page.goto(PINNED, { waitUntil: 'load', timeout: 30000 });
     const state = await page.evaluate(() => document.readyState);
     const ok = resp && resp.status() === 200 && state === 'complete';
     gate('G01', 'Page loads with HTTP 200 and reaches readyState complete', ok ? 'pass' : 'fail',
@@ -310,7 +316,7 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 900);
 
     // Walk the page so lazy reveals and scroll-driven work all run.
@@ -386,8 +392,8 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    await page.goto(URL, { waitUntil: 'load' });
-    await settle(page, 1600);
+    await page.goto(PINNED_HIGH, { waitUntil: 'load' });
+    await settle(page, 2200);
 
     const withRing = path.join(SHOTS, 'ink-with-ring.png');
     await page.screenshot({ path: withRing, clip: { x: 720, y: 120, width: 640, height: 620 }, timeout: 20000 });
@@ -439,9 +445,9 @@ async function main() {
     await page.evaluate(() => window.scrollTo(0, 0));
     await settle(page, 700);
     const fps = await page.evaluate(probeFps, 3000);
-    const fpsOk = fps.fps >= 50;
-    gate('P01', 'Sustained frame rate at the hero is at least 50fps (software GL)', fpsOk ? 'pass' : 'warn-ok',
-      fps, write('fps.json', fps));
+    gate('P01', 'Sustained frame rate at the hero', 'blocked',
+      { measured: Number(fps.fps.toFixed(1)), reason: 'headless Chromium rasterises in software (SwiftShader); no GPU is available in this environment, so this number says nothing about the page on real hardware' },
+      write('fps.json', { ...fps, renderer: 'SwiftShader (software)', note: 'blocked: needs a GPU to be meaningful' }));
 
     await ctx.close();
   }
@@ -452,7 +458,7 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 900);
 
     // Dock navigation
@@ -526,7 +532,7 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 1200);
     const rm = await page.evaluate(() => {
       const hidden = [];
@@ -555,7 +561,7 @@ async function main() {
   {
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
     const page = await ctx.newPage();
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 700);
     const text = await page.locator('body').innerText();
     /* No script means no canvas and no scroll effects, so the native
@@ -599,7 +605,7 @@ async function main() {
         }
       });
     });
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 1400);
     const st = await page.evaluate(() => ({
       noWebglClass: document.documentElement.classList.contains('no-webgl'),
@@ -620,7 +626,7 @@ async function main() {
     const page = await ctx.newPage();
     const log = attachLogs(page);
     await stubNetwork(page, log);
-    await page.goto(URL, { waitUntil: 'load' });
+    await page.goto(PINNED, { waitUntil: 'load' });
     await settle(page, 800);
     const order = [];
     for (let i = 0; i < 16; i++) {
