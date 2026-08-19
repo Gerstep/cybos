@@ -1922,6 +1922,12 @@ project-root/
 │   ├── ideas/              # Browse-discovered topic ideas
 │   ├── briefs/             # Morning briefs (MMDD-YY.md)
 │   └── work/               # GTD task outputs (MMDD-<slug>.md)
+├── sites/                      # Standalone static sites (no build step)
+│   └── frdm-circle/            # FRDM Circle landing page
+│       ├── index.html          # Markup, full stylesheet, inlined icon sprite
+│       ├── assets/             # scene.js, site.js, vendored libs, fonts, marks
+│       ├── licenses/           # Third-party licence texts
+│       └── verify/             # Playwright acceptance harness + originality audit
 ├── config/                     # Configuration files
 │   ├── leverage-rules.yaml     # Strategic leverage scoring rules
 │   └── launchd/                # macOS scheduling plists (templates)
@@ -1961,6 +1967,50 @@ project-root/
             ├── email-extraction.ts
             └── telegram-extraction.ts
 ```
+
+---
+
+## Standalone Sites (`sites/`)
+
+Static marketing and campaign pages that are not part of the Cybos runtime.
+They share the repository but nothing else: no bundler, no server, no
+dependency on `scripts/`. Serve the folder over HTTP and it runs.
+
+### `sites/frdm-circle/`
+
+Landing page for The Freedom Circle (frdmcircle.org), a pre-launch fund.
+
+- **Concept**: the hero is the product's number. Ten thousand instanced stems
+  stand planted in a ring of daylight around a reflecting pool, none of them
+  flowered, because the real membership count is zero. Light travels around the
+  inside of the ring rather than down through it. A stem flowers on signup.
+- **Stack**: plain HTML and CSS, Three.js r160 for the garden, GSAP with
+  ScrollTrigger for choreography, Lenis as the single smooth-scroll engine.
+  Everything vendored; the page makes no external request at runtime.
+- **Content**: frdmcircle.org's copy verbatim. Layout and world are new.
+- **Quality tiers**: a governor trades pixel ratio, blade detail and ambient
+  extras under load. The stem count never changes.
+- **Degraded paths**: reduced motion, no JavaScript, and no WebGL 2 each render
+  complete readable content with a static ring.
+
+### Verifying a site
+
+```bash
+cd sites/frdm-circle/verify
+npm install && npx playwright install chromium
+node verify.mjs                                  # 19 gates x 9 viewports
+node copy-fidelity.mjs --source /path/to/source.html
+```
+
+Evidence is written to `verify/evidence/` (gitignored). Gates cover console and
+network cleanliness, horizontal overflow, touch targets, axe at WCAG 2.1 AA,
+that the scene paints and that its render loop parks offscreen, navigation, the
+FAQ, form validation and submission with live endpoints stubbed, and the three
+degraded paths. Frame rate is reported as blocked rather than passed, because
+the CI environment rasterises in software.
+
+Method and audit trail: `sites/frdm-circle/README.md` and
+`sites/frdm-circle/verify/ORIGINALITY.md`.
 
 ---
 

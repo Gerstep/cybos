@@ -63,14 +63,14 @@ import * as THREE from './three.module.min.js';
 
   var STEMS = Math.max(1, Math.min(24000, parseInt(qs.get('stems'), 10) || 10000));
   var MAX_THREADS = 96;
-  var THREAD_SEGS = 22;
+  var THREAD_SEGS = 46;
   var MAX_POLLEN = 900;
   var MAX_BLOOMS = 64;
 
   /* ── palette, in the same sRGB values the stylesheet uses ────────────── */
   var SUN_COL = [1.0, 0.92, 0.74];
   var SKY_TOP = [0.216, 0.478, 0.663];
-  var SKY_LOW = [1.0, 0.898, 0.686];
+  var SKY_LOW = [0.965, 0.925, 0.808];
   var HAZE = [0.929, 0.902, 0.784];
   var GRASS_BASE = [0.067, 0.184, 0.118];
   var GRASS_TIP = [0.584, 0.776, 0.318];
@@ -123,7 +123,7 @@ import * as THREE from './three.module.min.js';
   try {
     gl = canvas.getContext('webgl2', {
       alpha: false,
-      antialias: false,
+      antialias: !narrow.matches,
       depth: true,
       powerPreference: 'high-performance'
     });
@@ -135,7 +135,7 @@ import * as THREE from './three.module.min.js';
 
   var renderer;
   try {
-    renderer = new T.WebGLRenderer({ canvas: canvas, context: gl, antialias: false });
+    renderer = new T.WebGLRenderer({ canvas: canvas, context: gl, antialias: !narrow.matches });
   } catch (err) {
     document.documentElement.classList.add('no-webgl');
     return;
@@ -182,7 +182,8 @@ import * as THREE from './three.module.min.js';
       uTop: { value: v3(SKY_TOP) },
       uLow: { value: v3(SKY_LOW) },
       uSunDir: uSunDir,
-      uSunCol: uSunCol
+      uSunCol: uSunCol,
+      uHaze: uHaze
     },
     vertexShader: [
       'varying vec3 vDir;',
@@ -192,12 +193,13 @@ import * as THREE from './three.module.min.js';
       '}'
     ].join('\n'),
     fragmentShader: [
-      'uniform vec3 uTop; uniform vec3 uLow; uniform vec3 uSunDir; uniform vec3 uSunCol;',
+      'uniform vec3 uTop; uniform vec3 uLow; uniform vec3 uSunDir; uniform vec3 uSunCol; uniform vec3 uHaze;',
       'varying vec3 vDir;',
       'void main(){',
       '  vec3 d = normalize(vDir);',
       '  float h = clamp(d.y * 1.5 + 0.1, 0.0, 1.0);',
       '  vec3 col = mix(uLow, uTop, pow(h, 0.62));',
+      '  col = mix(uHaze, col, smoothstep(0.0, 0.1, d.y + 0.02));',
       /* The sun is not drawn as a disc — only as the glow it throws into the
          air around it, which is all you ever see looking across a field. */
       '  float toSun = max(dot(d, uSunDir), 0.0);',
@@ -264,7 +266,7 @@ import * as THREE from './three.module.min.js';
       '}'
     ].join('\n')
   });
-  var ground = new T.Mesh(new T.CircleGeometry(GROUND_R, 96), groundMat);
+  var ground = new T.Mesh(new T.CircleGeometry(GROUND_R, 256), groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.02;
   scene.add(ground);
@@ -283,6 +285,7 @@ import * as THREE from './three.module.min.js';
       uSkyTop: { value: v3(SKY_TOP) },
       uSkyLow: { value: v3(SKY_LOW) },
       uDeep: { value: new T.Vector3(0.157, 0.318, 0.286) },
+      uGrass: { value: new T.Vector3(0.235, 0.404, 0.196) },
       uPointer: uPointer
     },
     vertexShader: [
@@ -297,7 +300,7 @@ import * as THREE from './three.module.min.js';
     ].join('\n'),
     fragmentShader: [
       'uniform float uTime; uniform vec3 uSunDir; uniform vec3 uSunCol; uniform vec3 uHaze;',
-      'uniform vec3 uSkyTop; uniform vec3 uSkyLow; uniform vec3 uDeep; uniform vec3 uPointer;',
+      'uniform vec3 uSkyTop; uniform vec3 uSkyLow; uniform vec3 uDeep; uniform vec3 uGrass; uniform vec3 uPointer;',
       'varying vec3 vW; varying vec2 vUv;',
       'float h21(vec2 p){ return fract(sin(dot(p, vec2(41.7, 289.3))) * 43758.5453); }',
       'float n2(vec2 p){',
@@ -333,6 +336,9 @@ import * as THREE from './three.module.min.js';
       /* The rim shallows out into the planted earth. */
       '  float r = length(vW.xz) / 5.93;',
       '  float shore = smoothstep(1.0, 0.86, r);',
+      /* The rim carries what stands on it: a band of the meadow, reflected
+         and broken up by the same ripple that moves the sky. */
+      '  col = mix(col, uGrass * (0.8 + w1 * 0.5), (1.0 - shore) * 0.72);',
       '  col = mix(mix(col, uHaze * 0.9, 0.35), col, shore);',
       '  float fog = smoothstep(0.2, 0.95, length(vW.xz) / 78.0);',
       '  col = mix(col, uHaze, fog * 0.5);',
@@ -521,12 +527,12 @@ import * as THREE from './three.module.min.js';
     var a0 = rnd() * TAU;
     /* Always forward around the circle — the direction of travel is the
        argument the section is making. */
-    var a1 = a0 + 0.5 + rnd() * 1.5;
+    var a1 = a0 + 1.15 + rnd() * 1.9;
     var seed = rnd();
     var lift = 0.5 + rnd() * 1.5;
     A.set(Math.cos(a0) * (RING_R - 0.3), 0.35 + rnd() * 0.5, Math.sin(a0) * (RING_R - 0.3));
     B.set(Math.cos(a1) * (RING_R - 0.3), 0.35 + rnd() * 0.5, Math.sin(a1) * (RING_R - 0.3));
-    M.copy(A).add(B).multiplyScalar(0.5 * (0.3 + rnd() * 0.45));
+    M.copy(A).add(B).multiplyScalar(0.5 * (0.04 + rnd() * 0.34));
     M.y = lift;
 
     for (var s2 = 0; s2 < THREAD_SEGS; s2++) {
@@ -548,32 +554,44 @@ import * as THREE from './three.module.min.js';
   var threadMat = new T.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    uniforms: { uTime: uTime, uFade: uFade, uGold: { value: v3(GOLD) }, uHaze: uHaze },
+    blending: T.AdditiveBlending,
+    uniforms: {
+      uTime: uTime, uFade: uFade, uPixel: uPixel,
+      uGold: { value: v3(GOLD) }, uWhite: { value: new T.Vector3(1.0, 0.96, 0.86) }
+    },
     vertexShader: [
       'attribute float aT; attribute float aSeed;',
-      'varying float vT; varying float vSeed;',
+      'uniform float uTime; uniform float uPixel;',
+      'varying float vGlow; varying float vSeed;',
       'void main(){',
-      '  vT = aT; vSeed = aSeed;',
-      '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+      '  float speed = 0.085 + fract(aSeed * 7.31) * 0.075;',
+      '  float head = fract(uTime * speed + aSeed);',
+      '  float d = abs(aT - head); d = min(d, 1.0 - d);',
+      /* A long soft tail behind a bright head: a comet, not a dash. */
+      '  float pulse = smoothstep(0.16, 0.0, d);',
+      '  float ends = smoothstep(0.0, 0.1, aT) * smoothstep(1.0, 0.9, aT);',
+      '  vGlow = pulse * ends;',
+      '  vSeed = aSeed;',
+      '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+      '  gl_PointSize = uPixel * (2.2 + vGlow * 9.0) * (11.0 / max(-mv.z, 0.3));',
+      '  gl_Position = projectionMatrix * mv;',
       '}'
     ].join('\n'),
     fragmentShader: [
-      'uniform float uTime; uniform float uFade; uniform vec3 uGold; uniform vec3 uHaze;',
-      'varying float vT; varying float vSeed;',
+      'uniform float uFade; uniform vec3 uGold; uniform vec3 uWhite;',
+      'varying float vGlow; varying float vSeed;',
       'void main(){',
-      '  float speed = 0.09 + fract(vSeed * 7.31) * 0.1;',
-      '  float head = fract(uTime * speed + vSeed);',
-      '  float d = abs(vT - head); d = min(d, 1.0 - d);',
-      '  float pulse = smoothstep(0.07, 0.0, d);',
-      /* Both tails fade so a thread never collides with the rim it leaves. */
-      '  float ends = smoothstep(0.0, 0.14, vT) * smoothstep(1.0, 0.86, vT);',
-      '  vec3 col = mix(uGold * 0.72, vec3(1.0, 0.97, 0.88), pulse);',
-      '  float a = (0.1 + pulse * 0.8) * ends * uFade;',
-      '  gl_FragColor = vec4(col, a);',
+      '  vec2 uv = gl_PointCoord - 0.5;',
+      '  float d2 = dot(uv, uv);',
+      '  if (d2 > 0.25) discard;',
+      '  float a = smoothstep(0.25, 0.0, d2);',
+      '  a *= a;',
+      '  vec3 col = mix(uGold, uWhite, vGlow * 0.7);',
+      '  gl_FragColor = vec4(col, a * (0.1 + vGlow * 0.95) * uFade);',
       '}'
     ].join('\n')
   });
-  var threads = new T.LineSegments(threadGeo, threadMat);
+  var threads = new T.Points(threadGeo, threadMat);
   threads.frustumCulled = false;
   scene.add(threads);
 
@@ -617,7 +635,7 @@ import * as THREE from './three.module.min.js';
       '  float nearP = 1.0 - smoothstep(0.0, 4.2, length(p.xz - uPointer.xz));',
       '  vLit = 0.5 + nearP * 0.9 + (1.0 - rise / 3.4) * 0.2;',
       '  vec4 mv = modelViewMatrix * vec4(p, 1.0);',
-      '  gl_PointSize = aRnd.z * uPixel * 3.4 * (9.0 / max(-mv.z, 0.2)) * (1.0 + nearP);',
+      '  gl_PointSize = (0.5 + aRnd.z * aRnd.z * 1.5) * uPixel * 3.4 * (11.0 / max(-mv.z, 0.2)) * (1.0 + nearP * 0.8);',
       '  gl_Position = projectionMatrix * mv;',
       '}'
     ].join('\n'),
@@ -629,7 +647,7 @@ import * as THREE from './three.module.min.js';
       '  float d2 = dot(uv, uv);',
       '  if (d2 > 0.25) discard;',
       '  float a = smoothstep(0.25, 0.0, d2);',
-      '  gl_FragColor = vec4(uSunCol * 1.06, a * a * 0.5 * vLit * uFade);',
+      '  gl_FragColor = vec4(mix(uSunCol, vec3(1.0, 0.94, 0.78), 0.4), a * a * 0.4 * vLit * uFade);',
       '}'
     ].join('\n')
   });
@@ -754,16 +772,25 @@ import * as THREE from './three.module.min.js';
   var stageRect = null;
   var drift = { x: 0, y: 0, tx: 0, ty: 0 };
 
+  /* The distance at which the ring subtends `targetPx` on screen. Framing by
+     measured size rather than by a fixed number is what keeps the garden the
+     same size at 320 and at 1920 instead of shrinking into a corner. */
+  function distanceFor(targetPx, fov, elev) {
+    if (!(targetPx > 40)) return null;
+    var H = window.innerHeight;
+    /* The ring's apparent height once tilted away by the elevation. */
+    var ringH = 2 * (RING_R + BAND * 0.5) * Math.max(0.3, Math.sin(elev * Math.PI * 0.5 + 0.42));
+    var d = (ringH * H) / (2 * Math.tan((fov * Math.PI / 180) / 2) * targetPx);
+    return Math.max(11, Math.min(90, d));
+  }
+
   function loopDistance(fov) {
     if (!stageRect) return VIEW_LOOP.dist;
-    var H = window.innerHeight;
+    /* Narrow screens leave the ring more room, because the four labels sit
+       outside the rim and there is no margin to spend. */
     var fit = window.innerWidth < 760 ? 0.7 : 0.72;
-    var target = Math.min(stageRect.height, stageRect.width) * fit;
-    if (target < 40) return VIEW_LOOP.dist;
-    /* The ring's apparent height when tilted away by the elevation. */
-    var ringH = 2 * (RING_R + BAND * 0.5) * Math.max(0.34, Math.sin(VIEW_LOOP.elev * Math.PI * 0.5 + 0.42));
-    var d = (ringH * H) / (2 * Math.tan((fov * Math.PI / 180) / 2) * target);
-    return Math.max(12, Math.min(70, d));
+    var d = distanceFor(Math.min(stageRect.height, stageRect.width) * fit, fov, VIEW_LOOP.elev);
+    return d === null ? VIEW_LOOP.dist : d;
   }
 
   function measureWant() {
@@ -780,14 +807,28 @@ import * as THREE from './three.module.min.js';
       }
     }
     stageRect = null;
-    var wide = W >= 900;
-    wantX = wide ? W * 0.66 : W * 0.5;
-    wantY = wide ? H * 0.66 : H * 0.3;
-    want.dist = VIEW_HERO.dist * (wide ? 1 : 1.24);
-    want.elev = VIEW_HERO.elev * (wide ? 1 : 1.7);
     want.azim = VIEW_HERO.azim;
     want.fov = VIEW_HERO.fov;
     want.look = VIEW_HERO.look;
+
+    var figRect = figureEl && figureEl.offsetWidth > 0 ? figureEl.getBoundingClientRect() : null;
+    if (figRect) {
+      /* Anchored to the column the composition already set aside for it, and
+         sized to overflow it deliberately so the garden runs off the frame
+         instead of sitting in the corner as an object. */
+      wantX = figRect.left + figRect.width * 0.6;
+      wantY = figRect.top + figRect.height * 0.72;
+      want.elev = VIEW_HERO.elev;
+      var d = distanceFor(Math.max(figRect.width, figRect.height) * 1.2, VIEW_HERO.fov, VIEW_HERO.elev);
+      want.dist = d === null ? VIEW_HERO.dist : d;
+    } else {
+      /* No figure column: a phone. The garden becomes a horizon high in the
+         frame, above everything the reader has to be able to read. */
+      wantX = W * 0.5;
+      wantY = H * 0.2;
+      want.elev = VIEW_HERO.elev * 1.85;
+      want.dist = VIEW_HERO.dist * 1.12;
+    }
     return want;
   }
 
@@ -945,6 +986,7 @@ import * as THREE from './three.module.min.js';
   var heroEl = document.querySelector('.hero');
   var loopEl = document.getElementById('loop');
   var stageEl = document.getElementById('loopStage');
+  var figureEl = document.querySelector('.hero-figure');
   var nodeEls = stageEl ? Array.prototype.slice.call(stageEl.querySelectorAll('[data-node]')) : [];
   var NODE_ANGLE = { give: -Math.PI / 2, vote: 0, empower: Math.PI / 2, ask: Math.PI };
 

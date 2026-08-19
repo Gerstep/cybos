@@ -120,8 +120,21 @@ cybos/                             # Code repository
 │   ├── hooks/                     # SessionStart
 │   └── commands/                  # Slash commands
 ├── scripts/                       # Utilities
+├── sites/                         # Standalone static sites (no build step)
+│   └── frdm-circle/               # FRDM Circle landing page + acceptance harness
 └── docs/                          # Documentation
 ```
+
+### Standalone sites
+
+`sites/` holds static pages that share the repository but nothing else — no
+bundler, no server, no dependency on `scripts/`. Serve the folder over HTTP and
+it runs.
+
+- **[sites/frdm-circle](sites/frdm-circle/)** — landing page for The Freedom
+  Circle. A procedural Three.js ring garden in daylight where the hero *is* the
+  membership counter: ten thousand stems planted, none flowered, because the
+  real count is zero. Ships with a nineteen-gate Playwright acceptance harness.
 
 ## Documentation
 
