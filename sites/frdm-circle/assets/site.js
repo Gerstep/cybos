@@ -102,7 +102,7 @@ var CONFIG = {
         if (!tok) return;
         if (!tok.trim()) { html += ' '; return; }
         html += '<span class="w-mask" aria-hidden="true"><span class="w"' +
-          (part.em ? ' style="font-style:italic;color:var(--rose-soft)"' : '') + '>' +
+          (part.em ? ' style="color:var(--leaf)"' : '') + '>' +
           escapeHTML(tok) + '</span></span>';
       });
     });
