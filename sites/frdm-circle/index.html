@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FRDM Circle — Women Backing Women</title>
+<meta name="description" content="A global circle of women. $10 a month. Give. Vote. Ask. We are gathering 10,000 founding women before we register the fund.">
+<meta property="og:title" content="FRDM Circle — Women Backing Women">
+<meta property="og:description" content="Sometimes the only thing between a woman and her freedom is $800. Join the circle building the fund that removes it.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://frdmcircle.org/">
+<meta property="og:site_name" content="The Freedom Circle">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://frdmcircle.org/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Freedom Circle — a circle of women, a fund for freedom, a future we build together.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FRDM Circle — Women Backing Women">
+<meta name="twitter:description" content="$10 a month. Give. Vote. Ask. We're gathering 10,000 founding women before we register the fund.">
+<meta name="twitter:image" content="https://frdmcircle.org/og.jpg">
+<link rel="canonical" href="https://frdmcircle.org/">
+<meta name="theme-color" content="#2b1c26">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="preload" href="assets/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/lenis.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   FONTS — vendored variable subsets, SIL OFL 1.1 (see /licenses)
+   ═══════════════════════════════════════════════════════════════════════ */
+@font-face{
+  font-family:'Cormorant Garamond';
+  src:url('assets/cormorant-garamond-latin.woff2') format('woff2');
+  font-weight:300 700; font-style:normal; font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Cormorant Garamond';
+  src:url('assets/cormorant-garamond-latin-ext.woff2') format('woff2');
+  font-weight:300 700; font-style:normal; font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:'Jost';
+  src:url('assets/jost-latin.woff2') format('woff2');
+  font-weight:300 600; font-style:normal; font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Jost';
+  src:url('assets/jost-latin-ext.woff2') format('woff2');
+  font-weight:300 600; font-style:normal; font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  --plum-900:#241722;
+  --plum-800:#2b1c26;
+  --plum-700:#38232f;
+  --plum-600:#452b38;
+
+  --rose:#e5a583;
+  --rose-soft:#f0c3a9;
+  --rose-deep:#c9805e;
+
+  --cream:#f6ece6;
+  --cream-dim:rgba(246,236,230,.74);
+  --cream-faint:rgba(246,236,230,.54);
+
+  --line:rgba(229,165,131,.22);
+  --line-strong:rgba(229,165,131,.38);
+  --line-faint:rgba(246,236,230,.1);
+
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  --container:1152px;
+  --pad:clamp(22px,4vw,48px);
+  --section-y:clamp(72px,8vw,116px);
+  --gap:clamp(18px,2.2vw,34px);
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --dock-h:52px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html{
+  -webkit-text-size-adjust:100%;
+  background:var(--plum-900);
+}
+html:not(.lenis-smooth){scroll-behavior:smooth}
+
+body{
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:clamp(.94rem,.2vw + .88rem,1rem);
+  line-height:1.68;
+  color:var(--cream);
+  /* Transparent on purpose. A background here would paint after the
+     negative-z layers and bury the canvas; the ground comes from <html>. */
+  background:transparent;
+  /* clip, not hidden: hidden turns the body into a scroll container and
+     the sticky columns lose their anchor. */
+  overflow-x:hidden;
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+/* ── the three fixed layers behind the document ─────────────────────────
+   backdrop wash (-3) → live WebGL ring (-2) → film grain (-1) → content.
+   Grain sits over the canvas and under the type, so it textures the light
+   without ever softening a letterform. */
+.backdrop,.grain{position:fixed;inset:0;pointer-events:none}
+.backdrop{
+  z-index:-3;
+  background:
+    radial-gradient(1100px 700px at 12% -5%, rgba(120,72,92,.55), transparent 62%),
+    radial-gradient(900px 620px at 92% 8%, rgba(90,55,70,.45), transparent 60%),
+    radial-gradient(1000px 800px at 50% 105%, rgba(112,66,84,.4), transparent 65%),
+    linear-gradient(165deg,#2f1e29 0%,#261821 55%,#1f141c 100%);
+}
+.grain{
+  z-index:-1;opacity:.42;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+}
+#scene{
+  position:fixed;inset:0;z-index:-2;
+  width:100%;height:100%;
+  display:block;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .9s var(--ease);
+}
+.scene-ready #scene{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SHARED PRIMITIVES
+   ═══════════════════════════════════════════════════════════════════════ */
+.wrap{
+  width:min(100% - (var(--pad) * 2), var(--container));
+  margin-inline:auto;
+}
+
+.section{
+  position:relative;
+  padding-block:var(--section-y);
+}
+/* Sections that must occlude the ring paint their own ground. Hero and
+   the loop stay transparent so the canvas reads through. */
+.section--solid{background:var(--plum-800)}
+
+.rule{height:1px;border:0;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+.eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:.72rem;font-weight:400;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:14px;
+}
+.eyebrow::before{
+  content:'';width:22px;height:1px;flex:none;
+  background:var(--line-strong);
+}
+.center .eyebrow{justify-content:center}
+
+h1,h2,h3,h4,.serif{
+  font-family:var(--serif);
+  font-weight:400;
+  letter-spacing:.004em;
+  line-height:1.14;
+}
+
+.h-display{
+  font-size:clamp(2.25rem,2.9vw + .85rem,3.55rem);
+  line-height:1.045;
+  letter-spacing:-.012em;
+}
+.h-display em{font-style:italic;color:var(--rose-soft)}
+
+.h-section{
+  font-size:clamp(1.95rem,2.7vw + .8rem,3rem);
+  line-height:1.1;
+  letter-spacing:-.008em;
+}
+.h-sub{font-size:clamp(1.3rem,1.1vw + .95rem,1.65rem)}
+
+.lede{
+  font-size:clamp(1rem,.36vw + .93rem,1.12rem);
+  line-height:1.6;
+  color:var(--cream-dim);
+  max-width:62ch;
+}
+.lede + .lede{margin-top:12px}
+.lede strong{color:var(--cream);font-weight:400}
+.center .lede{margin-inline:auto}
+.center{text-align:center}
+
+.note{
+  font-size:.86rem;
+  line-height:1.6;
+  color:var(--cream-faint);
+}
+
+a{color:var(--rose);text-decoration:none;transition:color .2s var(--ease)}
+a:hover{color:var(--rose-soft)}
+
+:focus-visible{
+  outline:2px solid var(--rose);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.icon{
+  width:1em;height:1em;flex:none;
+  display:block;
+  color:inherit;
+}
+
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  padding:12px 20px;
+  background:var(--rose);color:var(--plum-900);
+  font-size:.85rem;font-weight:500;
+  border-radius:0 0 10px 0;
+}
+.skip:focus{left:0}
+
+.sr-only{
+  position:absolute;width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
+/* ── buttons ─────────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;
+  padding:0 24px;
+  border:1px solid transparent;
+  border-radius:999px;
+  font-family:var(--sans);
+  font-size:.9rem;font-weight:500;
+  letter-spacing:.01em;
+  cursor:pointer;
+  text-align:center;
+  transition:background .22s var(--ease),border-color .22s var(--ease),
+             color .22s var(--ease),transform .12s var(--ease);
+}
+.btn .icon{font-size:1.1em}
+.btn:active{transform:translateY(1px)}
+
+.btn-primary{
+  background:linear-gradient(160deg,var(--rose-soft),var(--rose-deep));
+  color:#2a1a23;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34);
+}
+.btn-primary:hover{
+  background:linear-gradient(160deg,#f7d3bd,var(--rose));
+  color:#2a1a23;
+}
+
+.btn-ghost{
+  border-color:var(--line-strong);
+  color:var(--cream);
+  background:rgba(246,236,230,.03);
+}
+.btn-ghost:hover{
+  border-color:var(--rose);
+  background:rgba(229,165,131,.09);
+  color:var(--cream);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REVEAL SYSTEM
+   Progressive enhancement: without .js everything is already visible.
+   ═══════════════════════════════════════════════════════════════════════ */
+.js .rv{opacity:0;transform:translateY(22px)}
+.js .rv.in{
+  opacity:1;transform:none;
+  transition:opacity .85s var(--ease-out),transform .85s var(--ease-out);
+  transition-delay:var(--rvd,0ms);
+}
+
+/* Word-by-word heading reveal. The element keeps an unsplit aria-label and
+   every generated span is hidden from assistive technology. */
+.js h1[data-words]:not(.is-split),
+.js h2[data-words]:not(.is-split){visibility:hidden}
+[data-words] .w-mask{display:inline-block;overflow:hidden;vertical-align:top}
+/* No start transform here on purpose. A percentage translate in a
+   stylesheet reaches GSAP as a resolved pixel offset, which it then keeps
+   underneath the yPercent it is animating — so the words land 112% low and
+   stay there. The start state is set in script instead. */
+[data-words] .w{display:inline-block;will-change:transform}
+[data-words].is-split{visibility:visible}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DOCK — proximity magnification, pointer-tracked rim.
+   No backdrop-filter: this bar floats over a canvas that repaints every
+   frame, and re-sampling that backdrop per frame is the single most
+   expensive thing we could ask the compositor to do.
+   ═══════════════════════════════════════════════════════════════════════ */
+.dock-wrap{
+  position:fixed;z-index:50;
+  left:0;right:0;top:18px;
+  display:flex;justify-content:center;
+  padding-inline:14px;
+  pointer-events:none;
+}
+.dock{
+  position:relative;
+  display:flex;align-items:flex-start;gap:3px;
+  padding:5px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg,rgba(246,236,230,.075),rgba(246,236,230,0) 46%),
+    rgba(36,23,34,.94);
+  box-shadow:
+    inset 0 1px 0 rgba(246,236,230,.1),
+    0 14px 28px -10px rgba(12,6,10,.62);
+  pointer-events:auto;
+  max-width:100%;
+}
+.dock-item{
+  position:relative;z-index:1;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  flex:none;
+  height:42px;
+  padding:0 14px;
+  border:1px solid transparent;
+  border-radius:11px;
+  background:rgba(246,236,230,.035);
+  color:var(--cream-faint);
+  font-family:var(--sans);
+  font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;
+  white-space:nowrap;
+  transform-origin:50% 0;
+  cursor:pointer;
+  transition:color .18s var(--ease),border-color .2s var(--ease),background .2s var(--ease);
+}
+.dock-item .icon{font-size:16px;opacity:.72;transition:opacity .18s var(--ease)}
+.dock-item[data-near="true"]{
+  z-index:2;
+  color:var(--cream);
+  border-color:var(--line-strong);
+  background:rgba(56,35,47,.96);
+  box-shadow:0 8px 18px -6px rgba(12,6,10,.55);
+}
+.dock-item[data-near="true"] .icon{opacity:1}
+.dock-item.is-active{
+  color:var(--rose);
+  border-color:var(--line);
+  background:rgba(229,165,131,.11);
+}
+.dock-item.is-active .icon{opacity:1}
+.dock-mark{
+  width:42px;padding:0;
+  overflow:hidden;
+  background:rgba(246,236,230,.06);
+}
+.dock-mark img{width:24px;height:auto;display:block;opacity:.94}
+.dock-join{
+  color:var(--plum-900);
+  background:linear-gradient(160deg,var(--rose-soft),var(--rose-deep));
+  border-color:transparent;
+}
+.dock-join .icon{opacity:.9}
+.dock-join[data-near="true"],
+.dock-join.is-active{
+  color:var(--plum-900);
+  background:linear-gradient(160deg,#f8d6c1,var(--rose));
+  border-color:transparent;
+}
+.dock-join.is-active .icon,.dock-join[data-near="true"] .icon{opacity:1}
+
+/* pointer-tracked specular rim, masked down to the 1px border */
+.dock::after{
+  content:'';position:absolute;inset:-1px;
+  border-radius:inherit;
+  padding:1px;
+  pointer-events:none;
+  opacity:var(--rim,0);
+  background:conic-gradient(from var(--rim-angle,2.4rad) at 50% 50%,
+    rgba(246,236,230,0) 0deg, rgba(246,236,230,.06) 16deg, rgba(246,236,230,.72) 30deg,
+    rgba(246,236,230,.12) 48deg, rgba(246,236,230,0) 70deg, rgba(246,236,230,0) 180deg,
+    rgba(246,236,230,.06) 196deg, rgba(246,236,230,.72) 210deg, rgba(246,236,230,.12) 228deg,
+    rgba(246,236,230,0) 250deg, rgba(246,236,230,0) 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+          mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  transition:opacity .3s var(--ease);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════════════ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;align-items:center;
+  padding-block:calc(var(--dock-h) + 22px) clamp(40px,4.4vw,60px);
+  overflow:hidden;
+}
+/* A veil over the canvas, not over the type: it sits above the ring and
+   below the copy, so the headline keeps its contrast wherever the ring
+   happens to drift. */
+.hero::before,.loop::before{
+  content:'';
+  position:absolute;inset:0;z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(36,23,34,.74) 0%,rgba(36,23,34,.82) 100%);
+}
+.hero > .wrap,.loop > .wrap{position:relative;z-index:1}
+@media (min-width:900px){
+  .hero::before{
+    background:linear-gradient(100deg,
+      rgba(36,23,34,.94) 0%,rgba(36,23,34,.88) 34%,
+      rgba(36,23,34,.42) 54%,rgba(36,23,34,0) 74%);
+  }
+}
+@media (min-width:1000px){
+  .loop::before{
+    background:linear-gradient(100deg,
+      rgba(36,23,34,.86) 0%,rgba(36,23,34,.5) 28%,
+      rgba(36,23,34,0) 52%);
+  }
+}
+/* No width here: .hero-grid shares an element with .wrap, and a width
+   declaration would beat .wrap's centred measure on source order and slam
+   the copy against the viewport edge. */
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(28px,3.4vw,46px);
+  align-content:center;
+}
+.hero-copy{max-width:40rem}
+.hero-copy .h-display{margin-bottom:20px}
+.hero-copy .lede{max-width:48ch}
+
+.lockup{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:clamp(18px,2vw,26px);
+}
+.lockup img{
+  width:clamp(50px,4.4vw,62px);height:auto;
+  display:block;
+  opacity:.95;
+}
+.lockup-word{
+  font-family:var(--serif);
+  font-size:clamp(1.12rem,.8vw + .88rem,1.38rem);
+  line-height:1.1;
+  letter-spacing:.005em;
+}
+.lockup-sub{
+  font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--rose);
+  margin-top:5px;
+}
+.lockup-tag{
+  font-size:.78rem;line-height:1.42;
+  color:var(--cream-faint);
+  margin-top:8px;
+}
+
+.hero-cta{
+  display:flex;flex-wrap:wrap;gap:12px;
+  margin-top:clamp(18px,2vw,28px);
+}
+.hero-note{
+  margin-top:16px;
+  font-size:.8rem;letter-spacing:.02em;
+  color:var(--cream-faint);
+}
+
+/* counter — the number is the hero's second subject, so it is typeset,
+   not badged */
+.counter{
+  margin-top:clamp(30px,3.4vw,40px);
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  max-width:30rem;
+}
+.counter-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+}
+.counter-num{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,3.4vw + 1rem,3.4rem);
+  line-height:1;
+  letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;
+  display:flex;align-items:baseline;gap:10px;
+}
+.counter-unit{
+  font-family:var(--sans);
+  font-size:.8rem;font-weight:300;
+  letter-spacing:.04em;
+  color:var(--cream-faint);
+}
+.counter-goal{
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cream-faint);
+  font-variant-numeric:tabular-nums;
+}
+.bar{
+  position:relative;
+  height:5px;
+  margin-top:18px;
+  border-radius:999px;
+  background:rgba(36,23,34,.9);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.55),0 1px 0 rgba(246,236,230,.05);
+  overflow:hidden;
+}
+.bar i{
+  display:block;height:100%;width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,rgba(229,165,131,.45),var(--rose));
+  transition:width .9s var(--ease);
+}
+/* At zero the track would read as broken rather than empty, so the first
+   seat is marked with a tick that says "this is the start", not "this is a bar". */
+.bar::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;
+  background:var(--rose);
+  opacity:.85;
+}
+.counter-cap{
+  margin-top:14px;
+  font-size:.8rem;line-height:1.6;
+  color:var(--cream-faint);
+  max-width:46ch;
+}
+
+/* On wide screens the count moves under the ring: the number and the thing
+   it counts belong in the same column, and it keeps the left column short
+   enough that the call to action stays above the fold. */
+@media (min-width:900px){
+  .hero-grid{
+    grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);
+    grid-template-rows:1fr auto;
+    column-gap:clamp(30px,3.6vw,58px);
+    row-gap:0;
+    align-items:center;
+  }
+  .hero-copy{grid-column:1;grid-row:1 / 3;align-self:center}
+  .hero-figure{grid-column:2;grid-row:1;align-self:stretch}
+  .counter{grid-column:2;grid-row:2;align-self:end;margin-top:0;max-width:none}
+}
+
+/* The ring reads through this cell. It carries no paint of its own — it
+   only reserves the composition's right-hand column so the type never
+   crowds the geometry. */
+.hero-figure{
+  position:relative;
+  min-height:min(46vw,420px);
+  display:none;
+}
+@media (min-width:900px){.hero-figure{display:block}}
+.hero-figure-cap{
+  position:absolute;left:0;bottom:0;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cream-faint);
+  display:flex;align-items:center;gap:10px;
+}
+.hero-figure-cap::before{
+  content:'';width:26px;height:1px;background:var(--line-strong);
+}
+
+/* ── static fallback: no WebGL, or reduced motion ───────────────────── */
+.ring-fallback{
+  position:absolute;inset:0;
+  display:none;
+  place-items:center;
+}
+.ring-fallback::before{
+  content:'';
+  width:min(78%,340px);aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid var(--line);
+  box-shadow:
+    inset 0 0 60px rgba(229,165,131,.12),
+    0 0 90px rgba(229,165,131,.07);
+  background:radial-gradient(circle,transparent 58%,rgba(229,165,131,.07) 72%,transparent 78%);
+}
+.no-webgl .ring-fallback{display:grid}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE IDEA — a ruled ladder, not three cards
+   ═══════════════════════════════════════════════════════════════════════ */
+.idea-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(32px,4vw,56px);
+  margin-top:clamp(38px,4vw,54px);
+}
+@media (min-width:900px){
+  .idea-grid{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+  .idea-intro{position:sticky;top:calc(var(--dock-h) + 40px);align-self:start}
+}
+.idea-list{border-top:1px solid var(--line)}
+.idea-item{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(16px,2.4vw,30px);
+  padding-block:clamp(26px,3.2vw,38px);
+  border-bottom:1px solid var(--line-faint);
+}
+.idea-n{
+  font-family:var(--serif);
+  font-size:clamp(1.5rem,1.8vw + .8rem,2.1rem);
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  color:rgba(229,165,131,.6);
+  min-width:2.2ch;
+}
+.idea-item h3{margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.idea-item h3 .icon{font-size:.78em;color:var(--rose);opacity:.85}
+.idea-item p{color:var(--cream-dim);max-width:56ch}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   THE LOOP — the ring returns, labelled from projected 3D coordinates
+   ═══════════════════════════════════════════════════════════════════════ */
+.loop{
+  position:relative;
+  padding-block:clamp(88px,11vw,150px);
+  overflow:hidden;
+}
+.loop-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(44px,6vw,64px);
+  align-items:center;
+}
+@media (min-width:1000px){
+  .loop-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+}
+.loop-copy{max-width:44ch}
+
+.loop-stage{
+  position:relative;
+  min-height:min(94vw,520px);
+  isolation:isolate;
+}
+/* Labels are absolutely placed from the projected ring. Until the scene
+   reports positions they sit in a legible static rosette, which is also
+   exactly what a no-WebGL visitor keeps. */
+.node{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  text-align:center;
+  width:max-content;
+  transition:opacity .4s var(--ease);
+}
+.node-dot{
+  display:grid;place-items:center;
+  width:44px;height:44px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(43,28,38,.9);
+  color:var(--rose);
+  box-shadow:inset 0 1px 0 rgba(246,236,230,.1);
+}
+.node-dot .icon{font-size:21px}
+.node b{
+  font-family:var(--serif);
+  font-size:1.12rem;font-weight:400;
+  letter-spacing:.01em;
+}
+.node span{
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cream-faint);
+}
+.node-give{left:50%;top:3%}
+.node-vote{left:93%;top:50%}
+.node-empower{left:50%;top:97%}
+.node-ask{left:7%;top:50%}
+/* Once the scene reports projected coordinates the nodes are driven purely
+   by transform, so tracking the live ring costs no layout. */
+.loop-stage.is-projected .node{left:0;top:0}
+
+.loop-centre{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--serif);
+  font-size:clamp(1.15rem,1.5vw + .7rem,1.7rem);
+  line-height:1.28;
+  text-align:center;
+  color:var(--cream-dim);
+  max-width:11ch;
+  pointer-events:none;
+}
+/* the static ring only shows when the live one cannot */
+.loop-ring{
+  position:absolute;left:50%;top:50%;
+  width:min(72%,340px);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:1px dashed var(--line);
+  opacity:0;
+  transition:opacity .5s var(--ease);
+}
+.no-webgl .loop-ring,.reduced .loop-ring{opacity:1}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   WHAT WE FUND — a 2 + 3 ruled matrix, not a five-across grid
+   ═══════════════════════════════════════════════════════════════════════ */
+.fund{
+  margin-top:clamp(38px,4vw,54px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+.fund-cell{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:16px;
+  padding:clamp(22px,2.6vw,30px);
+  border-bottom:1px solid var(--line-faint);
+}
+.fund-cell:last-child{border-bottom:0}
+.fund-cell .icon{font-size:24px;color:var(--rose);opacity:.85;margin-top:2px}
+.fund-cell h4{font-size:1.22rem;margin-bottom:6px}
+.fund-cell p{font-size:.92rem;color:var(--cream-dim)}
+
+@media (min-width:760px){
+  .fund{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .fund-cell{border-right:1px solid var(--line-faint)}
+  .fund-cell:nth-child(1),.fund-cell:nth-child(2){grid-column:span 3}
+  .fund-cell:nth-child(3),.fund-cell:nth-child(4),.fund-cell:nth-child(5){grid-column:span 2}
+  .fund-cell:nth-child(2),.fund-cell:nth-child(5){border-right:0}
+  .fund-cell:nth-child(3),.fund-cell:nth-child(4),.fund-cell:nth-child(5){border-bottom:0}
+}
+
+.fund-foot{
+  margin-top:22px;
+  text-align:center;
+  max-width:70ch;
+  margin-inline:auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOW IT WORKS — six steps on a rail that draws itself
+   ═══════════════════════════════════════════════════════════════════════ */
+.steps-wrap{
+  position:relative;
+  margin-top:clamp(38px,4vw,54px);
+}
+.rail{
+  position:absolute;
+  left:calc(clamp(2.1rem,3.4vw,2.9rem) / 2);
+  top:var(--rail-top,0);
+  height:var(--rail-height,0);
+  width:1px;
+  background:var(--line-faint);
+  pointer-events:none;
+}
+.rail i{
+  display:block;width:100%;height:100%;
+  background:linear-gradient(180deg,var(--rose),rgba(229,165,131,.35));
+  transform:scaleY(var(--progress,0));
+  transform-origin:top;
+}
+.steps{list-style:none}
+.step{
+  position:relative;
+  display:grid;
+  grid-template-columns:clamp(2.1rem,3.4vw,2.9rem) minmax(0,1fr);
+  gap:clamp(16px,2.4vw,28px);
+  padding-block:clamp(20px,2.6vw,30px);
+}
+.step-dot{
+  position:relative;
+  display:grid;place-items:center;
+  width:clamp(2.1rem,3.4vw,2.9rem);
+  height:clamp(2.1rem,3.4vw,2.9rem);
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--plum-800);
+  font-family:var(--serif);
+  font-size:1rem;
+  font-variant-numeric:tabular-nums;
+  color:var(--cream-faint);
+  transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease);
+}
+.step.active .step-dot{
+  color:var(--plum-900);
+  border-color:var(--rose);
+  background:var(--rose);
+}
+.step h4{font-size:1.22rem;margin-bottom:7px;padding-top:2px}
+.step p{color:var(--cream-dim);max-width:62ch}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SAFEGUARDS
+   ═══════════════════════════════════════════════════════════════════════ */
+.safe{
+  margin-top:clamp(38px,4vw,54px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+.safe article{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:16px;
+  padding:clamp(22px,2.6vw,30px);
+  border-bottom:1px solid var(--line-faint);
+}
+.safe article:last-child{border-bottom:0}
+.safe .icon{font-size:24px;color:var(--rose);opacity:.85;margin-top:2px}
+.safe h4{font-size:1.22rem;margin-bottom:6px}
+.safe p{font-size:.92rem;color:var(--cream-dim)}
+@media (min-width:760px){
+  .safe{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .safe article:nth-child(odd){border-right:1px solid var(--line-faint)}
+  .safe article:nth-last-child(-n+2){border-bottom:0}
+}
+
+/* The plainest block on the page, deliberately. This is the section that
+   tells you what the thing is not, so it gets no ornament at all. */
+.legal{
+  margin-top:clamp(30px,3.4vw,44px);
+  padding:clamp(24px,3vw,36px);
+  border:1px solid var(--line-faint);
+  border-radius:14px;
+  background:rgba(36,23,34,.42);
+}
+.legal h3{
+  font-size:1.3rem;
+  margin-bottom:18px;
+}
+.legal ul{list-style:none;display:grid;gap:14px}
+.legal li{
+  position:relative;
+  padding-left:22px;
+  font-size:.94rem;line-height:1.62;
+  color:var(--cream-dim);
+}
+.legal li::before{
+  content:'';position:absolute;left:0;top:.66em;
+  width:7px;height:1px;background:var(--rose);
+}
+.legal strong{color:var(--cream);font-weight:400}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════════════════════ */
+.faq{
+  margin-top:clamp(34px,4vw,50px);
+  border-top:1px solid var(--line);
+  max-width:64rem;
+}
+.faq details{border-bottom:1px solid var(--line-faint)}
+.faq summary{
+  display:flex;align-items:flex-start;gap:18px;
+  padding-block:22px;
+  cursor:pointer;
+  list-style:none;
+  font-family:var(--serif);
+  font-size:clamp(1.12rem,.7vw + .95rem,1.32rem);
+  line-height:1.34;
+  color:var(--cream);
+  transition:color .2s var(--ease);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--rose-soft)}
+.faq summary .mark{
+  position:relative;
+  flex:none;
+  width:15px;height:15px;
+  margin-top:.42em;
+}
+.faq summary .mark::before,
+.faq summary .mark::after{
+  content:'';position:absolute;left:50%;top:50%;
+  background:var(--rose);
+  transform:translate(-50%,-50%);
+  transition:opacity .25s var(--ease),transform .25s var(--ease);
+}
+.faq summary .mark::before{width:15px;height:1px}
+.faq summary .mark::after{width:1px;height:15px}
+.faq details[open] summary .mark::after{opacity:0;transform:translate(-50%,-50%) rotate(90deg)}
+.faq .answer{overflow:hidden}
+.faq .answer-inner{padding:0 0 24px 33px}
+.faq .answer p{color:var(--cream-dim);max-width:68ch}
+.faq .answer p + p{margin-top:14px}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   JOIN
+   ═══════════════════════════════════════════════════════════════════════ */
+.join-grid{
+  margin-top:clamp(40px,4.4vw,58px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:clamp(32px,4vw,52px);
+  align-items:start;
+}
+@media (min-width:940px){
+  .join-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .join-copy{position:sticky;top:calc(var(--dock-h) + 40px)}
+}
+.join-copy h3{font-size:1.5rem;margin-bottom:16px}
+.join-copy p{color:var(--cream-dim);max-width:52ch}
+.join-copy p + p{margin-top:14px}
+.join-facts{
+  margin-top:28px;
+  display:grid;gap:14px;
+  padding-top:24px;
+  border-top:1px solid var(--line-faint);
+}
+.join-facts div{display:flex;align-items:flex-start;gap:12px}
+.join-facts .icon{font-size:19px;color:var(--rose);flex:none;margin-top:1px}
+.join-facts span{font-size:.9rem;color:var(--cream-dim)}
+
+/* The form is the only panel on the page that gets elevation, because it
+   is the only place where elevation means something. */
+.join-panel{
+  position:relative;
+  padding:clamp(24px,3.2vw,38px);
+  border:1px solid transparent;
+  border-radius:18px;
+  background:
+    linear-gradient(rgba(56,35,47,.72),rgba(56,35,47,.72)) padding-box,
+    linear-gradient(150deg,rgba(246,236,230,.2),rgba(229,165,131,.36) 46%,rgba(246,236,230,.07)) border-box;
+  box-shadow:
+    inset 0 1px 0 rgba(246,236,230,.1),
+    0 24px 40px -22px rgba(12,6,10,.7);
+}
+
+form{display:grid;gap:20px}
+.row{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+@media (min-width:520px){.row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.field{display:grid;gap:8px}
+
+label{
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream-faint);
+  font-weight:400;
+}
+label .req{color:var(--rose)}
+label .opt{text-transform:none;letter-spacing:.02em}
+
+input[type=text],input[type=email],textarea,select{
+  width:100%;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--line-faint);
+  border-radius:10px;
+  background:rgba(36,23,34,.62);
+  color:var(--cream);
+  font-family:var(--sans);
+  font-size:.95rem;font-weight:300;
+  transition:border-color .2s var(--ease),background .2s var(--ease);
+}
+textarea{min-height:96px;resize:vertical;line-height:1.55}
+select{
+  appearance:none;
+  padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23e5a583' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+}
+select option{background:var(--plum-800);color:var(--cream)}
+input::placeholder,textarea::placeholder{color:rgba(246,236,230,.34)}
+input:hover,textarea:hover,select:hover{border-color:var(--line)}
+/* background-color, not the shorthand: the select's chevron lives in
+   background-image and the shorthand would wipe it on focus. */
+input:focus,textarea:focus,select:focus{
+  border-color:var(--rose);
+  background-color:rgba(36,23,34,.88);
+  outline:none;
+}
+input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:2px solid var(--rose);outline-offset:2px;
+}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#e0796a}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  position:relative;
+  display:inline-flex;align-items:center;
+  min-height:40px;
+  padding:0 15px;
+  border:1px solid var(--line-faint);
+  border-radius:999px;
+  font-size:.85rem;
+  color:var(--cream-dim);
+  cursor:pointer;
+  text-transform:none;letter-spacing:normal;
+  transition:border-color .2s var(--ease),background .2s var(--ease),color .2s var(--ease);
+}
+.chip input{
+  position:absolute;opacity:0;
+  width:100%;height:100%;left:0;top:0;
+  margin:0;cursor:pointer;
+}
+.chip:hover{border-color:var(--line);color:var(--cream)}
+/* .is-on is set by script; :has covers the no-script case. Either alone
+   would be enough in a modern browser, together they cover both. */
+.chip.is-on,
+.chip:has(input:checked){
+  border-color:var(--rose);
+  background:rgba(229,165,131,.14);
+  color:var(--cream);
+}
+.chip:has(input:focus-visible){outline:2px solid var(--rose);outline-offset:2px}
+
+fieldset{border:0;padding:0;min-width:0}
+.legend{
+  display:block;
+  font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream-faint);
+  padding:0;
+}
+
+.consent{
+  display:flex;align-items:flex-start;gap:12px;
+  cursor:pointer;
+  text-transform:none;letter-spacing:normal;
+  font-size:.88rem;line-height:1.55;
+  color:var(--cream-dim);
+}
+.consent input{
+  appearance:none;
+  flex:none;
+  width:20px;height:20px;
+  margin-top:2px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  background:rgba(36,23,34,.62);
+  cursor:pointer;
+  transition:background .18s var(--ease),border-color .18s var(--ease);
+}
+.consent input:checked{
+  background:var(--rose)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10'%3E%3Cpath fill='none' stroke='%23241722' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M1 5.2 4.3 8.5 11 1.5'/%3E%3C/svg%3E")
+    center / 12px 10px no-repeat;
+  border-color:var(--rose);
+}
+.consent input:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
+
+.err{
+  display:none;
+  font-size:.82rem;
+  color:#f0a091;
+}
+.err.show{display:block}
+
+.form-note{
+  font-size:.8rem;line-height:1.6;
+  color:var(--cream-faint);
+}
+
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.thanks{
+  display:none;
+  text-align:center;
+  padding-block:10px;
+}
+.thanks.show{display:block}
+.thanks > .icon{
+  font-size:46px;
+  color:var(--rose);
+  margin:0 auto 18px;
+}
+.thanks h3{font-size:1.8rem;margin-bottom:14px}
+.thanks p{color:var(--cream-dim);max-width:44ch;margin-inline:auto}
+.thanks p + p{margin-top:12px}
+.share-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin-top:26px;
+  padding-top:24px;
+  border-top:1px solid var(--line-faint);
+}
+.share-row a,.share-row button{
+  display:inline-flex;align-items:center;
+  min-height:40px;
+  padding:0 15px;
+  border:1px solid var(--line-faint);
+  border-radius:999px;
+  background:transparent;
+  font-family:var(--sans);
+  font-size:.82rem;font-weight:300;
+  color:var(--cream-dim);
+  cursor:pointer;
+  transition:border-color .2s var(--ease),color .2s var(--ease),background .2s var(--ease);
+}
+.share-row a:hover,.share-row button:hover{
+  border-color:var(--rose);color:var(--cream);background:rgba(229,165,131,.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════════════ */
+footer{
+  position:relative;
+  background:var(--plum-900);
+  border-top:1px solid var(--line-faint);
+  padding-block:clamp(44px,5vw,64px);
+}
+.foot{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:32px;
+}
+@media (min-width:800px){
+  .foot{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
+}
+.foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.foot-brand img{width:30px;height:auto;display:block;opacity:.9}
+.foot-brand span{
+  font-family:var(--serif);
+  font-size:1.12rem;
+  color:var(--cream);
+}
+.foot small{
+  display:block;
+  font-size:.8rem;line-height:1.72;
+  color:var(--cream-faint);
+}
+.foot small strong{color:var(--cream-dim);font-weight:400}
+.foot-links{
+  display:flex;flex-wrap:wrap;gap:8px 22px;
+  align-content:start;
+}
+.foot-links a{
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream-faint);
+  min-height:32px;
+  display:inline-flex;align-items:center;
+}
+.foot-links a:hover{color:var(--rose)}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REDUCED MOTION — final states, immediately. Not shortened animations.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .js .rv{opacity:1;transform:none}
+  .js h1[data-words],.js h2[data-words]{visibility:visible}
+  [data-words] .w{transform:none}
+  .rail i{transform:scaleY(1)}
+  #scene{display:none}
+  .ring-fallback{display:grid}
+  .loop-ring{opacity:1}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NARROW SCREENS
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (max-width:760px){
+  .dock-wrap{top:auto;bottom:14px;padding-inline:10px}
+  .dock{
+    gap:2px;padding:4px;border-radius:15px;
+    box-shadow:inset 0 1px 0 rgba(246,236,230,.1),0 10px 30px -8px rgba(12,6,10,.75);
+  }
+  .dock-item{
+    width:44px;height:44px;padding:0;
+    border-radius:11px;
+    gap:0;
+  }
+  .dock-item .label{
+    position:absolute;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .dock-item .icon{font-size:19px}
+  .dock-mark{display:none}
+  .hero{padding-block:76px 84px}
+  .loop-stage{min-height:min(112vw,430px)}
+  .node-dot{width:40px;height:40px}
+  .node b{font-size:1rem}
+  .node span{font-size:.64rem}
+  .loop-centre{font-size:1.05rem;max-width:9ch}
+  .faq .answer-inner{padding-left:0}
+}
+@media (max-width:400px){
+  .node span{display:none}
+  .loop-centre{font-size:.95rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Solar icon set via Iconify, CC BY 4.0 (see /licenses). Inlined so
+     currentColor resolves; regenerate with the curl in README.md. -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="i-lightbulb-minimalistic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M10 19.5H14M10.6667 22H13.3333"/><path d="M7.41058 13.6805L8.51463 14.7196C8.82437 15.0112 9 15.4177 9 15.843C9 16.482 9.518 17 10.157 17H13.843C14.482 17 15 16.482 15 15.843C15 15.4177 15.1756 15.0112 15.4854 14.7196L16.5894 13.6805C18.1306 12.2187 18.9912 10.2984 18.9999 8.30193L19 8.21807C19 4.8069 15.866 2 12 2C8.13401 2 5 4.8069 5 8.21807L5.00007 8.30193C5.00875 10.2984 5.86939 12.2187 7.41058 13.6805Z"/></g></symbol>
+<symbol id="i-checklist-minimalistic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 15.8L7.14286 17L10 14"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 8.8L7.14286 10L10 7"/><path stroke-linecap="round" d="M13 9L18 9"/><path stroke-linecap="round" d="M13 16L18 16"/></g></symbol>
+<symbol id="i-hand-heart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linejoin="round" d="M7 4.71476C7 6.19986 8.72593 7.76428 10.1497 8.80219C10.9489 9.38471 11.3484 9.67598 12 9.67598C12.6516 9.67598 13.0512 9.38472 13.8503 8.8022C15.2741 7.7643 17 6.19988 17 4.71475C17 2.03759 14.2499 1.03807 12 3.10615C9.75008 1.03807 7 2.03759 7 4.71476Z"/><path stroke-linecap="round" d="M12.7518 17.5326C13.4312 17.5968 14.0435 17.5829 14.5668 17.5292C14.6038 17.5254 14.6403 17.5214 14.6764 17.5172M14.6764 17.5172C14.6399 17.525 14.6033 17.5292 14.5668 17.5292M14.6764 17.5172C14.7962 17.5033 14.911 17.4874 15.0206 17.4699C15.932 17.3245 16.697 16.8375 17.3974 16.3084L19.2046 14.9433C19.8417 14.462 20.7873 14.4619 21.4245 14.943C21.9982 15.3762 22.1736 16.0894 21.8109 16.6707C21.388 17.3487 20.7921 18.216 20.2199 18.7459C19.6469 19.2766 18.7939 19.7504 18.0975 20.0865C17.326 20.4589 16.4738 20.6734 15.6069 20.8138C13.8488 21.0983 12.0166 21.0549 10.2763 20.6964C9.29253 20.4937 8.27079 20.3884 7.25993 20.3884H5M14.6764 17.5172C14.8222 17.486 14.9669 17.396 15.1028 17.2775C15.746 16.7161 15.7866 15.77 15.2285 15.1431C15.0991 14.9977 14.9475 14.8764 14.7791 14.7759C11.9817 13.1074 7.62942 14.3782 5 16.2429"/><rect width="3" height="8" x="2" y="14" rx="1.5"/></g></symbol>
+<symbol id="i-shield-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10.4167C3 7.21907 3 5.62028 3.37752 5.08241C3.75503 4.54454 5.25832 4.02996 8.26491 3.00079L8.83772 2.80472C10.405 2.26824 11.1886 2 12 2C12.8114 2 13.595 2.26824 15.1623 2.80472L15.7351 3.00079C18.7417 4.02996 20.245 4.54454 20.6225 5.08241C21 5.62028 21 7.21907 21 10.4167C21 10.8996 21 11.4234 21 11.9914C21 17.6294 16.761 20.3655 14.1014 21.5273C13.38 21.8424 13.0193 22 12 22C10.9807 22 10.62 21.8424 9.89856 21.5273C7.23896 20.3655 3 17.6294 3 11.9914C3 11.4234 3 10.8996 3 10.4167Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12.4L10.9286 14L14.5 10"/></g></symbol>
+<symbol id="i-question-circle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M10.125 8.875C10.125 7.83947 10.9645 7 12 7C13.0355 7 13.875 7.83947 13.875 8.875C13.875 9.56245 13.505 10.1635 12.9534 10.4899C12.478 10.7711 12 11.1977 12 11.75V13"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 16H12.0001"/></g></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 12H20M14 18L20 12L14 6"/></symbol>
+<symbol id="i-home-2" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"/><path stroke-linecap="round" d="M12 15L12 18"/></g></symbol>
+<symbol id="i-document-text" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H13C16.7712 2 18.6569 2 19.8284 3.17157C21 4.34315 21 6.22876 21 10V14C21 17.7712 21 19.6569 19.8284 20.8284C18.6569 22 16.7712 22 13 22H11C7.22876 22 5.34315 22 4.17157 20.8284C3 19.6569 3 17.7712 3 14V10Z"/><path stroke-linecap="round" d="M8 12H16"/><path stroke-linecap="round" d="M8 8H16"/><path stroke-linecap="round" d="M8 16H13"/></g></symbol>
+<symbol id="i-diploma" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="16" r="3"/><path d="M12 19.2599L9.73713 21.4293C9.41306 21.74 9.25102 21.8953 9.1138 21.9491C8.80111 22.0716 8.45425 21.9667 8.28977 21.7C8.21758 21.583 8.19509 21.3719 8.1501 20.9496C8.1247 20.7113 8.112 20.5921 8.07345 20.4922C7.98715 20.2687 7.80579 20.0948 7.57266 20.0121C7.46853 19.9751 7.3442 19.963 7.09553 19.9386C6.65512 19.8955 6.43491 19.8739 6.31283 19.8047C6.03463 19.647 5.92529 19.3145 6.05306 19.0147C6.10913 18.8832 6.27116 18.7278 6.59523 18.4171L8.07345 16.9999L9.1138 15.9596"/><path d="M12 19.2599L14.2629 21.4294C14.5869 21.7401 14.749 21.8954 14.8862 21.9492C15.1989 22.0717 15.5457 21.9668 15.7102 21.7001C15.7824 21.5831 15.8049 21.372 15.8499 20.9497C15.8753 20.7113 15.888 20.5921 15.9265 20.4923C16.0129 20.2688 16.1942 20.0949 16.4273 20.0122C16.5315 19.9752 16.6558 19.9631 16.9045 19.9387C17.3449 19.8956 17.5651 19.874 17.6872 19.8048C17.9654 19.6471 18.0747 19.3146 17.9469 19.0148C17.8909 18.8832 17.7288 18.7279 17.4048 18.4172L15.9265 17L15 16.0735"/><path d="M17.3197 17.9957C19.2921 17.9748 20.3915 17.8512 21.1213 17.1213C22 16.2426 22 14.8284 22 12V8C22 5.17157 22 3.75736 21.1213 2.87868C20.2426 2 18.8284 2 16 2L8 2C5.17157 2 3.75736 2 2.87868 2.87868C2 3.75736 2 5.17157 2 8L2 12C2 14.8284 2 16.2426 2.87868 17.1213C3.64706 17.8897 4.82497 17.9862 7 17.9983"/><path stroke-linecap="round" d="M9 6L15 6"/><path stroke-linecap="round" d="M7 9.5H17"/></g></symbol>
+<symbol id="i-heart-pulse" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M18 11.9999H17.1986C16.3689 11.9999 15.9541 11.9999 15.6102 12.1946C15.2664 12.3893 15.0529 12.745 14.6261 13.4564L14.5952 13.5079C14.1976 14.1706 13.9987 14.502 13.7095 14.4965C13.4202 14.4911 13.2339 14.1525 12.8615 13.4753L11.1742 10.4075C10.8269 9.77606 10.6533 9.46034 10.3759 9.44537C10.0986 9.43039 9.892 9.72558 9.47875 10.3159L9.19573 10.7203C8.75681 11.3473 8.53734 11.6608 8.21173 11.8303C7.88612 11.9999 7.50342 11.9999 6.73803 11.9999H6"/><path stroke-linejoin="round" d="M2 9.26044C2 13.0079 6.01943 16.9714 8.96173 19.3707C10.2937 20.4569 10.9597 21 12 21C13.0403 21 13.7063 20.4569 15.0383 19.3707C17.9806 16.9714 22 13.008 22 9.2604C22 3.34931 16.4998 0.662637 12 5.49877C7.50016 0.662637 2 3.3495 2 9.26044Z"/></g></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 11C14 10.4477 14.4477 10 15 10C15.5523 10 16 10.4477 16 11V13C16 13.5523 15.5523 14 15 14C14.4477 14 14 13.5523 14 13V11Z"/><path stroke-linejoin="round" d="M14.0137 17L14.0079 19.0029C14.0065 19.4731 14.0058 19.7081 13.8595 19.8541C13.7131 20 13.478 20 13.0079 20H9.99502C6.21438 20 4.32407 20 3.14958 18.8284C2.34091 18.0218 2.08903 16.8766 2.01058 15.0105C1.99502 14.6405 1.98724 14.4554 2.05634 14.332C2.12545 14.2085 2.40133 14.0545 2.95308 13.7463C3.56586 13.4041 3.98007 12.7503 3.98007 12C3.98007 11.2497 3.56586 10.5959 2.95308 10.2537C2.40133 9.94554 2.12545 9.79147 2.05634 9.66802C1.98724 9.54458 1.99502 9.35954 2.01058 8.98947C2.08903 7.12339 2.34091 5.97823 3.14958 5.17157C4.32407 4 6.21439 4 9.99502 4H13.5052C13.7814 4 14.0056 4.22298 14.0064 4.49855L14.0137 7C14.0137 7.55228 14.4625 8 15.0162 8C15.5698 8 16.0187 7.55228 16.0187 7V4.51618C16.0187 4.23718 16.2482 4.01169 16.5278 4.0189C18.6952 4.0748 19.9727 4.29604 20.8504 5.17157C21.6591 5.97823 21.911 7.12339 21.9894 8.98947C22.005 9.35954 22.0128 9.54458 21.9437 9.66803C21.8745 9.79147 21.5987 9.94554 21.0469 10.2537C20.4341 10.5959 20.0199 11.2497 20.0199 12C20.0199 12.7503 20.4341 13.4041 21.0469 13.7463C21.5987 14.0545 21.8745 14.2085 21.9437 14.332C22.0128 14.4554 22.005 14.6405 21.9894 15.0105C21.911 16.8766 21.6591 18.0218 20.8504 18.8284C20.0433 19.6336 18.8981 19.8854 17.0336 19.9642C16.5623 19.9841 16.3267 19.994 16.1727 19.8464C16.0187 19.6988 16.0187 19.458 16.0187 18.9765V17C16.0187 16.4477 15.5698 16 15.0162 16C14.4625 16 14.0137 16.4477 14.0137 17Z"/></g></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z"/><path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"/></g></symbol>
+<symbol id="i-global" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12C22 13.3132 21.7413 14.6136 21.2388 15.8268C20.7362 17.0401 19.9997 18.1425 19.0711 19.0711C18.1425 19.9997 17.0401 20.7362 15.8268 21.2388C14.6136 21.7413 13.3132 22 12 22C10.6868 22 9.38642 21.7413 8.17317 21.2388C6.95991 20.7362 5.85752 19.9997 4.92893 19.0711C4.00035 18.1425 3.26375 17.0401 2.7612 15.8268C2.25866 14.6136 2 13.3132 2 12C2 10.6868 2.25866 9.38642 2.76121 8.17316C3.26375 6.95991 4.00035 5.85752 4.92893 4.92893C5.85752 4.00035 6.95991 3.26375 8.17317 2.7612C9.38642 2.25866 10.6868 2 12 2C13.3132 2 14.6136 2.25866 15.8268 2.76121C17.0401 3.26375 18.1425 4.00035 19.0711 4.92893C19.9997 5.85752 20.7362 6.95991 21.2388 8.17317C21.7413 9.38642 22 10.6868 22 12L22 12Z"/><path d="M16 12C16 13.3132 15.8965 14.6136 15.6955 15.8268C15.4945 17.0401 15.1999 18.1425 14.8284 19.0711C14.457 19.9997 14.016 20.7362 13.5307 21.2388C13.0454 21.7413 12.5253 22 12 22C11.4747 22 10.9546 21.7413 10.4693 21.2388C9.98396 20.7362 9.54301 19.9997 9.17157 19.0711C8.80014 18.1425 8.5055 17.0401 8.30448 15.8268C8.10346 14.6136 8 13.3132 8 12C8 10.6868 8.10346 9.38642 8.30448 8.17316C8.5055 6.95991 8.80014 5.85752 9.17157 4.92893C9.54301 4.00035 9.98396 3.26375 10.4693 2.7612C10.9546 2.25866 11.4747 2 12 2C12.5253 2 13.0454 2.25866 13.5307 2.76121C14.016 3.26375 14.457 4.00035 14.8284 4.92893C15.1999 5.85752 15.4945 6.95991 15.6955 8.17317C15.8965 9.38642 16 10.6868 16 12L16 12Z"/><path stroke-linecap="round" d="M2 12H22"/></g></symbol>
+<symbol id="i-lock-keyhole" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"/><circle cx="12" cy="16" r="2"/><path stroke-linecap="round" d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"/></g></symbol>
+<symbol id="i-hand-money" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.4142 10.4142C17.4142 10.4142 17.4142 10.4142 17.4142 10.4142C18 9.82843 18 8.88562 18 7C18 5.11438 18 4.17157 17.4142 3.58579M17.4142 10.4142C16.8284 11 15.8856 11 14 11H10C8.11438 11 7.17157 11 6.58579 10.4142M17.4142 3.58579C17.4142 3.58579 17.4142 3.58579 17.4142 3.58579C16.8284 3 15.8856 3 14 3L10 3C8.11438 3 7.17157 3 6.58579 3.58579M6.58579 3.58579C6.58579 3.58579 6.58579 3.58579 6.58579 3.58579C6 4.17157 6 5.11438 6 7C6 8.88562 6 9.82843 6.58579 10.4142C6.58579 10.4142 6.58579 10.4142 6.58579 10.4142"/><path d="M13 7C13 7.55228 12.5523 8 12 8C11.4477 8 11 7.55228 11 7C11 6.44772 11.4477 6 12 6C12.5523 6 13 6.44772 13 7Z"/><path stroke-linecap="round" d="M18 6C16.3431 6 15 4.65685 15 3"/><path stroke-linecap="round" d="M18 8C16.3431 8 15 9.34315 15 11"/><path stroke-linecap="round" d="M6 6C7.65685 6 9 4.65685 9 3"/><path stroke-linecap="round" d="M6 8C7.65685 8 9 9.34315 9 11"/><path stroke-linecap="round" d="M5 20.3884H7.25993C8.27079 20.3884 9.29253 20.4937 10.2763 20.6964C12.0166 21.0549 13.8488 21.0983 15.6069 20.8138C16.4738 20.6734 17.326 20.4589 18.0975 20.0865C18.7939 19.7504 19.6469 19.2766 20.2199 18.7459C20.7921 18.216 21.388 17.3487 21.8109 16.6707C22.1736 16.0894 21.9982 15.3762 21.4245 14.943C20.7873 14.4619 19.8417 14.462 19.2046 14.9433L17.3974 16.3084C16.697 16.8375 15.932 17.3245 15.0206 17.4699C14.911 17.4874 14.7962 17.5033 14.6764 17.5172M12.7518 17.5326C13.4312 17.5968 14.0434 17.5829 14.5668 17.5292C14.6038 17.5254 14.6403 17.5214 14.6764 17.5172M14.6764 17.5172C14.8222 17.486 14.9669 17.396 15.1028 17.2775C15.746 16.7161 15.7866 15.77 15.2285 15.1431C15.0991 14.9977 14.9475 14.8764 14.7791 14.7759C11.9817 13.1074 7.62942 14.3782 5 16.2429M14.6764 17.5172C14.6399 17.525 14.6033 17.5292 14.5668 17.5292"/><rect width="3" height="8" x="2" y="14" rx="1.5"/></g></symbol>
+<symbol id="i-chat-square-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="M9 11.08L11 13L15 9"/><path d="M14.5972 19.2098C14.2595 19.4062 14.0492 19.7614 13.6288 20.4718L13.0867 21.3877C12.6035 22.204 11.3965 22.204 10.9133 21.3877L10.3712 20.4718C9.95073 19.7614 9.74049 19.4063 9.40279 19.2098C9.06509 19.0134 8.63992 19.0061 7.78958 18.9915C6.53422 18.9698 5.74689 18.8929 5.08658 18.6194C3.86144 18.1119 2.88807 17.1386 2.3806 15.9134C2 14.9946 2 13.8297 2 11.5V10.5C2 7.22657 2 5.58985 2.7368 4.38751C3.14908 3.71473 3.71473 3.14908 4.38751 2.7368C5.58985 2 7.22657 2 10.5 2H13.5C16.7734 2 18.4101 2 19.6125 2.7368C20.2853 3.14908 20.8509 3.71473 21.2632 4.38751C22 5.58985 22 7.22657 22 10.5V11.5C22 13.8297 22 14.9946 21.6194 15.9134C21.1119 17.1386 20.1386 18.1119 18.9134 18.6194C18.2531 18.8929 17.4658 18.9698 16.2104 18.9915C15.36 19.0061 14.9349 19.0134 14.5972 19.2098Z"/></g></symbol>
+<symbol id="i-hand-stars" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.8613 3.36335C11.3679 2.45445 11.6213 2 12 2C12.3787 2 12.6321 2.45445 13.1387 3.36335L13.2698 3.59849C13.4138 3.85677 13.4858 3.98591 13.598 4.07112C13.7103 4.15633 13.8501 4.18796 14.1296 4.25122L14.3842 4.30881C15.3681 4.53142 15.86 4.64273 15.977 5.01909C16.0941 5.39546 15.7587 5.78763 15.088 6.57197L14.9144 6.77489C14.7238 6.99777 14.6285 7.10922 14.5857 7.24709C14.5428 7.38496 14.5572 7.53364 14.586 7.83102L14.6122 8.10176C14.7136 9.14824 14.7644 9.67148 14.4579 9.90409C14.1515 10.1367 13.6909 9.92462 12.7697 9.50047L12.5314 9.39073C12.2696 9.2702 12.1387 9.20994 12 9.20994C11.8613 9.20994 11.7304 9.2702 11.4686 9.39073L11.2303 9.50047C10.3091 9.92462 9.84847 10.1367 9.54206 9.90409C9.23565 9.67148 9.28635 9.14824 9.38776 8.10176L9.41399 7.83102C9.44281 7.53364 9.45722 7.38496 9.41435 7.24709C9.37147 7.10922 9.27617 6.99777 9.08557 6.77489L8.91204 6.57197C8.2413 5.78763 7.90593 5.39546 8.02297 5.01909C8.14001 4.64273 8.63194 4.53142 9.61581 4.30881L9.87035 4.25122C10.1499 4.18796 10.2897 4.15633 10.402 4.07112C10.5142 3.98591 10.5862 3.85677 10.7302 3.59849L10.8613 3.36335Z"/><path d="M19.4306 7.68168C19.684 7.22723 19.8106 7 20 7C20.1894 7 20.316 7.22722 20.5694 7.68167L20.6349 7.79925C20.7069 7.92839 20.7429 7.99296 20.799 8.03556C20.8551 8.07817 20.925 8.09398 21.0648 8.12561L21.1921 8.15441C21.684 8.26571 21.93 8.32136 21.9885 8.50955C22.047 8.69773 21.8794 8.89381 21.544 9.28598L21.4572 9.38744C21.3619 9.49889 21.3143 9.55461 21.2928 9.62354C21.2714 9.69248 21.2786 9.76682 21.293 9.91551L21.3061 10.0509C21.3568 10.5741 21.3822 10.8357 21.229 10.952C21.0758 11.0683 20.8455 10.9623 20.3849 10.7502L20.2657 10.6954C20.1348 10.6351 20.0694 10.605 20 10.605C19.9306 10.605 19.8652 10.6351 19.7343 10.6954L19.6151 10.7502C19.1545 10.9623 18.9242 11.0683 18.771 10.952C18.6178 10.8357 18.6432 10.5741 18.6939 10.0509L18.707 9.91551C18.7214 9.76682 18.7286 9.69248 18.7072 9.62354C18.6857 9.55461 18.6381 9.49889 18.5428 9.38744L18.456 9.28599C18.1206 8.89381 17.953 8.69773 18.0115 8.50955C18.07 8.32136 18.316 8.26571 18.8079 8.15441L18.9352 8.12561C19.075 8.09398 19.1449 8.07817 19.201 8.03556C19.2571 7.99296 19.2931 7.92839 19.3651 7.79925L19.4306 7.68168Z"/><path d="M3.43063 7.68168C3.68396 7.22723 3.81063 7 4 7C4.18937 7 4.31604 7.22722 4.56937 7.68167L4.63491 7.79925C4.7069 7.92839 4.74289 7.99296 4.79901 8.03556C4.85513 8.07817 4.92503 8.09398 5.06482 8.12561L5.19209 8.15441C5.68403 8.26571 5.93 8.32136 5.98852 8.50955C6.04704 8.69773 5.87935 8.89381 5.54398 9.28598L5.45722 9.38744C5.36191 9.49889 5.31426 9.55461 5.29283 9.62354C5.27139 9.69248 5.27859 9.76682 5.293 9.91551L5.30612 10.0509C5.35682 10.5741 5.38218 10.8357 5.22897 10.952C5.07576 11.0683 4.84547 10.9623 4.38487 10.7502L4.2657 10.6954C4.13481 10.6351 4.06937 10.605 4 10.605C3.93063 10.605 3.86519 10.6351 3.7343 10.6954L3.61513 10.7502C3.15454 10.9623 2.92424 11.0683 2.77103 10.952C2.61782 10.8357 2.64318 10.5741 2.69388 10.0509L2.707 9.91551C2.72141 9.76682 2.72861 9.69248 2.70717 9.62354C2.68574 9.55461 2.63809 9.49889 2.54278 9.38744L2.45602 9.28599C2.12065 8.89381 1.95296 8.69773 2.01148 8.50955C2.07 8.32136 2.31597 8.26571 2.80791 8.15441L2.93518 8.12561C3.07497 8.09398 3.14487 8.07817 3.20099 8.03556C3.25711 7.99296 3.29311 7.92839 3.36509 7.79925L3.43063 7.68168Z"/><path stroke-linecap="round" d="M5 20.3884H7.25993C8.27079 20.3884 9.29253 20.4937 10.2763 20.6964C12.0166 21.0549 13.8488 21.0983 15.6069 20.8138C16.4738 20.6734 17.326 20.4589 18.0975 20.0865C18.7939 19.7504 19.6469 19.2766 20.2199 18.7459C20.7921 18.216 21.388 17.3487 21.8109 16.6707C22.1736 16.0894 21.9982 15.3762 21.4245 14.943C20.7873 14.4619 19.8417 14.462 19.2046 14.9433L17.3974 16.3084C16.697 16.8375 15.932 17.3245 15.0206 17.4699C14.911 17.4874 14.7962 17.5033 14.6764 17.5172M12.7518 17.5326C13.4312 17.5968 14.0434 17.5829 14.5668 17.5292C14.6038 17.5254 14.6403 17.5214 14.6764 17.5172M14.6764 17.5172C14.8222 17.486 14.9669 17.396 15.1028 17.2775C15.746 16.7161 15.7866 15.77 15.2285 15.1431C15.0991 14.9977 14.9475 14.8764 14.7791 14.7759C11.9817 13.1074 7.62942 14.3782 5 16.2429M14.6764 17.5172C14.6399 17.525 14.6033 17.5292 14.5668 17.5292"/><rect width="3" height="8" x="2" y="14" rx="1.5"/></g></symbol>
+<symbol id="i-user-rounded" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="6" r="4"/><ellipse cx="12" cy="17" rx="7" ry="4"/></g></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.5L10.5 14.5L15.5 9.5"/></g></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="backdrop" aria-hidden="true"></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="dock-wrap">
+  <nav class="dock" id="dock" aria-label="Primary">
+    <a class="dock-item dock-mark" href="#top" data-dock aria-label="FRDM Circle — top of page">
+      <img src="assets/mark.webp" alt="" width="200" height="142" aria-hidden="true">
+    </a>
+    <a class="dock-item" href="#idea" data-dock data-spy="idea">
+      <svg class="icon" aria-hidden="true"><use href="#i-lightbulb-minimalistic"></use></svg>
+      <span class="label">The idea</span>
+    </a>
+    <a class="dock-item" href="#how" data-dock data-spy="how">
+      <svg class="icon" aria-hidden="true"><use href="#i-checklist-minimalistic"></use></svg>
+      <span class="label">How it works</span>
+    </a>
+    <a class="dock-item" href="#fund" data-dock data-spy="fund">
+      <svg class="icon" aria-hidden="true"><use href="#i-hand-heart"></use></svg>
+      <span class="label">What we fund</span>
+    </a>
+    <a class="dock-item" href="#safeguards" data-dock data-spy="safeguards">
+      <svg class="icon" aria-hidden="true"><use href="#i-shield-check"></use></svg>
+      <span class="label">Safeguards</span>
+    </a>
+    <a class="dock-item" href="#faq" data-dock data-spy="faq">
+      <svg class="icon" aria-hidden="true"><use href="#i-question-circle"></use></svg>
+      <span class="label">FAQ</span>
+    </a>
+    <a class="dock-item dock-join" href="#join" data-dock data-spy="join">
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      <span class="label">Join the circle</span>
+    </a>
+  </nav>
+</div>
+
+<span id="top"></span>
+
+<main id="main">
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+
+    <div class="hero-copy">
+      <div class="lockup rv">
+        <img src="assets/logo.webp" alt="The Freedom Circle" width="520" height="370">
+        <div>
+          <div class="lockup-word">The Freedom<br>Circle</div>
+          <div class="lockup-sub">Women backing women</div>
+          <div class="lockup-tag">One gives. Another rises.<br>Together we&rsquo;re free.</div>
+        </div>
+      </div>
+
+      <p class="eyebrow rv" style="--rvd:60ms">Pre-launch &middot; Founding circle</p>
+
+      <h1 class="h-display" id="hero-title" data-words>A circle of women.<br>A fund for freedom.<br><em>A future we build together.</em></h1>
+
+      <p class="lede rv" style="--rvd:120ms">Sometimes the only thing standing between a woman and her freedom is $800. A deposit. A lawyer. A plane ticket. A month of childcare. Alone, that number is a wall. Together, at $10 a month, it is nothing at all.</p>
+      <p class="lede rv" style="--rvd:180ms">The Freedom Circle doesn&rsquo;t exist yet &mdash; and that&rsquo;s the point. <strong>We&rsquo;re gathering 10,000 founding women first.</strong> When we reach that number, we register the fund, publish the legal structure, and open the first month of contributions. Not a cent is collected before then.</p>
+
+      <div class="hero-cta rv" style="--rvd:240ms">
+        <a class="btn btn-primary" href="#join">Become a founding member</a>
+        <a class="btn btn-ghost" href="#idea">How it works</a>
+      </div>
+      <p class="hero-note rv" style="--rvd:290ms">Free to join &middot; No payment now &middot; Leave any time</p>
+
+    </div>
+
+    <div class="counter rv" style="--rvd:340ms">
+      <div class="counter-head">
+        <p class="counter-num">
+          <span id="countNum">0</span>
+          <span class="counter-unit">women signed up</span>
+        </p>
+        <p class="counter-goal">Goal 10,000</p>
+      </div>
+      <div class="bar"><i id="countBar"></i></div>
+      <p class="counter-cap" id="countCap">This number is the real count of people on the waitlist. It is updated by hand, not simulated.</p>
+    </div>
+
+    <div class="hero-figure" aria-hidden="true">
+      <div class="ring-fallback"></div>
+      <p class="hero-figure-cap">10,000 seats, none of them filled yet</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══════════════════════ THE IDEA ═══════════════════════ -->
+<section class="section section--solid" id="idea" aria-labelledby="idea-title">
+  <div class="wrap">
+    <div class="idea-grid">
+
+      <div class="idea-intro">
+        <p class="eyebrow rv">The idea</p>
+        <h2 class="h-section" id="idea-title" data-words>Not charity. A circle.</h2>
+        <p class="lede rv" style="--rvd:80ms;margin-top:22px">Most giving asks you to send money into the dark and hope. This is different. You put a small amount into a shared circle every month. You help decide where it goes. And if the day ever comes when your own life falls apart &mdash; you can turn to the circle too.</p>
+        <p class="lede rv" style="--rvd:140ms">Ten dollars is the price of two coffees. It is also, pooled across a million women, one of the largest sources of direct emergency funding for women on earth.</p>
+      </div>
+
+      <div class="idea-list">
+        <article class="idea-item rv">
+          <p class="idea-n">01</p>
+          <div>
+            <h3 class="h-sub"><svg class="icon" aria-hidden="true"><use href="#i-hand-money"></use></svg>Give</h3>
+            <p>$10 a month into one global fund. Small enough not to think about. Large enough, together, to change the shape of someone&rsquo;s year.</p>
+          </div>
+        </article>
+        <article class="idea-item rv" style="--rvd:90ms">
+          <p class="idea-n">02</p>
+          <div>
+            <h3 class="h-sub"><svg class="icon" aria-hidden="true"><use href="#i-chat-square-check"></use></svg>Vote</h3>
+            <p>Every month you allocate your voice across the categories &mdash; safety, housing, legal, education, wherever it&rsquo;s needed most. You are not a donor. You are a member.</p>
+          </div>
+        </article>
+        <article class="idea-item rv" style="--rvd:180ms">
+          <p class="idea-n">03</p>
+          <div>
+            <h3 class="h-sub"><svg class="icon" aria-hidden="true"><use href="#i-user-rounded"></use></svg>Ask</h3>
+            <p>Anyone can ask &mdash; members and non-members alike. Not a promise of money, but an open door. No woman has to be too proud, or too afraid, to knock on it.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ THE LOOP ═══════════════════════ -->
+<section class="loop" id="loop" aria-labelledby="loop-title">
+  <div class="wrap loop-grid">
+
+    <div class="loop-copy">
+      <p class="eyebrow rv">The loop</p>
+      <h2 class="h-section" id="loop-title" data-words>In a circle of women, we all go further.</h2>
+      <p class="lede rv" style="--rvd:80ms;margin-top:22px">Money moves in one direction in charity: down. Here it moves around. The woman who gives this year may be the woman who asks next year, and the circle holds either way. That is the whole design.</p>
+      <p class="lede rv" style="--rvd:140ms">No one is a case file. No one is a beneficiary. Everyone is a member.</p>
+    </div>
+
+    <div class="loop-stage rv" id="loopStage" role="img" aria-label="A four-stage loop: Give, Vote, Empower, Ask, returning to Give.">
+      <div class="loop-ring" aria-hidden="true"></div>
+      <p class="loop-centre" aria-hidden="true">In a circle of women, we all go further.</p>
+
+      <div class="node node-give" data-node="give" aria-hidden="true">
+        <span class="node-dot"><svg class="icon"><use href="#i-hand-money"></use></svg></span>
+        <b>Give</b><span>$10 / month</span>
+      </div>
+      <div class="node node-vote" data-node="vote" aria-hidden="true">
+        <span class="node-dot"><svg class="icon"><use href="#i-chat-square-check"></use></svg></span>
+        <b>Vote</b><span>Decide together</span>
+      </div>
+      <div class="node node-empower" data-node="empower" aria-hidden="true">
+        <span class="node-dot"><svg class="icon"><use href="#i-hand-stars"></use></svg></span>
+        <b>Empower</b><span>Funds reach her</span>
+      </div>
+      <div class="node node-ask" data-node="ask" aria-hidden="true">
+        <span class="node-dot"><svg class="icon"><use href="#i-user-rounded"></use></svg></span>
+        <b>Ask</b><span>You can ask too</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ WHAT WE FUND ═══════════════════════ -->
+<section class="section section--solid" id="fund" aria-labelledby="fund-title">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow rv">What we fund</p>
+      <h2 class="h-section" id="fund-title" data-words>Money that buys back agency</h2>
+      <p class="lede rv" style="--rvd:80ms;margin-top:20px">We don&rsquo;t fund &ldquo;need&rdquo; in the abstract &mdash; that category has no bottom. We fund one specific thing: the sum of money that stands between a woman and her ability to act for herself. The test for every grant is simple. <strong>Does this money materially increase her freedom or her safety?</strong></p>
+    </div>
+
+    <div class="fund">
+      <div class="fund-cell rv">
+        <svg class="icon" aria-hidden="true"><use href="#i-home-2"></use></svg>
+        <div>
+          <h4>Safe housing</h4>
+          <p>Deposits, first month&rsquo;s rent, emergency stay, relocation from an unsafe home.</p>
+        </div>
+      </div>
+      <div class="fund-cell rv" style="--rvd:70ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-document-text"></use></svg>
+        <div>
+          <h4>Legal support</h4>
+          <p>Divorce, custody, protective orders, immigration status, representation.</p>
+        </div>
+      </div>
+      <div class="fund-cell rv" style="--rvd:140ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-diploma"></use></svg>
+        <div>
+          <h4>Education &amp; work</h4>
+          <p>Training, licences, certification, childcare that makes going to work possible.</p>
+        </div>
+      </div>
+      <div class="fund-cell rv" style="--rvd:210ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-heart-pulse"></use></svg>
+        <div>
+          <h4>Health &amp; wellbeing</h4>
+          <p>Urgent medical care, mental health support, recovery after crisis.</p>
+        </div>
+      </div>
+      <div class="fund-cell rv" style="--rvd:280ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-ticket"></use></svg>
+        <div>
+          <h4>Transport &amp; documents</h4>
+          <p>A ticket home, restoring lost papers, the mobility a new start requires.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="note fund-foot rv">Grants are sized to the actual need. Wherever it is safer to do so, funds are paid directly to the landlord, the lawyer, the clinic, the school &mdash; not handed over as cash.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
+<section class="section section--solid" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <p class="eyebrow rv">How it works</p>
+    <h2 class="h-section" id="how-title" data-words>From your $10 to her front door</h2>
+
+    <div class="steps-wrap" id="stepsWrap">
+      <div class="rail" aria-hidden="true"><i></i></div>
+      <ol class="steps">
+        <li class="step rv">
+          <span class="step-dot">1</span>
+          <div>
+            <h4>A woman applies</h4>
+            <p>Any member can apply. So can a woman referred by one of our partner organisations. The form asks what she needs, how much, and by when.</p>
+          </div>
+        </li>
+        <li class="step rv">
+          <span class="step-dot">2</span>
+          <div>
+            <h4>Local partners verify</h4>
+            <p>An accredited local NGO &mdash; people who know the country, the language and the risks &mdash; confirms the situation on the ground. No decision is made from a distance.</p>
+          </div>
+        </li>
+        <li class="step rv">
+          <span class="step-dot">3</span>
+          <div>
+            <h4>Triage, then human judgement</h4>
+            <p>Software helps sort applications by urgency and flags duplicates and fraud signals. It never issues a rejection. Every decision that affects a woman is made by a person.</p>
+          </div>
+        </li>
+        <li class="step rv">
+          <span class="step-dot">4</span>
+          <div>
+            <h4>The circle sets priorities</h4>
+            <p>Members allocate their monthly voice across categories. That shapes how the pool is divided &mdash; it does not expose any applicant&rsquo;s identity to the membership.</p>
+          </div>
+        </li>
+        <li class="step rv">
+          <span class="step-dot">5</span>
+          <div>
+            <h4>Funds are paid out</h4>
+            <p>Through the local partner, and where possible straight to the provider: the deposit to the landlord, the fee to the lawyer, the ticket to the airline.</p>
+          </div>
+        </li>
+        <li class="step rv">
+          <span class="step-dot">6</span>
+          <div>
+            <h4>Everything is published</h4>
+            <p>Monthly: how much came in, how much went out, in which categories, in which countries, and what it cost to run. Consented stories, anonymised where safety requires it.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══════════════════════ SAFEGUARDS ═══════════════════════ -->
+<section class="section section--solid" id="safeguards" aria-labelledby="safe-title">
+  <div class="wrap">
+    <p class="eyebrow rv">How we intend to be trusted</p>
+    <h2 class="h-section" id="safe-title" data-words>A fund handling other women&rsquo;s money owes them the truth</h2>
+
+    <div class="safe">
+      <article class="rv">
+        <svg class="icon" aria-hidden="true"><use href="#i-eye"></use></svg>
+        <div>
+          <h4>Radical transparency</h4>
+          <p>Accounts published monthly. Every category of spend, every operating cost, the ratio between them. If we can&rsquo;t defend a line item in public, we shouldn&rsquo;t be spending it.</p>
+        </div>
+      </article>
+      <article class="rv" style="--rvd:70ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-global"></use></svg>
+        <div>
+          <h4>Local partners, global reach</h4>
+          <p>We do not parachute into countries we don&rsquo;t understand. Grants are delivered through accredited women&rsquo;s organisations who already do this work and are accountable in their own jurisdictions.</p>
+        </div>
+      </article>
+      <article class="rv" style="--rvd:140ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"></use></svg>
+        <div>
+          <h4>Verification and safety</h4>
+          <p>Every application is verified by people with local expertise. An applicant&rsquo;s safety, dignity and privacy come before our desire for a good story &mdash; always, and without exception.</p>
+        </div>
+      </article>
+      <article class="rv" style="--rvd:210ms">
+        <svg class="icon" aria-hidden="true"><use href="#i-lock-keyhole"></use></svg>
+        <div>
+          <h4>Your data</h4>
+          <p>We collect the minimum: your name, email, country. We never sell it, never share it, and we will delete it on request. If the fund never launches, we tell you and we delete the list.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="legal rv">
+      <h3>What this is &mdash; and what it is not</h3>
+      <ul>
+        <li><strong>This is not insurance</strong>, and it is not a savings or investment product. You are not buying cover and you are not building a balance.</li>
+        <li><strong>Contributing buys you nothing.</strong> Support is open to every woman, whether or not she has ever given a cent. Giving never creates a claim, a queue position or any priority. Every application is judged on its own facts by an independent grants process against published criteria.</li>
+        <li><strong>Your contribution is not refundable</strong> and does not accrue to you personally. It goes into one shared pool.</li>
+        <li><strong>The Freedom Circle is not yet a registered entity.</strong> This page is a statement of intent and a waitlist. No money is being collected, and no payment details are being requested.</li>
+        <li><strong>If we reach 10,000 people</strong>, we will register the fund in a jurisdiction with strong nonprofit oversight, publish the constitution, governance and grant criteria, and only then invite members to begin contributing &mdash; by explicit opt-in.</li>
+        <li><strong>If we don&rsquo;t reach it</strong>, we will say so publicly, explain why, and delete the waitlist.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══════════════════════ FAQ ═══════════════════════ -->
+<section class="section section--solid" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <p class="eyebrow rv">Questions</p>
+    <h2 class="h-section" id="faq-title" data-words>The things you should ask us</h2>
+
+    <div class="faq rv">
+      <details open>
+        <summary><span class="mark" aria-hidden="true"></span>Am I being charged anything now?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>No. Nothing. We are not asking for a card, a bank detail or a payment of any kind. Joining the waitlist costs nothing and commits you to nothing. If and when the fund is registered, you&rsquo;ll get an email explaining exactly what has been set up &mdash; and you decide then whether to contribute.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>If I pay in every month, am I guaranteed help when I need it?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>No &mdash; and we want to be blunt about that, because the honest answer matters more than the appealing one. A guarantee of payout would make this an insurance product, which is a regulated activity with entirely different obligations.</p>
+          <p>It also cuts the other way, and this part matters just as much: you never have to give in order to ask. Support is open to every woman, member or not. Contributing does not move you up a queue and does not weigh in your favour. Every application is judged on its own facts, against criteria published in advance.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>Who actually decides who gets money?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>A grants committee within the registered nonprofit, working from verifications carried out by accredited local partner organisations. Members shape priorities by allocating their monthly voice across categories. Software helps sort and flag applications &mdash; it never issues a refusal. Any decision that goes against an applicant is made by a human being.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>Where does the money physically sit?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>In the accounts of the registered nonprofit entity, subject to that jurisdiction&rsquo;s charity regulation, independently audited, with monthly public reporting. The full structure will be published before the first contribution is taken &mdash; not after.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>How much goes to running the thing?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>Some of it has to: payment processing, verification, fraud prevention, audit, partner organisations, technology, support. Any fund claiming otherwise is either subsidised elsewhere or not telling you the whole story. We will publish the real percentage every month and work to bring it down. Our planning target is to keep it at or under 15%.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>Can men join?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>Anyone who supports the mission can contribute. Grants go to women. The name of the thing is the promise of the thing.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>Why 10,000 before you register anything?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>Because a fund with a hundred members is a good intention, and a fund with ten thousand is an institution that can afford proper governance, real legal structure, audit and partner relationships from day one. Registering earlier would mean cutting corners on exactly the things that make a fund trustworthy.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>What if my situation is urgent right now?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>Please don&rsquo;t wait for us. We are not operating yet and cannot help anyone today. If you are in immediate danger, contact your local emergency services. For ongoing support, national domestic violence helplines and local women&rsquo;s organisations exist in most countries and can act now, which we cannot.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>Why two names &mdash; The Freedom Circle and FRDM Circle?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>The Freedom Circle is the full name, and it&rsquo;s the one that will appear on the registration, the constitution and every legal document. FRDM Circle is the short form we use day to day &mdash; on the site, in the handle, on anything that has to fit in a small space.</p>
+          <p>Same organisation, same money, same rules. If you ever see them used interchangeably, that&rsquo;s why.</p>
+        </div></div>
+      </details>
+      <details>
+        <summary><span class="mark" aria-hidden="true"></span>How do I leave?</summary>
+        <div class="answer"><div class="answer-inner">
+          <p>One email to <a data-email href="mailto:hello@frdmcircle.org">hello@frdmcircle.org</a>, or one click in any message we send. We&rsquo;ll remove you and delete your data. There is no retention flow, no &ldquo;are you sure&rdquo;, no three screens of friction. A circle you can&rsquo;t walk out of isn&rsquo;t a circle.</p>
+        </div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ═══════════════════════ JOIN ═══════════════════════ -->
+<section class="section section--solid" id="join" aria-labelledby="join-title">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow rv">Join the circle</p>
+      <h2 class="h-section" id="join-title" data-words>Become a founding member</h2>
+      <p class="lede rv" style="--rvd:80ms;margin-top:18px">Be one of the first 10,000. It costs nothing today. It tells us this should exist.</p>
+    </div>
+
+    <div class="join-grid">
+      <div class="join-copy rv">
+        <h3>What happens after you sign up</h3>
+        <p>You&rsquo;ll get one short email confirming you&rsquo;re on the list. After that, we write roughly once a month: how many women have joined, what we&rsquo;ve figured out about the legal structure, which partner organisations are talking to us, and what&rsquo;s still unsolved.</p>
+        <p>When we hit 10,000, you&rsquo;ll be the first to know &mdash; and the first invited in.</p>
+        <div class="join-facts">
+          <div><svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg><span>No payment, no card details, no commitment.</span></div>
+          <div><svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg><span>Roughly one email a month. Unsubscribe in one click.</span></div>
+          <div><svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg><span>Your details are never sold or shared.</span></div>
+          <div><svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg><span>If the fund never launches, we tell you and delete the list.</span></div>
+        </div>
+      </div>
+
+      <div class="join-panel rv" style="--rvd:100ms">
+        <form id="joinForm" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="fname">First name</label>
+              <input type="text" id="fname" name="first_name" placeholder="Your name" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <input type="text" id="country" name="country" placeholder="Where you are" autocomplete="country-name">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email"
+                   required aria-describedby="errEmail">
+            <p class="err" id="errEmail" role="alert">Please enter a valid email address.</p>
+          </div>
+
+          <fieldset class="field">
+            <legend class="legend">I&rsquo;d like to</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="intent" value="Contribute monthly" checked><span>Contribute monthly</span></label>
+              <label class="chip"><input type="radio" name="intent" value="Help build it"><span>Help build it</span></label>
+              <label class="chip"><input type="radio" name="intent" value="Partner as an NGO"><span>Partner as an NGO</span></label>
+              <label class="chip"><input type="radio" name="intent" value="Just follow for now"><span>Just follow for now</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="legend">If it launches, I could see myself giving</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="pledge" value="$10/mo" checked><span>$10 / mo</span></label>
+              <label class="chip"><input type="radio" name="pledge" value="$25/mo"><span>$25 / mo</span></label>
+              <label class="chip"><input type="radio" name="pledge" value="$50/mo"><span>$50 / mo</span></label>
+              <label class="chip"><input type="radio" name="pledge" value="More"><span>More</span></label>
+              <label class="chip"><input type="radio" name="pledge" value="Not sure yet"><span>Not sure yet</span></label>
+            </div>
+            <p class="form-note">Indicative only &mdash; it helps us plan, and it is not a commitment.</p>
+          </fieldset>
+
+          <div class="field">
+            <label for="skills">Anything you could bring? <span class="opt">(optional)</span></label>
+            <textarea id="skills" name="skills" placeholder="Law, nonprofit governance, payments, safeguarding, design, a country we should know about, a story of your own&hellip;"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="heard">How did you hear about us?</label>
+            <select id="heard" name="heard_from">
+              <option value="">Select&hellip;</option>
+              <option>A friend</option>
+              <option>Instagram</option>
+              <option>LinkedIn</option>
+              <option>X / Twitter</option>
+              <option>TikTok</option>
+              <option>Facebook</option>
+              <option>Search</option>
+              <option>Press or a newsletter</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="consent" for="consent">
+              <input type="checkbox" id="consent" name="consent" required aria-describedby="errConsent">
+              <span>I understand that The Freedom Circle is not yet registered, that nothing is being charged, that this is not insurance and carries no entitlement to a payout, and I agree to be emailed about the fund. <span class="req">*</span></span>
+            </label>
+            <p class="err" id="errConsent" role="alert">Please confirm this to continue.</p>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%">Join the waitlist</button>
+          <p class="err" id="errSubmit" role="alert"></p>
+          <p class="form-note">By joining you&rsquo;re telling us this should exist. That&rsquo;s all it means today. Questions? Write to us at <a data-email href="mailto:hello@frdmcircle.org">hello@frdmcircle.org</a>.</p>
+        </form>
+
+        <div class="thanks" id="thanks" tabindex="-1">
+          <svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+          <h3>You&rsquo;re in the circle.</h3>
+          <p id="thanksLine">Check your inbox &mdash; a confirmation is on its way. If it isn&rsquo;t there in a few minutes, look in promotions or spam.</p>
+          <p class="note">The fastest way to get to 10,000 is one woman telling another. If you know someone who&rsquo;d want this, send it to her.</p>
+          <div class="share-row" id="shareRow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="foot-brand" href="#top">
+        <img src="assets/mark.webp" alt="" width="200" height="142" aria-hidden="true">
+        <span>FRDM Circle</span>
+      </a>
+      <small>
+        One gives. Another rises. Together we&rsquo;re free.<br>
+        We are building <strong>The Freedom Circle</strong> &mdash; FRDM Circle for short.<br>
+        It is a pre-launch initiative and is not yet a registered organisation.<br>
+        Nothing on this page is an offer of insurance, investment or a guaranteed benefit.<br>
+        <span id="year"></span>
+      </small>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#idea">The idea</a>
+      <a href="#how">How it works</a>
+      <a href="#safeguards">Safeguards</a>
+      <a href="#faq">FAQ</a>
+      <a href="#join">Join</a>
+      <a id="contactLink" href="mailto:hello@frdmcircle.org">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/gsap.min.js" defer></script>
+<script src="assets/ScrollTrigger.min.js" defer></script>
+<script src="assets/lenis.min.js" defer></script>
+<script src="assets/site.js" defer></script>
+<script type="module" src="assets/scene.js"></script>
+<script>
+/* Watchdog. scene.js reports its own WebGL and context failures, but it
+   cannot report failing to load or parse at all — so if nothing has claimed
+   the canvas shortly after load, hand the section to the static ring. */
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    var html = document.documentElement;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (document.body.classList.contains('scene-ready')) return;
+    if (html.classList.contains('no-webgl')) return;
+    html.classList.add('no-webgl');
+  }, 3500);
+});
+</script>
+</body>
+</html>
