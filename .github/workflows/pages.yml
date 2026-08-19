@@ -1,0 +1,76 @@
+name: Deploy landing page
+
+# Publishes sites/frdm-circle/ to GitHub Pages.
+#
+# One-time setup: Settings -> Pages -> Source -> "GitHub Actions".
+# After that this runs on every push that touches the page, and the site is
+# served at https://<owner>.github.io/<repo>/
+#
+# The page uses only relative asset paths, so it works unchanged under the
+# /<repo>/ prefix that project Pages adds.
+
+on:
+  push:
+    branches:
+      - main
+      - cursor/frdm-circle-landing-189e
+    paths:
+      - sites/frdm-circle/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; queue instead of cancelling, so a finished
+# deployment is not replaced by a half-finished one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage the site
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp -R sites/frdm-circle/index.html sites/frdm-circle/assets \
+                sites/frdm-circle/licenses sites/frdm-circle/README.md _site/
+          # The acceptance harness is not part of the published site.
+          echo "Published files:"
+          find _site -type f | sort
+
+      - name: Check nothing is referenced that was not staged
+        run: |
+          set -euo pipefail
+          missing=0
+          # Every relative src/href in the markup, plus the module import.
+          refs=$(grep -oE '(src|href)="(assets/[^"]+)"' _site/index.html | sed -E 's/.*"(assets[^"]+)"/\1/' | sort -u)
+          refs="$refs $(grep -oE "url\('(assets/[^']+)'\)" _site/index.html | sed -E "s/.*'(assets[^']+)'.*/\1/" | sort -u)"
+          refs="$refs $(grep -oE "'\./([a-zA-Z0-9._-]+\.js)'" _site/assets/scene.js | tr -d "'" | sed 's|^\./|assets/|')"
+          for r in $refs; do
+            if [ ! -f "_site/$r" ]; then echo "MISSING: $r"; missing=1; fi
+          done
+          [ "$missing" -eq 0 ] && echo "All referenced assets present."
+          exit "$missing"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
