@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const c = await b.newContext({viewport:{width:1440,height:900}});
+const p = await c.newPage();
+const errs=[]; p.on('pageerror',e=>errs.push('pageerror: '+e.message));
+p.on('console',m=>{const t=m.text(); if((m.type()==='error'||m.type()==='warning') && !/ReadPixels/.test(t)) errs.push(m.type()+': '+t.slice(0,300));});
+await p.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, r=>r.abort());
+await p.goto('http://127.0.0.1:8080',{waitUntil:'load'});
+await p.waitForTimeout(4000);
+await p.screenshot({path:'/tmp/g-hero.png', timeout:25000});
+console.log('stats:', JSON.stringify(await p.evaluate(()=>window.FRDMScene&&window.FRDMScene.stats())));
+console.log('errors:', errs.length?errs:'none');
+await b.close();
