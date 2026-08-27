@@ -919,42 +919,22 @@ h1 {
 }
 
 .faq {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.65fr) minmax(0, 1.35fr);
+  gap: 32px;
+  align-items: start;
+  padding: 30px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.faq > button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: 100%;
-  min-height: 82px;
-  padding: 0;
-  color: var(--ink);
-  text-align: left;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-}
-
-.faq > button > span:first-child {
-  font-size: 18px;
+.faq h3 {
+  margin: 0;
+  font-size: 17px;
   font-weight: 590;
   letter-spacing: -0.025em;
 }
 
-.faq-icon {
-  color: var(--red);
-  font-size: 24px;
-  font-weight: 300;
-}
-
-.faq-answer {
-  max-width: 610px;
-  padding: 0 50px 28px 0;
-}
-
-.faq-answer p {
+.faq p {
   margin: 0;
   color: var(--ink-soft);
   font-size: 15px;
@@ -1422,11 +1402,13 @@ footer p {
     grid-template-columns: 1fr;
   }
 
-  .faq > button {
-    min-height: 72px;
+  .faq {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 24px 0;
   }
 
-  .faq > button > span:first-child {
+  .faq h3 {
     font-size: 16px;
   }
 

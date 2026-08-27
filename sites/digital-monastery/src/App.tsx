@@ -225,7 +225,6 @@ function ApplicationForm() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
     <div className="site-shell">
@@ -392,26 +391,12 @@ function App() {
             <h2>Before you apply</h2>
           </div>
           <div className="faq-list">
-            {faqs.map((item, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <article className={isOpen ? "faq faq--open" : "faq"} key={item.question}>
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                  >
-                    <span>{item.question}</span>
-                    <span className="faq-icon" aria-hidden="true">
-                      {isOpen ? "−" : "+"}
-                    </span>
-                  </button>
-                  <div className="faq-answer" hidden={!isOpen}>
-                    <p>{item.answer}</p>
-                  </div>
-                </article>
-              );
-            })}
+            {faqs.map((item) => (
+              <article className="faq" key={item.question}>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
           </div>
         </section>
 
