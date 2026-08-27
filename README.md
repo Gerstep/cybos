@@ -13,6 +13,19 @@ The setup wizard at `http://localhost:3847/setup` will guide you through vault s
 
 For manual setup, see [docs/SETUP.md](docs/SETUP.md).
 
+## Digital Monastery landing prototype
+
+The standalone founder-facing landing prototype lives in
+`sites/digital-monastery/`.
+
+```bash
+cd sites/digital-monastery
+npm install
+npm run dev
+```
+
+The local preview runs at `http://localhost:4173`.
+
 ## Commands
 
 ### Research

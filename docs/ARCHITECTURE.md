@@ -19,6 +19,7 @@ Cybos is a Claude Code-powered personal AI assistant for an individual user and 
 | **DD Memo** | Investment memo generation from templates |
 | **GTD** | Autonomous task execution from GTD.md with entity context |
 | **Summarize** | Summarize transcripts (therapy sessions, meetings) into structured notes |
+| **Digital Monastery landing** | Standalone founder-facing landing prototype |
 
 **Key Design Principles:**
 - File-first: All state is markdown on disk or is accessible via MCP tools and scripts (Gmail, Telegram, Granola, Asana, etc)
@@ -27,6 +28,19 @@ Cybos is a Claude Code-powered personal AI assistant for an individual user and 
 - Single-file logging after every workflow
 - Context auto-loading: Deal context loads automatically when mentioned
 - Single-user, no scheduled automation (MVP)
+
+### Digital Monastery landing prototype
+
+`sites/digital-monastery/` is an isolated React and Vite prototype for the
+founder-facing Digital Monastery landing page. It does not share runtime state
+with Cybos and does not implement applications, authentication, or program
+operations.
+
+The prototype centralizes public copy in `src/copy.ts`, renders the landing in
+`src/App.tsx`, and uses a single responsive stylesheet in `src/styles.css`.
+Its only interactive behavior is mobile navigation, FAQ disclosure, and a
+mailto-based application handoff. Run it with `npm run dev` from its directory
+on port 4173.
 
 ---
 
