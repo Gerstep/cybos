@@ -7,6 +7,7 @@ tokens.json
 
 # Node modules
 node_modules/
+dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

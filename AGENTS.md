@@ -307,5 +307,6 @@ When exploring the codebase or planning changes, read `docs/ARCHITECTURE.md` for
 Cybos separates code from data:
 
 - **Code repo** (`cybos/`): Application code, commands, scripts - safe to push to GitHub
+- **Standalone prototypes** (`sites/`): Isolated web experiences with their own package and runtime
 - **Data vault** (`~/CybosVault/private/`): Personal data (deals, calls, emails, GTD) - never committed to code repo
 - **Shared vault** (`~/CybosVault/shared/`): Company/team data (deals, calls, emails, GTD)
