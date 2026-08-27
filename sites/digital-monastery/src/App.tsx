@@ -403,7 +403,7 @@ function App() {
                   >
                     <span>{item.question}</span>
                     <span className="faq-icon" aria-hidden="true">
-                      +
+                      {isOpen ? "−" : "+"}
                     </span>
                   </button>
                   <div className="faq-answer" hidden={!isOpen}>
