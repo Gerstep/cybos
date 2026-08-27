@@ -957,7 +957,6 @@ h1 {
 .faq-answer {
   max-width: 610px;
   padding: 0 50px 28px 0;
-  animation: enter 240ms var(--ease) both;
 }
 
 .faq-answer p {
