@@ -43,7 +43,7 @@ Implications to research, not assume:
 
 ---
 
-## Three markets in scope
+## Four markets in scope
 
 ### 1. AI Education / Tutoring / Child development
 
@@ -89,12 +89,27 @@ Known landscape to update (not treat as complete):
 - Europe thesis (GC, Apr 2026): fragmentation + succession + SME density
 - Critiques: integration risk, overhyped AI value-creation, Thrasio-style overpay risk
 
+### 4. Personal medicine (offline + personalized; NOT big pharma R&D)
+
+Added 2026-09-01 as a fourth Monastery workstream.
+
+**In scope** (distribution, therapy, consultation — the operating layer):
+- Personalized / precision *care delivery* tied to **offline medicine** (clinics, lab networks, draw sites, pharmacies)
+- Lab networks where **AI guides the patient** through tests, interpretation, next actions
+- Personal medical products: compounded / personalized peptides, HRT, longevity protocols, n=1 therapeutics at the *pharmacy/clinic* layer (not a new Pfizer)
+- Personal physician / concierge / membership doctor (AI-native)
+- Psychotherapy, coaching, and “soft” consultation (nutrition, sleep, fertility, parenting-health, executive performance) as adjacent consult markets
+
+**Out of scope unless it is a delivery/distribution wedge:** novel drug discovery, foundation-model biotech, clinical-trial SaaS, hospital EHR, generic telehealth wrappers.
+
+**Requirement:** subsegment the market; catalog companies early/mid/late; what works vs vapor; regulation (FDA compounding, 503A/503B, EU, telehealth, therapy AI bans); Monastery filter ($2M, 12 weeks, own the P&L vs sell software into it).
+
 ---
 
 ## Research constraints
 
 - **Recency first**: last 2 months (Jul–Aug 2026) over older material. World moves fast.
-- **Nothing material skipped** in the three markets.
+- **Nothing material skipped** in the four markets.
 - **Write files as you go.** Never keep research only in memory.
 - **Cite URLs + dates** for every material claim.
 - **Numbers over adjectives.** Flag uncertainty.
@@ -113,6 +128,7 @@ Known landscape to update (not treat as complete):
 ├── education/
 ├── generative-netflix/
 ├── ai-rollups/
+├── personal-medicine/
 ├── report.md              # full synthesis
 └── slides.md              # concise GP slides
 ```

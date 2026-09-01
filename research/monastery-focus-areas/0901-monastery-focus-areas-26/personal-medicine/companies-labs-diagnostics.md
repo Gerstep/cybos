@@ -1,8 +1,9 @@
 # Labs, Diagnostics & Personal Health OS — Company Catalog
-**Research date**: 2026-09-01 | **Agent**: company-researcher | **Scope**: 42 companies
+**Research date**: 2026-09-01 | **Agent**: company-researcher | **Scope**: 43 companies (table 1–43)
 
 > Coverage: AI-guided labs · consumer biomarker memberships · diagnostics networks · longevity clinics · liquid biopsy · AI pathology · failures.  
-> Monastery filter appended at bottom.
+> Monastery filter appended at bottom.  
+> **Do not use** Function “~$500M+ ARR est” in the table below. Even at the company-claimed 500k members × $365/yr ≈ $183M membership. See `data-quality.md`.
 
 ---
 

@@ -10,3 +10,15 @@
 - Note: vault logging path unavailable; this file is the session log. Research MCPs not attached. Parallel Oct 2025 report auth-walled.
 
 ---
+
+## 20:15 | research | topic-investment | monastery-focus-areas (personal medicine)
+- Workflow: orchestrator (deep, same workspace — no second directory)
+- Intensity: Deep
+- Duration: follow-on gather + synthesis
+- Output: personal-medicine/ + slides.md §6 + report.md §5
+- Agents: market, tech, financial, investment, company×4 (labs, peptides, doctors, therapy/coaching)
+- Feedback: Function $450M CVF verified; PCAC advisory-not-law verified; Neko $700M confirmed / ~$7B media; VITL $7.5M A verified / ARR self-reported; Function 500k vs 350k flagged; labs-catalog $500M+ ARR discarded
+- Confidence: Medium-High on structure (not-pharma, Crosby shape); Medium on private prints
+- Note: fourth vertical is distribution/therapy/consultation, not drug discovery
+
+---
