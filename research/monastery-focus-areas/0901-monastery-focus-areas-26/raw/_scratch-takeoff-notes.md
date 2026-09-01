@@ -142,3 +142,54 @@ URL: https://www-cdn.anthropic.com/f61d49fa5596956a5dec75fea0e973bf6a6a8378/Reda
   - Builds on Nested Learning (NeurIPS 2025) + Titans; CMS = Continuum Memory System, MLP blocks at different update frequencies
   - Framing: attention = infinite update frequency (forgotten at end of context); MLP = zero update frequency (frozen after pretraining). CL = fill the spectrum between.
   - STATUS: research paper, tasks are factual knowledge incorporation, few-shot, long-context, continual learning. NOT a frontier-scale deployed system.
+
+## Batch 4: World models, self-improving agents, GDPval, power, diffusion
+
+### World models / realtime generation
+- Genie 3 (DeepMind, Aug 2025): text→interactive world, 24 fps, 720p, consistency "a few minutes," visual memory ~1 minute. https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/
+- Project Genie (web app, released 2026-01-29, Google Labs): Genie 3 + Nano Banana Pro + Gemini. Google AI Ultra ($200/mo) US first → global (Street View grounding update). LIMITS WORLD EXPLORATION TO 60 SECONDS "because Genie 3 is an autoregressive model that requires substantial dedicated compute, making longer sessions too expensive to scale to more users."
+  - https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie/
+  - Street View grounding + global Ultra rollout: https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie-expands/
+  - Waymo built "Waymo World Model" variant off Genie 3 for robotaxi edge-case sim
+  - Reported: video game company stocks declined following release
+- NO Genie 4 as of 2026-09-01
+- Odyssey-2 Max (Odyssey ML, 2026-04-21): "AR DiT" = autoregressive diffusion transformer; continuous flow matching + few-step denoising distillation; ~40ms/frame; 120s+ continuous; private beta, no public API, numbers vendor-reported only
+- Odyssey-2 Pro (Jan 2026): 720p ~22 fps
+- KEY READ: realtime world gen is compute-bound not quality-bound. 60-second cap at $200/mo tier is the tell.
+
+### Self-improving agents (scaffold-level RSI, not weight-level)
+- Darwin Gödel Machine (arXiv 2505.22954, May 2025): agent rewrites own codebase, validates on benchmarks. SWE-bench 20.0% → 50.0%; Polyglot 14.2% → 30.7% over 80 iterations
+- Huxley-Gödel Machine (arXiv 2510.21614): Clade Metaproductivity (CMP) to guide search; beats DGM + SICA with fewer CPU-hours; agent optimized on SWE-bench Verified w/ GPT-5-mini, evaluated on SWE-bench Lite w/ GPT-5 = matches best human-engineered coding agents
+- Mendel Gödel Machine (arXiv 2608.07645, Aug 2026): reaction-norm mutation + cross-lineage hybridization. Qwen3.6-35B-A3B on Polyglot 50.8% → 93.3%, beating GPT-5 with ~117x fewer params. Transferring Qwen-evolved scaffold to DeepSeek-V4-Pro → 96.9% Polyglot.
+- CRITICAL FRAMING: all of these improve the SCAFFOLD, not the weights. Model is a fixed substrate; the harness evolves. Matches Anthropic's 4/18 respondents pricing the entry-level-researcher gap at "3 months of scaffolding iteration."
+
+### GDPval (OpenAI) — real economic tasks
+- 1,320 tasks, 44 occupations, top 9 US GDP sectors, authored by pros averaging 14 yrs experience; 220-task open gold subset. arXiv 2510.04374 (Oct 2025); ICLR 2026 conference paper.
+- Sep/Oct 2025 result: Claude Opus 4.1 best, 47.6% wins+ties vs human expert deliverables
+- ICLR 2026 updated slides (https://iclr.cc/media/iclr-2026/Slides/10008039_VxIDLgu.pdf): "Updated frontier models now match or exceed expert-level deliverable quality in pairwise preferences, with several models performing above the 50% parity line and the top model reaching roughly 74% wins + ties against industry experts"
+- "frontier model performance on GDPval is improving roughly linearly over time"
+- Dominant failure mode across ALL models: INSTRUCTION FOLLOWING. Gemini and Grok often miss requested deliverables or formats.
+- Human inter-rater agreement 71%; automated grader 66% agreement; grader correlates worse on high-capability models (self-preference bias)
+- Oversight + scaffolding: frontier model + expert review cheaper/faster than unaided experts; +5pp GPT-5 win rate from scaffolding
+
+### Power / compute constraint 2026
+- Musk at Davos Jan 2026: "The limiting factor for AI deployment is fundamentally electrical power"; industry close to "producing more chips than we can turn on"
+- Frontier training campus today: 100–150 MW. Epoch AI projection: individual runs 1–2 GW by 2028; 4–16 GW by 2030
+- US interconnection queues: >2,000 GW pending (~2x entire installed US bulk power capacity). Typical wait 4–5 yrs nationally; 4–7 yrs in N. Virginia / Phoenix / Dallas; up to ~10 yrs for largest projects (EPRI "Powering Intelligence 2026")
+- HV transformer lead times ~128 weeks (~2.5 yrs) standard; generator step-up units ~144–208 weeks (SemiAnalysis: 3–4 yrs for US GSUs by mid-2026); up to ~60 months in constrained markets. Was 24–30 months pre-2020.
+- Rack power ramp: H100 ~40 kW → GB200/GB300 NVL72 ~120–142 kW → Vera Rubin VR200 NVL72 ~190–230 kW → Rubin Ultra Kyber NVL144 toward 600 kW on 800 VDC
+- PJM capacity auction: ~$29/MW-day 2024-25 → $270 → regulator-capped $329; +$16.1B capacity costs for year beginning June 2026; PJM's own market monitor attributes primarily to datacenter demand
+- Query energy: mainstream chatbot query ~0.3 Wh (Epoch 2025; OpenAI corroborates 0.34 Wh). GPT-5-class extended reasoning ~19 Wh avg, up to 40 Wh (Univ. of Rhode Island) — ~60x
+- Data centers potentially up to 17% of US electricity use by 2030
+
+### DIFFUSION EVIDENCE (the other half of the GP thesis)
+- US Census BTOS 2026 AI supplement (ref period Nov 2025–Jan 2026), CES-WP-26-25 "The Microstructure of AI Diffusion" https://www2.census.gov/library/working-papers/2026/adrm/ces/CES-WP-26-25.pdf
+  - 18% of firms used AI in a business function; 32% employment-weighted; expected to reach 22% within six months
+  - Very large firms in Information / Professional Services / Finance: 50–60% (60–70% employment-weighted)
+  - 57% of adopting firms use AI in 3 or fewer business functions
+  - Top functions: Sales & Marketing 52%, Strategy & BD 45%, IT 41%
+  - Worker-task use: 23% of firms (41% employment-weighted); 65% limit to <=3 tasks; leading = writing, document analysis, information search
+  - 66% of users use AI SOLELY to augment tasks; AI-related employment decreases in only 2% of firms
+  - Positive correlation between commercial performance and breadth of AI integration; functional breadth + operational investment positively associated with employment decreases, worker-task integration not
+- Census BTOS trend Dec 2025 – May 2026: overall AI usage 17–20%, flat-ish; expected 20–23%. 37% of firms with 250+ employees; 32% of firms 100–249. <20% of firms with <=4 employees. Growth only among firms with 20+ employees. https://www.census.gov/library/stories/2026/05/ai-use-businesses.html
+- Anthropic Economic Index (Jan 2026 report): top 5 US states = ~50% of all Claude usage vs 38% of working-age population; but lower-usage states converging faster; extrapolated parity in 2–5 yrs = "roughly 10x faster than the spread of previous economically consequential technologies in the 20th century" (historical benchmark ~half a century to full diffusion). Anthropic flags high uncertainty (3-month window).
