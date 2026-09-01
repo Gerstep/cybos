@@ -101,7 +101,72 @@ Three things changed in 24 months, none of them model quality:
 
 ---
 
-## 6. Batch sourcing filter (print this)
+## 6. Personal medicine
+
+**Thesis**: AI capabilities in biomarker interpretation and protocol generation are production-ready. The investable gap is between what AI can do clinically and what is *legally permitted to act on it*. The moat is not the algorithm — it is the licensed operating layer.
+
+**Value chain** (where value concentrates):
+
+| Layer | Value | Why |
+|---|---|---|
+| Biomarker collection | LOW | Quest/LabCorp commodity; at-home draw is logistics |
+| Interpretation (AI + physician review) | MEDIUM → COMMODITIZING | Any LLM reads labs. Longitudinal data is the moat, not the model |
+| Prescription / compounding | **HIGH** | 503A pharmacy margin 40–70%. FDA-regulated = defensible if compliant |
+| Adherence | MEDIUM | Multiplies LTV; only valuable anchored to a prescription |
+| Consult (MD / NP / coach) | HIGH at membership; **zero** standalone | DPC retainer $1,200–2,400/yr; "soft consult" subscription = ChatGPT |
+
+**10-subsegment heat map**:
+
+| Subsegment | Signal | Reason |
+|---|---|---|
+| AI-native DPC / personal physician operator | 🟢 OPEN | No scaled AI-native cash-pay DPC exists. Forward failed (capex). One Medical absorbed. HSA-eligible from Jan 2026. |
+| Peptide protocols (BPC-157, TB-500, MOTS-c) | 🟡 OPEN NOW | PCAC recommended 6 peptides for 503A list (Jul 23–24, 2026). Rulemaking 2027. Build licensed clinic + 503A partner before gray market gets enforcement-killed. |
+| Biomarker lab memberships | 🔴 TOO LATE | Function ($2.5B val, $800M+ raised, 500K members, Jul 2026); Superpower (100K members, $30M A). |
+| GLP-1 telehealth / compounding | 🔴 DEAD | Hims/Novo deal Mar 9, 2026 closed compounding at scale. Hims = $2.35B 2025 revenue. |
+| Premium longevity clinics | 🔴 CROWDED + capex | Fountain Life: $108M for 7 centers. $2M buys one room. |
+| AI psychotherapy (consumer DTC) | ⚪ + 🔴 | 4 states ban AI therapy (IL, NV, RI, ME; Jul 2026). Zero FDA-authorized generative AI mental health devices (Aug 2026). Woebot dead (Jun 2025, $123M raised). |
+| Consumer coaching subscriptions | 🔴 ChatGPT feature | Noom median tenure 4.2 months, realized LTV ~$290 pre-CAC. |
+| CGM / metabolic software | 🔴 TOO LATE | Dexcom OTC cleared; Levels $233M raised; feature of Oura/Whoop. |
+| Clinic OS / longevity SaaS | 🟠 CROWDED | 15+ tools (Vitel, VITL, LongevityPRO, Hint, Elation) for 6,000 practices. |
+| B2B payor-reimbursed behavioral health | 🔴 NOT A MONASTERY PLAY | Talkspace $229M rev (+22%), 18-month sales cycle. Not $2M/12-week. |
+
+**Regulation — moat vs kill-switch**:
+
+- **Kill-switches EXECUTED**: GLP-1 compounding (FDA 2025); AI therapy consumer DTC (4 state bans, Jul 2026)
+- **Kill-switches LOADING**: EU AI Act medical AI (active Aug 2026); DOJ Done Global prosecution (Jan 2026) expanding CPOM principles to federal criminal theory
+- **Moats**: 503A pharmacy + licensed prescriber (40–70% margin, 60–90 days/state to replicate); cash-pay = Stark-free; peptide 503A window (PCAC advisory Jul 2026 → rulemaking 2027)
+
+**Which analogy?**
+
+| Pattern | Healthcare example | Verdict |
+|---|---|---|
+| MagicSchool (wrapper killed) | Woebot DTC / Noom / BetterHelp consumer | Dead or collapsing |
+| Alpha School (become the operator, own tuition) | Fountain Life ($108M, 7 centers); Function ($800M+, 500K members) | Needs $50–500M. Not $2M. |
+| **Crosby (own the license, win the workflow data)** | **VITL (503A marketplace OS, $7.5M A, 630 clinics, Mar 2026)** | **The Monastery shape** |
+
+> Personal medicine is the **Crosby shape**: MSO-PC structure + 503A pharmacy partner + AI-native interpretation + longitudinal patient data moat. Zero acquisitions. Dual entity. $2M is the whole seed.
+
+**Psychotherapy / "soft consult" — $1B path or ChatGPT feature?**
+
+> **ChatGPT feature** for consumer DTC. Talkspace's own DTC revenue fell **30.4% YoY** in Q4 2025; CEO is running "LLM search optimization" to recapture users migrating to ChatGPT (Q4 2025 earnings call). The $1B path is **payor-reimbursed B2B** (Talkspace: $229M rev, +22%, 75% payor/employer) — an 18-month sales cycle that is not a Monastery seed. The coaching layer is high-value ONLY embedded inside a licensed clinical protocol, driving prescription adherence and renewal.
+
+**What $2M / 12 weeks actually builds**:
+- Weeks 1–3: MSO-PC legal structure (FL or OH). ~$20K legal.
+- Weeks 3–6: VITL network (630+ verified 503A pharmacies). No pharmacy build. Revenue-share.
+- Weeks 4–10: Clinical stack — biomarker intake, AI interpretation (LLM + physician review), peptide/HRT protocol (PCAC-recommended compounds). ~$300K engineering.
+- Weeks 8–12: First 100 cash-pay members at $200–400/mo = $240–480K ARR. 6-month outcomes data = Series A.
+
+**Fund this shape**: AI-native licensed medical operator. Owns clinical P&L (not software license). Cash-pay membership. AI for interpretation and adherence. Longitudinal biomarker data as moat. Does not buy a pharmacy. Recruits affiliate physicians onto the MSO.
+
+**Pass**: Biomarker-only memberships · GLP-1 telehealth · Consumer AI therapy · Premium longevity clinic chains · Standalone coaching apps · Clinic SaaS without lock-in.
+
+Full evidence: `personal-medicine/thesis.md` · Raw: `raw/agent-investment-researcher-personal-medicine.md`
+
+---
+
+---
+
+## 7. Batch sourcing filter (print this)
 
 **Yes, take the first meeting if all of these are true:**
 
@@ -113,9 +178,10 @@ Three things changed in 24 months, none of them model quality:
 
 **Hard pass:** wrappers on ChatGPT/Claude/Gemini; “we’ll roll up 40 agencies”; generative Netflix clones; AI detectors; anything whose D30, if published, would look like Sora.
 
+
 ---
 
-## 7. What we still don’t know
+## 8. What we still don’t know
 
 - Higgsfield **$700M** and Kling **$18B**: company/secondary figures. Directionally confirm *production tooling won*; do not underwrite the print.
 - Decart ↔ Anthropic **$6–7B**: reported talks, not a closed 8-K. Irrelevant to Monastery either way (lab-scale).
@@ -124,3 +190,4 @@ Three things changed in 24 months, none of them model quality:
 - Parallel Oct 2025 full report remains auth-walled (`trun_7f323b12c3a34e5b90b00a984b06dc93`). Query preserved in `ai-rollups/prior-research-2025-10.md`.
 
 **Next 12 months to watch:** (1) any lab demo of a **coherent 20-minute** generated episode; (2) Alpha public-school pilots vs $40k private tuition; (3) first *audited* same-store margin print from a GC/Thrive platform; (4) ESA volume in Texas/Arizona/Florida.
+- **Personal medicine**: Peptide rulemaking timeline (formal rule: 2027 or later?). Feb 2027 PCAC for GHK-Cu, Dihexa, LL-37, PEG-MGF, Melanotan II. First AI-native DPC operator to reach 1,000 cash-pay members. Next state to add AI therapy ban.
