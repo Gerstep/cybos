@@ -140,6 +140,36 @@ MCP servers are configured in `.mcp.json` using `${VAR}` syntax for env vars.
 | gmail | Email management | (uses OAuth) |
 | calendar | Meeting schedules | `GOOGLE_OAUTH_CREDENTIALS` |
 
+#### Optional: keyless web search in Claude Code
+
+For manual research in the main Claude Code conversation, [Parallel Search MCP](https://docs.parallel.ai/integrations/mcp/search-mcp) provides free web search and page fetching without an account or API key. Anonymous search uses Fast mode and has lower rate limits than authenticated access.
+
+From the Cybos project directory, add a separate local server:
+
+```bash
+claude mcp add --transport http --scope local parallel-search-free https://search.parallel.ai/mcp \
+  --header "User-Agent: cybos"
+claude mcp get parallel-search-free
+```
+
+[Local scope](https://code.claude.com/docs/en/mcp#local-scope) stores this entry in `~/.claude.json` for the current project. It does not edit `.mcp.json` or replace the existing `parallel-search` server. No `PARALLEL_API_KEY` or Authorization header is needed for this connection; keep your key for `parallel-task` and any authenticated servers you use.
+
+Restart Claude Code after adding the server, then run `/mcp` and confirm `parallel-search-free` is connected. To check both tools, ask in the main conversation:
+
+```text
+Use parallel-search-free's web_search to find the official website and recent
+announcements for a company I name. Then use its web_fetch to read one of the
+returned URLs. Summarize the findings with source links.
+```
+
+The free endpoint exposes `web_search` and `web_fetch`. Cybos research agents currently reference the older `parallel-search` tool name `web_search_preview`, so this separate server is for explicit use in the main conversation. Adding it does not change `/cyber-research-*` agent tool lists or the existing Exa-first fallback chain.
+
+If the service reports a rate limit, use another configured research tool or wait before retrying. To remove this optional server, run from the same project directory:
+
+```bash
+claude mcp remove --scope local parallel-search-free
+```
+
 ### 6. Daily Briefs (Optional, macOS)
 
 Copy launchd templates and replace placeholders:
